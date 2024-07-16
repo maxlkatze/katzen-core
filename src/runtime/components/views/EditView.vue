@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { EditorContent, useEditor } from '@tiptap/vue-3'
+import StarterKit from '@tiptap/starter-kit'
+import Placeholder from '@tiptap/extension-placeholder'
+import { useUiStore } from '../../stores/UiStore'
+import { computed, defineAsyncComponent, onMounted, ref, shallowRef, watch } from '#imports'
 import { useRouter } from '#app'
-import { computed, defineAsyncComponent, onMounted, ref, shallowRef, useCookie, watch } from '#imports'
 
 const router = useRouter()
 const routes = router.options.routes
@@ -26,10 +30,10 @@ const Route = shallowRef<unknown>(undefined)
 
 const hoverPosition = ref<HTMLElement | null>(null)
 const routeWrapper = ref<HTMLElement | null>(null)
-const selectMenu = ref<HTMLElement | null>(null)
 
 const hoveredElement = ref<HTMLElement | null>(null)
 const selectedElement = ref<HTMLElement | null>(null)
+const currentSelectedKey = ref<string | null>(null)
 
 watch(selectedRoute, async () => {
   if (selectedRoute.value.path) {
@@ -58,7 +62,16 @@ onMounted(
                 hoveredElement.value = null
               })
               element.addEventListener('click', (event) => {
+                if (selectedElement.value === element) {
+                  return
+                }
                 selectedElement.value = element
+
+                const attribute = selectedElement.value.getAttribute('kat-e')
+                if (attribute) {
+                  currentSelectedKey.value = attribute
+                  editor.value?.commands.setContent(uiStore.getComponents(attribute)?.content || '')
+                }
                 event.stopPropagation()
                 event.preventDefault()
               })
@@ -88,24 +101,86 @@ watch(hoveredElement, () => {
   }
 })
 
-watch(selectedElement, () => {
-  if (selectedElement.value && selectMenu.value) {
-    const calculatedPixel = 2 * Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
-    selectMenu.value.style.top = `${selectedElement.value.getBoundingClientRect().top - calculatedPixel}px`
-    selectMenu.value.style.left = `${selectedElement.value.getBoundingClientRect().left}px`
-  }
-  else if (selectMenu.value) {
-    selectMenu.value.removeAttribute('style')
-  }
+defineEmits(['openHomePage'])
+
+const editor = useEditor({
+  content: '',
+  editorProps: {
+    attributes: {
+      class: 'focus:outline-none py-4',
+    },
+  },
+  extensions: [StarterKit.configure(), Placeholder.configure({
+    placeholder: ({ node }) => {
+      if (node.type.name === 'heading') {
+        return 'What’s the title?'
+      }
+
+      return 'Write something …'
+    },
+  },
+  )],
+  onUpdate({ editor }) {
+    if (currentSelectedKey.value) {
+      uiStore.updateUiContent(currentSelectedKey.value, editor.getHTML())
+    }
+  },
+
 })
 
-defineEmits(['openHomePage'])
+const uiStore = useUiStore()
+
+interface MenuEntry {
+  name: string
+  click: () => void
+  active: () => boolean
+}
+
+const menuEntries: MenuEntry[] = [
+
+  {
+    name: 'Bold',
+    click: () => { editor.value?.chain().focus().toggleBold().run() },
+    active: () => editor.value?.isActive('bold') || false,
+  },
+  {
+    name: 'Italic',
+    click: () => { editor.value?.chain().focus().toggleItalic().run() },
+    active: () => editor.value?.isActive('italic') || false,
+  },
+  {
+    name: 'Strike',
+    click: () => { editor.value?.chain().focus().toggleStrike().run() },
+    active: () => editor.value?.isActive('strike') || false,
+  },
+  {
+    name: 'H1',
+    click: () => { editor.value?.chain().focus().toggleHeading({ level: 1 }).run() },
+    active: () => editor.value?.isActive('heading', { level: 1 }) || false,
+  },
+  {
+    name: 'H2',
+    click: () => { editor.value?.chain().focus().toggleHeading({ level: 2 }).run() },
+    active: () => editor.value?.isActive('heading', { level: 2 }) || false,
+  },
+  {
+    name: 'Bullet list',
+    click: () => { editor.value?.chain().focus().toggleBulletList().run() },
+    active: () => editor.value?.isActive('bulletList') || false,
+  },
+]
 </script>
 
 <template>
   <div class="h-screen w-full flex flex-row">
-    <div class="w-52 h-full bg-amber-50 flex flex-col">
-      <div class="flex flex-row gap-2 justify-center p-2 m-4 border-black border-2 rounded hover:drop-shadow cursor-pointer transition-all">
+    <div
+      class="w-full h-full bg-amber-50 flex flex-col"
+      :class="{ '!w-52': Route!==undefined }"
+    >
+      <div
+        class="flex flex-row gap-2 justify-center p-2 m-4 border-black border-2 rounded hover:drop-shadow cursor-pointer transition-all"
+        @click="$emit('openHomePage')"
+      >
         <img
           src="../../assets/icons/back_arrow.svg"
           class="size-6"
@@ -113,7 +188,6 @@ defineEmits(['openHomePage'])
         >
         <p
           class="font-mono font-bold uppercase"
-          @click="$emit('openHomePage')"
         >
           Back to Menu
         </p>
@@ -125,11 +199,14 @@ defineEmits(['openHomePage'])
         </h2>
       </div>
 
-      <div class="flex flex-col gap-2 h-full my-2 overflow-y-auto style">
+      <div
+        class="flex flex-col flex-wrap gap-2 h-full my-2 overflow-y-auto w-full items-start justify-start px-2"
+        :class="{ '[&>*]:max-w-48': Route === undefined, '!flex-row': Route === undefined }"
+      >
         <div
           v-for="route in filteredRoutes"
           :key="route.path"
-          class="px-2 py-1 border-black border-2 mx-2 rounded hover:bg-black/10 hover:animate-pulse cursor-pointer"
+          class="w-full px-2 py-1 border-black border-2 rounded hover:bg-black/10 hover:animate-pulse cursor-pointer"
           :class="{ 'border-purple-400': selectedRoute.path === route.path }"
           @click="selectedRoute = route"
         >
@@ -144,7 +221,8 @@ defineEmits(['openHomePage'])
     </div>
     <div
       ref="routeWrapper"
-      class="flex-1 bg-slate-50 overflow-y-scroll relative"
+      class="flex-1 bg-slate-50 overflow-y-scroll relative w-0"
+      :class="{ '!w-full': Route }"
     >
       <component
         :is="Route"
@@ -162,19 +240,57 @@ defineEmits(['openHomePage'])
   </div>
 
   <!-- selected overlay -->
-  <div class="absolute inset-0 opacity-50 z-10 select-none touch-none pointer-events-none">
-    <div
-      ref="selectMenu"
-      class="absolute z-20 -top-full -left-full flex flex-row h-8 cursor-pointer pointer-events-auto"
-    >
-      <span>EDIT</span>
-      <span @click.prevent="selectedElement=null;">CLOSE</span>
+  <div
+    v-if="selectedElement"
+    class="absolute inset-0 z-10 select-none touch-none pointer-events-none flex justify-center items-center"
+  >
+    <div class="relative z-40  flex flex-col pointer-events-auto bg-white p-5 border-black border-2 rounded max-w-96 w-full">
+      <div class="flex flex-row items-center mb-6">
+        <p class="font-mono font-bold uppercase">
+          Change Element Value
+        </p>
+        <img
+          src="../../assets/icons/close.svg"
+          class="size-6 ml-auto cursor-pointer"
+          alt="close"
+          @click="selectedElement=null"
+        >
+      </div>
+
+      <div
+        v-if="editor"
+        class="bg-white mb-2"
+      >
+        <div class="flex flex-row flex-wrap gap-2">
+          <button
+            v-for="(entry, index) in menuEntries"
+            :key="index"
+            :class="entry.active()?'bg-amber-50':''"
+            class="border border-b-2 p-0.5 border-black rounded "
+            @click="entry.click"
+          >
+            {{ entry.name }}
+          </button>
+        </div>
+      </div>
+      <editor-content
+        class="size-full"
+        :editor="editor"
+      />
     </div>
   </div>
 </template>
 
-<style scoped>
+<style>
 .overflow-y-auto {
   scrollbar-width: thin;
+}
+
+*[data-placeholder]::before {
+  color: #ccc;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
 }
 </style>

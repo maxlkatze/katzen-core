@@ -4,7 +4,7 @@ import {
   createResolver,
   extendPages,
   installModule,
-  addServerHandler, addComponentsDir, addRouteMiddleware,
+  addServerHandler, addComponentsDir, addRouteMiddleware, addImportsDir,
 } from '@nuxt/kit'
 
 /*
@@ -90,6 +90,8 @@ export default defineNuxtModule<ModuleOptions>({
     await addComponentsDir({
       path: resolve('runtime/components/ui'),
     })
+
+    addImportsDir(resolve('runtime/composables'))
   },
 })
 
@@ -111,4 +113,9 @@ const installModules = async () => {
   })
 
   await installModule('@nuxt/image')
+  await installModule('@pinia/nuxt', {
+    storesDirs: [
+      './runtime/stores/**',
+    ],
+  })
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import MainView from '../components/views/MainView.vue'
 import EditView from '../components/views/EditView.vue'
-import {ref, useCookie, useRouter, watch} from '#imports'
+import { ref, useCookie, useRouter } from '#imports'
 
 const router = useRouter()
 const currentView = ref<'MainView' | 'EditView'>('MainView')
@@ -11,11 +11,6 @@ const logout = () => {
   tokenCookie.value = ''
   router.push('/katze-login')
 }
-
-
-watch(currentView, (newView) => {
-  console.log('currentView', newView)
-})
 </script>
 
 <template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const buttonText = useKatzeText({ key: 'button_text' })
 </script>
 
 <template>
@@ -9,13 +10,12 @@
       <p class="text-2xl">
         Hello World
       </p>
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Button
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        kat-e="button_text"
+      >
+        <kat-rich-text :content="buttonText" />
       </button>
-
-      <KatButton>
-        TEST
-      </KatButton>
     </div>
   </div>
 </template>
