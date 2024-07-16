@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, type PropType } from 'vue'
-import { defineNuxtLink } from '#app'
+
+import type {PropType} from 'vue';
+import {computed, defineNuxtLink} from '#imports';
 
 const props = defineProps(
   {

@@ -13,9 +13,9 @@
         Button
       </button>
 
-      <UiKatButton>
+      <KatButton>
         TEST
-      </UiKatButton>
+      </KatButton>
     </div>
   </div>
 </template>

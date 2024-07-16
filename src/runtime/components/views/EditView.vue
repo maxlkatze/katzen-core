@@ -1,20 +1,28 @@
 <script setup lang="ts">
-import type { RouteRecordRaw } from 'vue-router'
 import { useRouter } from '#app'
-import { defineAsyncComponent } from '#imports'
+import { computed, defineAsyncComponent, onMounted, ref, shallowRef, useCookie, watch } from '#imports'
 
 const router = useRouter()
-
 const routes = router.options.routes
+const filteredRoutes = computed((): Route[] => {
+  const filteredRoutes = routes.filter(route => (route.name !== 'katze-cms' && route.name !== 'katze-cms-login'))
+  return filteredRoutes.map(route => ({
+    name: route.name?.toString() || route.path,
+    path: route.path,
+  }))
+})
 
-const filteredRoutes = routes.filter(route => (route.name !== 'katzen-preview' && route.name !== 'katzen-cms-login'))
+interface Route {
+  name: string
+  path: string
+}
 
-const selectedRoute = ref<RouteRecordRaw>({
+const selectedRoute = ref<Route>({
   name: '',
   path: '',
 })
 
-const Route = ref<any>(undefined)
+const Route = shallowRef<unknown>(undefined)
 
 const hoverPosition = ref<HTMLElement | null>(null)
 const routeWrapper = ref<HTMLElement | null>(null)
@@ -39,7 +47,10 @@ onMounted(
           const elements = routeWrapper.value?.querySelectorAll('*[kat-e]')
 
           if (elements) {
-            elements.forEach((element: HTMLElement) => {
+            elements.forEach((element: Element) => {
+              if (!(element instanceof HTMLElement)) {
+                return
+              }
               element.addEventListener('mouseover', () => {
                 hoveredElement.value = element
               })
@@ -48,8 +59,8 @@ onMounted(
               })
               element.addEventListener('click', (event) => {
                 selectedElement.value = element
-                event.stopPropagation();
-                event.preventDefault();
+                event.stopPropagation()
+                event.preventDefault()
               })
             })
           }
@@ -72,8 +83,8 @@ watch(hoveredElement, () => {
     hoverPosition.value.style.width = `${elementPositionAbsolute.width}px`
     hoverPosition.value.style.height = `${elementPositionAbsolute.height}px`
   }
-  else if (!hoveredElement.value) {
-    hoverPosition.value.style = ''
+  else if (!hoveredElement.value && hoverPosition.value) {
+    hoverPosition.value.removeAttribute('style')
   }
 })
 
@@ -83,39 +94,52 @@ watch(selectedElement, () => {
     selectMenu.value.style.top = `${selectedElement.value.getBoundingClientRect().top - calculatedPixel}px`
     selectMenu.value.style.left = `${selectedElement.value.getBoundingClientRect().left}px`
   }
-  else {
-    selectMenu.value.style = ''
+  else if (selectMenu.value) {
+    selectMenu.value.removeAttribute('style')
   }
 })
 
-
-const logout = () => {
-  const tokenCookie = useCookie('token')
-  tokenCookie.value = '';
-  router.push('/preview-login')
-}
+defineEmits(['openHomePage'])
 </script>
 
 <template>
-  <div class="h-screen flex flex-row">
-    <div class="w-52 h-full bg-slate-700 flex flex-col gap-5">
-      <p @click="logout">Logout</p>
-      <h2 class="text-white font-bold text-center p-4">
-        Pages
-      </h2>
+  <div class="h-screen w-full flex flex-row">
+    <div class="w-52 h-full bg-amber-50 flex flex-col">
+      <div class="flex flex-row gap-2 justify-center p-2 m-4 border-black border-2 rounded hover:drop-shadow cursor-pointer transition-all">
+        <img
+          src="../../assets/icons/back_arrow.svg"
+          class="size-6"
+          alt="arrow_back"
+        >
+        <p
+          class="font-mono font-bold uppercase"
+          @click="$emit('openHomePage')"
+        >
+          Back to Menu
+        </p>
+      </div>
 
-      <div
-        v-for="route in filteredRoutes"
-        :key="route.path"
-        class="p-4 bg-amber-50/10"
-        @click="selectedRoute = route"
-      >
-        <p class="text-gray-100 opacity-50 uppercase text-sm">
-          {{ route.path }}
-        </p>
-        <p class="text-white uppercase font-bold">
-          {{ route.name }}
-        </p>
+      <div class="flex flex-col items-center justify-center">
+        <h2 class="font-mono text-xl uppercase font-bold m-0 p-0">
+          Edit Pages
+        </h2>
+      </div>
+
+      <div class="flex flex-col gap-2 h-full my-2 overflow-y-auto style">
+        <div
+          v-for="route in filteredRoutes"
+          :key="route.path"
+          class="px-2 py-1 border-black border-2 mx-2 rounded hover:bg-black/10 hover:animate-pulse cursor-pointer"
+          :class="{ 'border-purple-400': selectedRoute.path === route.path }"
+          @click="selectedRoute = route"
+        >
+          <p class="text-black opacity-50 uppercase text-sm font-mono">
+            {{ route.path }}
+          </p>
+          <p class="text-black uppercase font-bold font-mono">
+            {{ route.name }}
+          </p>
+        </div>
       </div>
     </div>
     <div
@@ -144,11 +168,13 @@ const logout = () => {
       class="absolute z-20 -top-full -left-full flex flex-row h-8 cursor-pointer pointer-events-auto"
     >
       <span>EDIT</span>
-      <span @click.prevent="selectedElement=undefined;">CLOSE</span>
+      <span @click.prevent="selectedElement=null;">CLOSE</span>
     </div>
   </div>
 </template>
 
 <style scoped>
-
+.overflow-y-auto {
+  scrollbar-width: thin;
+}
 </style>

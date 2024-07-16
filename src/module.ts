@@ -14,14 +14,13 @@ ALSO AN EASY AND SIMPLE CMS WITH ITS OWN PATH AND LOCAL STORAGE
 AND A BUILT IN AUTHENTICATION SYSTEM
  */
 
-
 export interface CmsUser {
   name: string
   password: string
 }
 
 export interface ModuleOptions {
-  users: CmsUser[],
+  users: CmsUser[]
   secret: string
 }
 
@@ -51,18 +50,18 @@ export default defineNuxtModule<ModuleOptions>({
       (pages) => {
         const pageList = [
           {
-            name: 'katzen-preview',
-            path: '/preview',
-            file: resolve('runtime/pages/preview.vue'),
+            name: 'katze-cms',
+            path: '/cms',
+            file: resolve('runtime/pages/cms.vue'),
           },
           {
-            name: 'katzen-cms-login',
-            path: '/preview-login',
+            name: 'katze-cms-login',
+            path: '/katze-login',
             file: resolve('runtime/pages/login.vue'),
           },
         ]
         pages.push(...pageList)
-      });
+      })
 
     _nuxt.options.runtimeConfig.users = _options.users
     _nuxt.options.runtimeConfig.secret = _options.secret
@@ -80,9 +79,16 @@ export default defineNuxtModule<ModuleOptions>({
       },
     )
 
+    addServerHandler(
+      {
+        route: '/verify-cms',
+        handler: resolve('./runtime/server/verify'),
+      },
+    )
+
     // ADD FRONTEND COMPONENTS
     await addComponentsDir({
-      path: resolve('runtime/components'),
+      path: resolve('runtime/components/ui'),
     })
   },
 })
