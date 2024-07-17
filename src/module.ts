@@ -42,6 +42,8 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(_options, _nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
+    console.log('[KATZENCORE] Setup!!!');
+
     await installModules()
     addPlugin(resolve('./runtime/plugin'))
 
@@ -113,6 +115,7 @@ const installModules = async () => {
   })
 
   await installModule('@nuxt/image')
+  console.log('installing pinia')
   await installModule('@pinia/nuxt', {
     storesDirs: [
       './runtime/stores/**',

@@ -1,10 +1,31 @@
 <script setup lang="ts">
 import { EditorContent, useEditor } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
+import Highlight from '@tiptap/extension-highlight'
 import Placeholder from '@tiptap/extension-placeholder'
-import { useUiStore } from '../../stores/UiStore'
+import { Extension } from '@tiptap/core'
+import { ComponentType, type KatzenUIComponent, useUiStore } from '../../stores/UiStore'
 import { computed, defineAsyncComponent, onMounted, ref, shallowRef, watch } from '#imports'
 import { useRouter } from '#app'
+
+const DisableEnter = Extension.create({
+  addKeyboardShortcuts() {
+    return {
+      'Enter': () => {
+        return currentSelectedComponent.value?.type == ComponentType.Text
+      },
+      'Shift-Enter': () => {
+        return currentSelectedComponent.value?.type == ComponentType.Text
+      },
+      'Cmd-Enter': () => {
+        return currentSelectedComponent.value?.type == ComponentType.Text
+      },
+      'Ctrl-Enter': () => {
+        return currentSelectedComponent.value?.type == ComponentType.Text
+      },
+    }
+  },
+})
 
 const router = useRouter()
 const routes = router.options.routes
@@ -33,12 +54,15 @@ const routeWrapper = ref<HTMLElement | null>(null)
 
 const hoveredElement = ref<HTMLElement | null>(null)
 const selectedElement = ref<HTMLElement | null>(null)
-const currentSelectedKey = ref<string | null>(null)
+
+const currentSelectedKey = ref<string | undefined>(undefined)
+const currentSelectedComponent = ref<KatzenUIComponent | undefined>(undefined)
 
 watch(selectedRoute, async () => {
   if (selectedRoute.value.path) {
     Route.value = await defineAsyncComponent(() => import(`~/pages/${selectedRoute.value.name}.vue`))
   }
+  selectedElement.value = null
 })
 
 onMounted(
@@ -69,8 +93,12 @@ onMounted(
 
                 const attribute = selectedElement.value.getAttribute('kat-e')
                 if (attribute) {
-                  currentSelectedKey.value = attribute
-                  editor.value?.commands.setContent(uiStore.getComponents(attribute)?.content || '')
+                  const component = uiStore.getComponents(attribute)
+                  if (component) {
+                    currentSelectedKey.value = attribute
+                    currentSelectedComponent.value = component
+                    editor.value?.commands.setContent(component.content)
+                  }
                 }
                 event.stopPropagation()
                 event.preventDefault()
@@ -119,10 +147,37 @@ const editor = useEditor({
       return 'Write something …'
     },
   },
-  )],
+  ),
+  Highlight.configure({
+    HTMLAttributes: {
+      class: 'hightlight-text',
+    },
+  }),
+  DisableEnter,
+  ],
   onUpdate({ editor }) {
     if (currentSelectedKey.value) {
-      uiStore.updateUiContent(currentSelectedKey.value, editor.getHTML())
+      const html = editor.getHTML()
+      const dom = new DOMParser().parseFromString(html, 'text/html')
+
+      if (currentSelectedComponent.value?.type === ComponentType.RichText) {
+        const newDom = document.createElement('body')
+        const pTags = dom.querySelectorAll('p')
+        pTags.forEach((pTag, index) => {
+          const span = document.createElement('span')
+          span.innerHTML = pTag.innerHTML
+          newDom.appendChild(span)
+          if (index !== pTags.length - 1) {
+            const br = document.createElement('br')
+            newDom.appendChild(br)
+          }
+        })
+        uiStore.updateUiContent(currentSelectedKey.value, newDom.innerHTML)
+      }
+      else {
+        const text = dom.body.textContent || ''
+        uiStore.updateUiContent(currentSelectedKey.value, text)
+      }
     }
   },
 
@@ -137,7 +192,6 @@ interface MenuEntry {
 }
 
 const menuEntries: MenuEntry[] = [
-
   {
     name: 'Bold',
     click: () => { editor.value?.chain().focus().toggleBold().run() },
@@ -154,19 +208,9 @@ const menuEntries: MenuEntry[] = [
     active: () => editor.value?.isActive('strike') || false,
   },
   {
-    name: 'H1',
-    click: () => { editor.value?.chain().focus().toggleHeading({ level: 1 }).run() },
-    active: () => editor.value?.isActive('heading', { level: 1 }) || false,
-  },
-  {
-    name: 'H2',
-    click: () => { editor.value?.chain().focus().toggleHeading({ level: 2 }).run() },
-    active: () => editor.value?.isActive('heading', { level: 2 }) || false,
-  },
-  {
-    name: 'Bullet list',
-    click: () => { editor.value?.chain().focus().toggleBulletList().run() },
-    active: () => editor.value?.isActive('bulletList') || false,
+    name: 'Highlight',
+    click: () => { editor.value?.chain().focus().toggleHighlight().run() },
+    active: () => editor.value?.isActive('highlight') || false,
   },
 ]
 </script>
@@ -258,7 +302,7 @@ const menuEntries: MenuEntry[] = [
       </div>
 
       <div
-        v-if="editor"
+        v-if="editor && currentSelectedComponent?.type === ComponentType.RichText"
         class="bg-white mb-2"
       >
         <div class="flex flex-row flex-wrap gap-2">
@@ -273,8 +317,8 @@ const menuEntries: MenuEntry[] = [
           </button>
         </div>
       </div>
-      <editor-content
-        class="size-full"
+      <EditorContent
+        class="size-full max-h-72 overflow-y-auto border-b-2 border-black"
         :editor="editor"
       />
     </div>

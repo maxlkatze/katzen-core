@@ -32,6 +32,7 @@
     "@nuxt/kit": "3.12.3",
     "@nuxtjs/tailwindcss": "6.12.1",
     "@pinia/nuxt": "^0.5.1",
+    "@tiptap/extension-highlight": "^2.5.2",
     "@tiptap/extension-placeholder": "^2.5.1",
     "@tiptap/pm": "^2.5.1",
     "@tiptap/starter-kit": "^2.5.1",

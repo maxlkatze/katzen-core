@@ -17,6 +17,9 @@ importers:
       '@pinia/nuxt':
         specifier: ^0.5.1
         version: 0.5.1(magicast@0.3.4)(rollup@4.18.0)(typescript@5.5.3)(vue@3.4.31(typescript@5.5.3))
+      '@tiptap/extension-highlight':
+        specifier: ^2.5.2
+        version: 2.5.2(@tiptap/core@2.5.1(@tiptap/pm@2.5.1))
       '@tiptap/extension-placeholder':
         specifier: ^2.5.1
         version: 2.5.1(@tiptap/core@2.5.1(@tiptap/pm@2.5.1))(@tiptap/pm@2.5.1)
@@ -1414,6 +1417,11 @@ packages:
     resolution: {integrity: sha512-yo3N/J6TuFfOwvcX/5xHq3MTcjYWT+lnzjPdQYn0DnHOieW71q36iIN+RbqDwMp1bLLbT4xXfr3hFRCaQ8j5tg==}
     peerDependencies:
       '@tiptap/core': ^2.5.1
+
+  '@tiptap/extension-highlight@2.5.2':
+    resolution: {integrity: sha512-+JJT/ix2JNMeZL2R5mEthf2HqaTGlNJXwLhdFxnkviC5tyU3opvnxh3KywYCajcGpUGbH3ULYiZSQiD++6i6AA==}
+    peerDependencies:
+      '@tiptap/core': ^2.5.2
 
   '@tiptap/extension-history@2.5.1':
     resolution: {integrity: sha512-A70g5ufBszSZAukK6xO6yl7v4Q663yaXlG/FSMDGxt7y3880iZgtz/i0gcoM+z4aonzqyzirPcPWUT8mXFSlFA==}
@@ -6435,6 +6443,10 @@ snapshots:
       '@tiptap/core': 2.5.1(@tiptap/pm@2.5.1)
 
   '@tiptap/extension-heading@2.5.1(@tiptap/core@2.5.1(@tiptap/pm@2.5.1))':
+    dependencies:
+      '@tiptap/core': 2.5.1(@tiptap/pm@2.5.1)
+
+  '@tiptap/extension-highlight@2.5.2(@tiptap/core@2.5.1(@tiptap/pm@2.5.1))':
     dependencies:
       '@tiptap/core': 2.5.1(@tiptap/pm@2.5.1)
 
