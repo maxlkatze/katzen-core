@@ -25,6 +25,15 @@ export const useUiStore = defineStore('uiStore', {
     getComponents: (state) => {
       return (key: string): KatzenUIComponent | undefined => state.totalUiComponents.find(c => c.options.key === key)
     },
+    getUiContent: (state) => {
+      return (): Record<string, string> => {
+        const content: Record<string, string> = {}
+        state.totalUiComponents.forEach(c => {
+          content[c.options.key] = c.content
+        })
+        return content
+      }
+    }
   },
   actions: {
     clearCurrentUiComponents() {

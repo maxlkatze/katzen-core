@@ -5,7 +5,7 @@ import Highlight from '@tiptap/extension-highlight'
 import Placeholder from '@tiptap/extension-placeholder'
 import { Extension } from '@tiptap/core'
 import { ComponentType, type KatzenUIComponent, useUiStore } from '../../stores/UiStore'
-import { computed, defineAsyncComponent, onMounted, ref, shallowRef, watch } from '#imports'
+import {computed, defineAsyncComponent, onMounted, ref, shallowRef, useCookie, useFetch, watch} from '#imports'
 import { useRouter } from '#app'
 
 const DisableEnter = Extension.create({
@@ -213,6 +213,20 @@ const menuEntries: MenuEntry[] = [
     active: () => editor.value?.isActive('highlight') || false,
   },
 ]
+
+
+const saveUiContent = () => {
+  const uiContent = uiStore.getUiContent();
+  const token = useCookie('token')
+  const {data} = $fetch('/content-cms', {
+    method: 'POST',
+    body: {
+      token: token.value,
+      content: uiContent,
+      action: 'save',
+    }
+  })
+}
 </script>
 
 <template>
@@ -322,6 +336,17 @@ const menuEntries: MenuEntry[] = [
         :editor="editor"
       />
     </div>
+  </div>
+
+
+  <!-- Save Button -->
+  <div class="fixed bottom-0 right-0 m-4">
+    <button
+      class="bg-black text-white px-5 py-3 rounded-2xl"
+      @click="saveUiContent"
+    >
+      Save
+    </button>
   </div>
 </template>
 

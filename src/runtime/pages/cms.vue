@@ -2,9 +2,12 @@
 import MainView from '../components/views/MainView.vue'
 import EditView from '../components/views/EditView.vue'
 import { ref, useCookie, useRouter } from '#imports'
+import {loadFetchContent} from '../composables/useUiComponents';
 
 const router = useRouter()
 const currentView = ref<'MainView' | 'EditView'>('MainView')
+
+loadFetchContent();
 
 const logout = () => {
   const tokenCookie = useCookie('token')

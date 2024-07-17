@@ -1,11 +1,16 @@
 import {
-  defineNuxtModule,
+  addComponentsDir,
+  addImportsDir,
   addPlugin,
+  addRouteMiddleware,
+  addServerHandler,
   createResolver,
+  defineNuxtModule,
   extendPages,
   installModule,
-  addServerHandler, addComponentsDir, addRouteMiddleware, addImportsDir,
 } from '@nuxt/kit'
+import fs from 'fs'
+import katze_content_path from './path'
 
 /*
 THIS MODULE IS THE CORE OF THE KATZENFRAMEWORK
@@ -67,6 +72,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     _nuxt.options.runtimeConfig.users = _options.users
     _nuxt.options.runtimeConfig.secret = _options.secret
+    _nuxt.options.runtimeConfig.public.content = fs.existsSync(katze_content_path) ? JSON.parse(fs.readFileSync(katze_content_path, 'utf8')) : {}
+
+
 
     addRouteMiddleware({
       name: 'auth',
@@ -85,6 +93,13 @@ export default defineNuxtModule<ModuleOptions>({
       {
         route: '/verify-cms',
         handler: resolve('./runtime/server/verify'),
+      },
+    )
+
+    addServerHandler(
+      {
+        route: '/content-cms',
+        handler: resolve('./runtime/server/content'),
       },
     )
 
