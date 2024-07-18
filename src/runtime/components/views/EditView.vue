@@ -5,7 +5,7 @@ import Highlight from '@tiptap/extension-highlight'
 import Placeholder from '@tiptap/extension-placeholder'
 import { Extension } from '@tiptap/core'
 import { ComponentType, type KatzenUIComponent, useUiStore } from '../../stores/UiStore'
-import {computed, defineAsyncComponent, onMounted, ref, shallowRef, useCookie, useFetch, watch} from '#imports'
+import { computed, defineAsyncComponent, onMounted, ref, shallowRef, useCookie, watch } from '#imports'
 import { useRouter } from '#app'
 
 const DisableEnter = Extension.create({
@@ -97,7 +97,7 @@ onMounted(
                   if (component) {
                     currentSelectedKey.value = attribute
                     currentSelectedComponent.value = component
-                    editor.value?.commands.setContent(component.content)
+                    editor.value?.commands.setContent(component.content as string)
                   }
                 }
                 event.stopPropagation()
@@ -214,18 +214,30 @@ const menuEntries: MenuEntry[] = [
   },
 ]
 
+interface SaveResponse {
+  success: boolean
+}
 
-const saveUiContent = () => {
-  const uiContent = uiStore.getUiContent();
+const saveLoading = ref(false)
+const saveSuccess = ref(false)
+const saveUiContent = async () => {
+  saveLoading.value = true
+  const uiContent = uiStore.getUiContent()
   const token = useCookie('token')
-  const {data} = $fetch('/content-cms', {
+  const data: SaveResponse = await $fetch('/content-cms', {
     method: 'POST',
     body: {
       token: token.value,
       content: uiContent,
       action: 'save',
-    }
+    },
   })
+  saveLoading.value = false
+  saveSuccess.value = data.success
+
+  setTimeout(() => {
+    saveSuccess.value = false
+  }, 2000)
 }
 </script>
 
@@ -317,7 +329,7 @@ const saveUiContent = () => {
 
       <div
         v-if="editor && currentSelectedComponent?.type === ComponentType.RichText"
-        class="bg-white mb-2"
+        class="bg-white mb-2 border-b-2 border-black/10 pb-2"
       >
         <div class="flex flex-row flex-wrap gap-2">
           <button
@@ -338,14 +350,39 @@ const saveUiContent = () => {
     </div>
   </div>
 
-
   <!-- Save Button -->
   <div class="fixed bottom-0 right-0 m-4">
     <button
-      class="bg-black text-white px-5 py-3 rounded-2xl"
+      class="bg-black text-white px-5 py-3 rounded-2xl transition-all flex items-center justify-center border-2 border-black"
+      :class="{ '!text-black': saveSuccess || saveLoading, 'bg-white': saveSuccess || saveLoading }"
       @click="saveUiContent"
     >
+      <img
+        src="../../assets/icons/disk.svg"
+        class="size-4 mr-2 transition-all duration-300"
+        :class="{ invert: !saveSuccess && !saveLoading }"
+        alt="loading"
+      >
       Save
+      <span
+        class="transition-all duration-300 w-0 ml-0"
+        :class="{ '!w-4': saveLoading || saveSuccess, '!ml-2': saveLoading || saveSuccess }"
+      >
+        <template v-if="saveLoading">
+          <img
+            src="../../assets/icons/loading.svg"
+            class="size-4 animate-spin"
+            alt="loading"
+          >
+        </template>
+        <template v-if="saveSuccess">
+          <img
+            src="../../assets/icons/check.svg"
+            class="size-4"
+            alt="check"
+          >
+        </template>
+      </span>
     </button>
   </div>
 </template>

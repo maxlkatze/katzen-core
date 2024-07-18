@@ -1,3 +1,4 @@
+import fs from 'node:fs'
 import {
   addComponentsDir,
   addImportsDir,
@@ -9,7 +10,6 @@ import {
   extendPages,
   installModule,
 } from '@nuxt/kit'
-import fs from 'fs'
 import katze_content_path from './path'
 
 /*
@@ -27,6 +27,7 @@ export interface CmsUser {
 export interface ModuleOptions {
   users: CmsUser[]
   secret: string
+  projectLocation: string
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -43,11 +44,12 @@ export default defineNuxtModule<ModuleOptions>({
       },
     ],
     secret: 'secret',
+    projectLocation: './',
   },
   async setup(_options, _nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
-    console.log('[KATZENCORE] Setup!!!');
+    console.info('[KATZE] Module installed; Running Setup')
 
     await installModules()
     addPlugin(resolve('./runtime/plugin'))
@@ -72,9 +74,11 @@ export default defineNuxtModule<ModuleOptions>({
 
     _nuxt.options.runtimeConfig.users = _options.users
     _nuxt.options.runtimeConfig.secret = _options.secret
-    _nuxt.options.runtimeConfig.public.content = fs.existsSync(katze_content_path) ? JSON.parse(fs.readFileSync(katze_content_path, 'utf8')) : {}
-
-
+    _nuxt.options.runtimeConfig.projectLocation = _options.projectLocation + (_options.projectLocation.endsWith('/') ? '' : '/')
+    const content_path = _nuxt.options.runtimeConfig.projectLocation + katze_content_path
+    const content = fs.existsSync(content_path) ? JSON.parse(fs.readFileSync(content_path, 'utf8')) : {}
+    _nuxt.options.runtimeConfig.public.content = content
+    console.info('[KATZE] Content loaded from ' + content_path + ' with ' + Object.entries(content).length + ' entries')
 
     addRouteMiddleware({
       name: 'auth',

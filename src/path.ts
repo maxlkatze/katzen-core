@@ -1,1 +1,1 @@
-export default './content.katze.json';
+export default 'content.katze.json';

@@ -13,7 +13,7 @@ export enum ComponentType {
 export interface KatzenUIComponent {
   type: ComponentType
   options: KatzenUIOptions
-  content: string
+  content: unknown
 }
 
 export const useUiStore = defineStore('uiStore', {
@@ -26,14 +26,14 @@ export const useUiStore = defineStore('uiStore', {
       return (key: string): KatzenUIComponent | undefined => state.totalUiComponents.find(c => c.options.key === key)
     },
     getUiContent: (state) => {
-      return (): Record<string, string> => {
-        const content: Record<string, string> = {}
-        state.totalUiComponents.forEach(c => {
+      return (): Record<string, unknown> => {
+        const content: Record<string, unknown> = {}
+        state.totalUiComponents.forEach((c) => {
           content[c.options.key] = c.content
         })
         return content
       }
-    }
+    },
   },
   actions: {
     clearCurrentUiComponents() {
@@ -47,7 +47,7 @@ export const useUiStore = defineStore('uiStore', {
         this.currentUiComponents.push(component)
       }
     },
-    updateUiContent(key: string, content: string) {
+    updateUiContent(key: string, content: unknown) {
       const component = this.totalUiComponents.find(c => c.options.key === key)
       if (component) {
         component.content = content

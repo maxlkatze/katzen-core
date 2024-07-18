@@ -11,7 +11,7 @@ const rich_text = useKatzeRichText({ key: 'rich_text' })
         class="text-2xl min-w-20 min-h-20"
         kat-e="rich_text"
       >
-        <kat-rich-text :content="rich_text" />
+        <katze-rich-text :content="rich_text" />
       </p>
     </div>
   </div>

@@ -2,7 +2,6 @@ import { defineNuxtRouteMiddleware, useCookie, useRuntimeConfig } from '#imports
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const checkAuth = import.meta.client ? clientSideAuthentication : serverSideAuthentication
-  console.log('Middleware injected in: ' + (import.meta.client ? 'client' : 'server'))
   // if route is /preview-login and user is already logged in, redirect to /preview
   if (to.path === '/katze-login') {
     if (await checkAuth()) {
