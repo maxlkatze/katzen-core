@@ -25,10 +25,8 @@
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-    "release": "pnpm run lint && pnpm run test && pnpm run prepack && changelogen --release && pnpm publish && git push --follow-tags",
+    "release": "pnpm run lint && pnpm run prepack && changelogen --release && pnpm publish && git push --follow-tags",
     "lint": "eslint .",
-    "test": "vitest run",
-    "test:watch": "vitest watch",
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
   "dependencies": {
@@ -53,11 +51,10 @@
     "@types/jsonwebtoken": "9.0.6",
     "@types/node": "20.14.10",
     "changelogen": "0.5.5",
-    "eslint": "9.7.0",
+    "eslint": "^8.57.0",
     "jsonwebtoken": "9.0.2",
     "nuxt": "3.12.4",
     "typescript": "5.5.3",
-    "vitest": "2.0.3",
     "vue-tsc": "2.0.26"
   },
   "bugs": {

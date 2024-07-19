@@ -1,7 +1,6 @@
 import { defineNuxtPlugin } from '#app'
 
 export default defineNuxtPlugin((_nuxtApp) => {
-
   _nuxtApp.vueApp.directive<HTMLElement, string>('hypertext', {
     mounted: (el: HTMLElement, binding) => {
       el.innerHTML = binding.value
@@ -18,7 +17,4 @@ export default defineNuxtPlugin((_nuxtApp) => {
       }
     },
   })
-
-
-
 })

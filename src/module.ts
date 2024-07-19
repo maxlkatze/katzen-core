@@ -67,12 +67,12 @@ export default defineNuxtModule<ModuleOptions>({
           {
             name: 'katze-cms',
             path: '/cms',
-            file: resolve('runtime/pages/cms.vue'),
+            file: resolve('runtime/pages/KatzeCms.vue'),
           },
           {
             name: 'katze-cms-login',
             path: '/katze-login',
-            file: resolve('runtime/pages/login.vue'),
+            file: resolve('runtime/pages/KatzeLogin.vue'),
           },
         ]
         pages.push(...pageList)
