@@ -1,9 +1,12 @@
 {
-  "name": "katzen-core",
-  "version": "1.0.0",
+  "name": "@katze/cms",
+  "version": "0.0.1",
   "description": "Katzen Core Module",
-  "repository": "maxlkatze/katzen-core",
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxlkatze/katzen-core.git"
+  },
+  "license": "GPL-3.0-or-later",
   "type": "module",
   "exports": {
     ".": {
@@ -56,5 +59,17 @@
     "typescript": "5.5.3",
     "vitest": "2.0.3",
     "vue-tsc": "2.0.26"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/maxlkatze/katzen-core/issues"
+  },
+  "homepage": "https://github.com/maxlkatze/katzen-core#readme",
+  "keywords": [
+    "nuxt",
+    "katze",
+    "cms",
+    "git-based",
+    "filesystem"
+  ],
+  "author": "maxlkatze"
 }
