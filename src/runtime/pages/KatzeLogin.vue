@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { navigateTo, ref, useCookie } from '#imports'
+import {definePageMeta, navigateTo, ref, useCookie} from '#imports'
 
 const username = ref('')
 const password = ref('')
+
+definePageMeta({
+  layout: 'cms',
+})
 
 const failedLogin = ref(false)
 

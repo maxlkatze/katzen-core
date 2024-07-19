@@ -2,7 +2,11 @@
 import MainView from '../components/views/MainView.vue'
 import EditView from '../components/views/EditView.vue'
 import { loadFetchContent } from '../composables/useUiComponents'
-import { ref, useCookie, useRouter } from '#imports'
+import { definePageMeta, ref, useCookie, useRouter } from '#imports'
+
+definePageMeta({
+  layout: 'cms',
+})
 
 const router = useRouter()
 const currentView = ref<'MainView' | 'EditView'>('MainView')

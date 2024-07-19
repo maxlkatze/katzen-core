@@ -1,6 +1,6 @@
 import {
   addComponentsDir,
-  addImportsDir,
+  addImportsDir, addLayout,
   addPlugin,
   addRouteMiddleware,
   addServerHandler,
@@ -42,7 +42,7 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(_options, _nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
-    console.info('[KATZE] Module installed; Running Setup')
+    console.info('[KATZE] Module v2 installed; Running Setup')
 
     await installModules()
     await addImports()
@@ -51,6 +51,10 @@ export default defineNuxtModule<ModuleOptions>({
     addPlugin({
       src: resolve('./runtime/plugins/plugin.server'),
       mode: 'server',
+    })
+
+    addLayout({
+      src: resolve('runtime/layouts/cms.vue'),
     })
 
     // ADD BACKEND CMS PAGE
