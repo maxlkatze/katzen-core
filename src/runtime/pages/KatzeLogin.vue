@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {definePageMeta, navigateTo, ref, useCookie} from '#imports'
+import { definePageMeta, navigateTo, ref, useCookie } from '#imports'
 
 const username = ref('')
 const password = ref('')
