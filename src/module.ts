@@ -12,13 +12,6 @@ import {
 import { createStorage } from 'unstorage'
 import fsDriver from 'unstorage/drivers/fs'
 
-/*
-THIS MODULE IS THE CORE OF THE KATZENFRAMEWORK
-THIS ADDS UI ELEMENTS AND HELPER FUNCTIONS
-ALSO AN EASY AND SIMPLE CMS WITH ITS OWN PATH AND LOCAL STORAGE
-AND A BUILT IN AUTHENTICATION SYSTEM
- */
-
 export interface CmsUser {
   name: string
   password: string
