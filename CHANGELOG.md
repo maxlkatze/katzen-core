@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.0.6
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.5...v0.0.6)
+
+### 🚀 Enhancements
+
+- **katzencore:** Added Default Layout ([3a7523a](https://github.com/maxlkatze/katzen-core/commit/3a7523a))
+- **katzencore:** ESLint fixes ([8fc2a81](https://github.com/maxlkatze/katzen-core/commit/8fc2a81))
+
+### ❤️ Contributors
+
+- Maxlkatze <maximilian.schleining@agenda-software.de>
+
 ## v0.0.5
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.4...v0.0.5)
