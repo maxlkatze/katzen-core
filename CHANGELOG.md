@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.0.5
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.4...v0.0.5)
+
+### 🚀 Enhancements
+
+- **katzencore:** Adjusted Files for Release ([675e286](https://github.com/maxlkatze/katzen-core/commit/675e286))
+- **katzencore:** Adjusted README.md ([43dbf81](https://github.com/maxlkatze/katzen-core/commit/43dbf81))
+
+### ❤️ Contributors
+
+- Maxlkatze <maximilian.schleining@agenda-software.de>
+
 ## v0.0.4
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.3...v0.0.4)
