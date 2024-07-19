@@ -42,7 +42,7 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(_options, _nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
-    console.info('[KATZE] Module v2 installed; Running Setup')
+    console.info('[KATZE] Module installed;')
 
     await installModules()
     await addImports()
@@ -54,7 +54,7 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     addLayout({
-      src: resolve('runtime/layouts/cms.vue'),
+      src: resolve('runtime/layouts/cmsLayout.vue'),
     })
 
     // ADD BACKEND CMS PAGE
@@ -129,6 +129,9 @@ const addImports = async () => {
 
 const installModules = async () => {
   const { resolve } = createResolver(import.meta.url)
+  console.log('Make sure to install the following modules:')
+  console.log('npm install @nuxtjs/tailwindcss @nuxt/image @pinia/nuxt')
+
   await installModule('@nuxtjs/tailwindcss', {
     // module configuration
     exposeConfig: true,
