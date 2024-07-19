@@ -290,6 +290,8 @@ const fillEmptySpace = computed(() => {
   if (mod > 0) {
     return Array.from({ length: 3 - mod }).fill('')
   }
+
+  return []
 })
 
 watch(selectedImage, () => {

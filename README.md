@@ -2,43 +2,49 @@
 Get your module up and running quickly.
 
 Find and replace all on all files (CMD+SHIFT+F):
-- Name: My Module
-- Package name: my-module
-- Description: My new Nuxt module
+- Name: CmsKatze
+- Package name: cms-katze
+- Description: An easy to setup in APP CMS
 -->
 
-# My Module
+# CmsKatze
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-My new Nuxt module for doing amazing things.
+An easy to setup in APP CMS
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/my-module?file=playground%2Fapp.vue) -->
+<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/cms-katze?file=playground%2Fapp.vue) -->
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
 
-<!-- Highlight some of the features your module provide here -->
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
+- 📝 &nbsp;In app CMS editor for easy content management
+- 🎨 &nbsp;Customizable content blocks
+- 📦 &nbsp;Easy to setup and use
 
 ## Quick Setup
 
-Install the module to your Nuxt application with one command:
+1. Add `cms-katze` dependency to your project
+2. Add `cms-katze` to the `modules` section of `nuxt.config.js`
+3. Use the CMS editor in your app and implement the content blocks
 
 ```bash
-npx nuxi module add my-module
+npx nuxi module add cms-katze
 ```
 
-That's it! You can now use My Module in your Nuxt app ✨
+That's it! You can now use CmsKatze in your Nuxt app ✨
 
 
 ## Contribution
+
+1. Clone this repository
+2. Install dependencies using `pnpm install`
+3. Generate type stubs using `pnpm dev:prepare`
+4. Develop with the playground using `pnpm dev`
 
 <details>
   <summary>Local development</summary>
@@ -59,10 +65,6 @@ That's it! You can now use My Module in your Nuxt app ✨
   # Run ESLint
   npm run lint
   
-  # Run Vitest
-  npm run test
-  npm run test:watch
-  
   # Release new version
   npm run release
   ```
@@ -71,14 +73,14 @@ That's it! You can now use My Module in your Nuxt app ✨
 
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/my-module/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/my-module
+[npm-version-src]: https://img.shields.io/npm/v/cms-katze/latest.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-version-href]: https://npmjs.com/package/cms-katze
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/my-module.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npmjs.com/package/my-module
+[npm-downloads-src]: https://img.shields.io/npm/dm/cms-katze.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-downloads-href]: https://npmjs.com/package/cms-katze
 
-[license-src]: https://img.shields.io/npm/l/my-module.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/my-module
+[license-src]: https://img.shields.io/npm/l/cms-katze.svg?style=flat&colorA=020420&colorB=00DC82
+[license-href]: https://npmjs.com/package/cms-katze
 
 [nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js
 [nuxt-href]: https://nuxt.com

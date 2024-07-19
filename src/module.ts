@@ -1,4 +1,3 @@
-import fs from 'node:fs'
 import {
   addComponentsDir,
   addImportsDir,
@@ -10,8 +9,8 @@ import {
   extendPages,
   installModule,
 } from '@nuxt/kit'
-import {createStorage} from 'unstorage';
-import fsDriver from 'unstorage/drivers/fs';
+import { createStorage } from 'unstorage'
+import fsDriver from 'unstorage/drivers/fs'
 
 /*
 THIS MODULE IS THE CORE OF THE KATZENFRAMEWORK
