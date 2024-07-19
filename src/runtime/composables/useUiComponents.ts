@@ -8,7 +8,7 @@ interface FetchedContentType {
   content: Record<string, unknown>
 }
 
-interface ImageContent {
+export interface ImageContent {
   src: string
   alt: string
 }
@@ -80,8 +80,5 @@ const reactiveProperty = <T = string>(key: string) => {
   watch(uiComponent, (newValue) => {
     contentRef.value = newValue?.content || ''
   }, { deep: true })
-
-  console.log('contentRef', contentRef)
-
   return contentRef as T
 }

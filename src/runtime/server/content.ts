@@ -1,19 +1,17 @@
-// config file is located at project root/content.katze.json
-
-import fs from 'node:fs'
 import jwt from 'jsonwebtoken'
-import katze_content_path from '../../path'
+import { createStorage } from 'unstorage'
+import fsDriver from 'unstorage/drivers/fs'
 import { defineEventHandler, readBody, useRuntimeConfig } from '#imports'
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
-  const contentPath = runtimeConfig.projectLocation + katze_content_path
-  // get content
-  // if file doesnt exist, create it and put empty json
-  if (!fs.existsSync(contentPath)) {
-    fs.writeFileSync(contentPath, '{}')
+  const storage = createStorage({
+    driver: fsDriver({ base: runtimeConfig.projectLocation + '/' + 'public/' }),
+  })
+  if (!await storage.hasItem('content.katze.json')) {
+    await storage.setItem('content.katze.json', {})
   }
-  let saved_content = JSON.parse(fs.readFileSync(contentPath, 'utf8'))
+  let savedContent = await storage.getItem('content.katze.json')
 
   const body = await readBody(event) || {}
   const token = body.token || ''
@@ -39,8 +37,8 @@ export default defineEventHandler(async (event) => {
     }
     // add or replace content inside content
     // merge data with content
-    saved_content = { ...saved_content, ...content }
-    fs.writeFileSync(contentPath, JSON.stringify(saved_content, null, 2))
+    savedContent = { ...savedContent as object, ...content }
+    await storage.setItem('content.katze.json', savedContent)
 
     return {
       success: true,
@@ -50,11 +48,40 @@ export default defineEventHandler(async (event) => {
     }
   }
 
+  if (token && action == 'imageList') {
+    const verify = jwt.verify(token, runtimeConfig.secret)
+    if (!verify) {
+      return {
+        success: false,
+        body: {
+          message: 'Invalid token',
+        },
+      }
+    }
+    // read all images from public folder and subfolders only show .png, .jpg, .jpeg, .gif, .svg, .webp
+    const extensions = ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp']
+
+    const imageKeys = await storage.getKeys('', {})
+    const filteredKeys = imageKeys.filter((key) => {
+      return extensions.includes(key.slice(-4))
+    }).map((key) => {
+      return '/' + key.replace(/:/g, '/')
+    })
+
+    return {
+      success: true,
+      body: {
+        message: 'Images fetched',
+        images: filteredKeys,
+      },
+    }
+  }
+
   return {
     success: true,
     body: {
       message: 'Content fetched',
-      content: saved_content,
+      content: savedContent,
     },
   }
 })

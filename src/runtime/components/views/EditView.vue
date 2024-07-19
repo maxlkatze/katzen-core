@@ -5,8 +5,9 @@ import Highlight from '@tiptap/extension-highlight'
 import Placeholder from '@tiptap/extension-placeholder'
 import { Extension } from '@tiptap/core'
 import { ComponentType, type KatzenUIComponent, useUiStore } from '../../stores/UiStore'
+import type { ImageContent } from '../../composables/useUiComponents'
 import { computed, defineAsyncComponent, onMounted, ref, shallowRef, useCookie, watch } from '#imports'
-import { useRouter } from '#app'
+import { useAsyncData, useRouter } from '#app'
 
 const DisableEnter = Extension.create({
   addKeyboardShortcuts() {
@@ -58,6 +59,8 @@ const selectedElement = ref<HTMLElement | null>(null)
 const currentSelectedKey = ref<string | undefined>(undefined)
 const currentSelectedComponent = ref<KatzenUIComponent | undefined>(undefined)
 
+const selectedImage = ref<string | undefined>(undefined)
+
 watch(selectedRoute, async () => {
   if (selectedRoute.value.path) {
     Route.value = await defineAsyncComponent(() => import(`~/pages/${selectedRoute.value.name}.vue`))
@@ -97,7 +100,15 @@ onMounted(
                   if (component) {
                     currentSelectedKey.value = attribute
                     currentSelectedComponent.value = component
-                    editor.value?.commands.setContent(component.content as string)
+
+                    if (component.type === ComponentType.Image) {
+                      const content = component.content as ImageContent || { src: '', alt: '' }
+                      editor.value?.commands.setContent(content.alt)
+                      selectedImage.value = content.src
+                    }
+                    else {
+                      editor.value?.commands.setContent(component.content as string)
+                    }
                   }
                 }
                 event.stopPropagation()
@@ -159,6 +170,7 @@ const editor = useEditor({
     if (currentSelectedKey.value) {
       const html = editor.getHTML()
       const dom = new DOMParser().parseFromString(html, 'text/html')
+      const text = dom.body.textContent || ''
 
       if (currentSelectedComponent.value?.type === ComponentType.RichText) {
         const newDom = document.createElement('body')
@@ -174,9 +186,15 @@ const editor = useEditor({
         })
         uiStore.updateUiContent(currentSelectedKey.value, newDom.innerHTML)
       }
-      else {
-        const text = dom.body.textContent || ''
+      else if (currentSelectedComponent.value?.type === ComponentType.Text) {
         uiStore.updateUiContent(currentSelectedKey.value, text)
+      }
+      else if (currentSelectedComponent.value?.type === ComponentType.Image) {
+        const content = currentSelectedComponent.value.content as ImageContent || { src: '', alt: '' }
+        uiStore.updateUiContent(currentSelectedKey.value, {
+          src: content.src,
+          alt: text,
+        })
       }
     }
   },
@@ -239,6 +257,50 @@ const saveUiContent = async () => {
     saveSuccess.value = false
   }, 2000)
 }
+
+interface ImageListResponse {
+  body: {
+    images: string[]
+  }
+}
+
+const { data: imageResponse } = useAsyncData(async () => await $fetch<ImageListResponse>('/content-cms', {
+  method: 'POST',
+  body: {
+    token: useCookie('token').value,
+    action: 'imageList',
+  },
+}), {
+  default: (): ImageListResponse => ({
+    body: {
+      images: [],
+    },
+  }),
+})
+
+// if the images are not 9 in total, add empty strings to the array
+const fillEmptySpace = computed(() => {
+  const rest = 9 - imageResponse.value.body.images.length
+  if (rest > 0) {
+    return Array.from({ length: rest }).fill('')
+  }
+
+  // if not 3 last images, fill with empty strings
+  const mod = imageResponse.value.body.images.length % 3
+  if (mod > 0) {
+    return Array.from({ length: 3 - mod }).fill('')
+  }
+})
+
+watch(selectedImage, () => {
+  if (selectedImage.value && currentSelectedKey.value) {
+    const content = currentSelectedComponent.value?.content as ImageContent || { src: '', alt: '' }
+    uiStore.updateUiContent(currentSelectedKey.value, {
+      src: selectedImage.value,
+      alt: content.alt,
+    })
+  }
+})
 </script>
 
 <template>
@@ -323,7 +385,7 @@ const saveUiContent = async () => {
           src="../../assets/icons/close.svg"
           class="size-6 ml-auto cursor-pointer"
           alt="close"
-          @click="selectedElement=null"
+          @click="selectedElement=null; currentSelectedKey=undefined"
         >
       </div>
 
@@ -343,6 +405,47 @@ const saveUiContent = async () => {
           </button>
         </div>
       </div>
+      <!-- IMAGE CHOOSER / UPLOAD -->
+
+      <template v-if="currentSelectedComponent?.type === ComponentType.Image">
+        <div class="flex flex-col items-center">
+          <button
+            class="bg-black text-white px-5 py-3 rounded-2xl transition-all flex
+          justify-center content-center items-center justify-items-center border-2 border-black"
+          >
+            Upload Image
+          </button>
+          <span>OR</span>
+          <div class="h-72 w-72 grid grid-cols-3 grid-flow-row overflow-y-auto justify-center items-center">
+            <div
+              v-for="(image, index) in imageResponse.body.images"
+              :key="index"
+              class="w-full aspect-square"
+            >
+              <img
+                :src="image"
+                class="object-cover size-full hover:drop-shadow cursor-pointer border-2 border-transparent
+                contain-inline-size hover:border-purple-400 transition-colors duration-300 rounded"
+                alt="image"
+                :class="{ 'border-yellow-500': selectedImage === image, 'animate-pulse': selectedImage === image }"
+                @click="selectedImage = image"
+              >
+            </div>
+            <div
+              v-for="(image, index) in fillEmptySpace"
+              :key="index"
+              class="w-full contain-inline-size cursor-not-allowed rounded border-2 border-transparent aspect-square"
+            >
+              <div class="bg-gray-100 size-full" />
+            </div>
+          </div>
+        </div>
+        <p class="font-mono font-bold">
+          ALT:
+        </p>
+      </template>
+
+      <!-- TEXT INPUT -->
       <EditorContent
         class="size-full max-h-72 overflow-y-auto border-b-2 border-black"
         :editor="editor"
@@ -363,7 +466,7 @@ const saveUiContent = async () => {
         :class="{ invert: !saveSuccess && !saveLoading }"
         alt="loading"
       >
-      Save
+      Save Draft
       <span
         class="transition-all duration-300 w-0 ml-0"
         :class="{ '!w-4': saveLoading || saveSuccess, '!ml-2': saveLoading || saveSuccess }"

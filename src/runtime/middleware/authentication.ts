@@ -1,4 +1,4 @@
-import { defineNuxtRouteMiddleware, useCookie, useRuntimeConfig } from '#imports'
+import {defineNuxtRouteMiddleware, useCookie, useNuxtApp, useRuntimeConfig} from '#imports'
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const checkAuth = import.meta.client ? clientSideAuthentication : serverSideAuthentication
@@ -24,9 +24,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
 const serverSideAuthentication = async () => {
   const token = useCookie('token')
   if (!token.value) return false
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const jwt = require('jsonwebtoken')
-  return jwt.verify(token.value, useRuntimeConfig().secret)
+  const runtimeConfig = useRuntimeConfig()
+  const {$verifyJwtToken} = useNuxtApp()
+  return $verifyJwtToken(token.value, runtimeConfig.secret||'')
 }
 
 const clientSideAuthentication = async () => {

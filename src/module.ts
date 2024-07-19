@@ -10,7 +10,8 @@ import {
   extendPages,
   installModule,
 } from '@nuxt/kit'
-import katze_content_path from './path'
+import {createStorage} from 'unstorage';
+import fsDriver from 'unstorage/drivers/fs';
 
 /*
 THIS MODULE IS THE CORE OF THE KATZENFRAMEWORK
@@ -52,7 +53,13 @@ export default defineNuxtModule<ModuleOptions>({
     console.info('[KATZE] Module installed; Running Setup')
 
     await installModules()
-    addPlugin(resolve('./runtime/plugin'))
+    await addImports()
+
+    addPlugin(resolve('./runtime/plugins/chtml.plugin'))
+    addPlugin({
+      src: resolve('./runtime/plugins/plugin.server'),
+      mode: 'server',
+    })
 
     // ADD BACKEND CMS PAGE
     extendPages(
@@ -75,10 +82,12 @@ export default defineNuxtModule<ModuleOptions>({
     _nuxt.options.runtimeConfig.users = _options.users
     _nuxt.options.runtimeConfig.secret = _options.secret
     _nuxt.options.runtimeConfig.projectLocation = _options.projectLocation + (_options.projectLocation.endsWith('/') ? '' : '/')
-    const content_path = _nuxt.options.runtimeConfig.projectLocation + katze_content_path
-    const content = fs.existsSync(content_path) ? JSON.parse(fs.readFileSync(content_path, 'utf8')) : {}
+    const storage = createStorage({
+      driver: fsDriver({ base: _nuxt.options.runtimeConfig.projectLocation + '/' + 'public/' }),
+    })
+    const content = await storage.hasItem('content.katze.json') ? await storage.getItem('content.katze.json') as object : {}
     _nuxt.options.runtimeConfig.public.content = content
-    console.info('[KATZE] Content loaded from ' + content_path + ' with ' + Object.entries(content).length + ' entries')
+    console.info('[KATZE] Content loaded from storage with ' + Object.entries(content).length + ' entries')
 
     addRouteMiddleware({
       name: 'auth',
@@ -111,10 +120,16 @@ export default defineNuxtModule<ModuleOptions>({
     await addComponentsDir({
       path: resolve('runtime/components/ui'),
     })
-
-    addImportsDir(resolve('runtime/composables'))
   },
 })
+
+const addImports = async () => {
+  const { resolve } = createResolver(import.meta.url)
+  addImportsDir(resolve('runtime/composables'))
+  addImportsDir(resolve('runtime/components'))
+  addImportsDir(resolve('runtime/stores'))
+  addImportsDir(resolve('runtime/middleware'))
+}
 
 const installModules = async () => {
   const { resolve } = createResolver(import.meta.url)
@@ -134,7 +149,6 @@ const installModules = async () => {
   })
 
   await installModule('@nuxt/image')
-  console.log('installing pinia')
   await installModule('@pinia/nuxt', {
     storesDirs: [
       './runtime/stores/**',
