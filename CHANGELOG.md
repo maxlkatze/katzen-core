@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.7
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.6...v0.0.7)
+
+### 🚀 Enhancements
+
+- **katzencore:** Fixed Paths ([6ba09e9](https://github.com/maxlkatze/katzen-core/commit/6ba09e9))
+
+### ❤️ Contributors
+
+- Maxlkatze <maximilian.schleining@agenda-software.de>
+
 ## v0.0.6
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.5...v0.0.6)
