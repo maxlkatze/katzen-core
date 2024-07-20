@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.0.17
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.16...v0.0.17)
+
+### 🚀 Enhancements
+
+- **katzencore:** Added LICENSE.md changed description of package ([7596b0c](https://github.com/maxlkatze/katzen-core/commit/7596b0c))
+- **katzencore:** Removed console.logs and added update check into setup function ([afe9faf](https://github.com/maxlkatze/katzen-core/commit/afe9faf))
+
+### ❤️ Contributors
+
+- Cuby <max.cubedpixels@gmail.com>
+
 ## v0.0.16
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.15...v0.0.16)
