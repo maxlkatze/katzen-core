@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.14
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.13...v0.0.14)
+
+### 🚀 Enhancements
+
+- **katzencore:** Overrode Rollup for MacOS development, replaced JWT leftovers ([5a9c58b](https://github.com/maxlkatze/katzen-core/commit/5a9c58b))
+
+### ❤️ Contributors
+
+- Cuby <max.cubedpixels@gmail.com>
+
 ## v0.0.13
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.12...v0.0.13)
