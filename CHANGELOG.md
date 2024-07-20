@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.10
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.9...v0.0.10)
+
+### 🚀 Enhancements
+
+- **katzencore:** Removed JWT; Added own simpler solution ([5d1f15d](https://github.com/maxlkatze/katzen-core/commit/5d1f15d))
+
+### ❤️ Contributors
+
+- Cuby <max.cubedpixels@gmail.com>
+
 ## v0.0.9
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.8...v0.0.9)
