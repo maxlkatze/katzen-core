@@ -5,7 +5,7 @@ import { loadFetchContent } from '../composables/useUiComponents'
 import { definePageMeta, ref, useCookie, useRouter } from '#imports'
 
 definePageMeta({
-  layout: 'cmsLayout',
+  layout: 'cms-layout',
 })
 
 const router = useRouter()

@@ -4,6 +4,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Highlight from '@tiptap/extension-highlight'
 import Placeholder from '@tiptap/extension-placeholder'
 import { Extension } from '@tiptap/core'
+import type { RouteComponent } from 'vue-router'
 import { ComponentType, type KatzenUIComponent, useUiStore } from '../../stores/UiStore'
 import type { ImageContent } from '../../composables/useUiComponents'
 import { computed, defineAsyncComponent, onMounted, ref, shallowRef, useCookie, watch } from '#imports'
@@ -35,17 +36,20 @@ const filteredRoutes = computed((): Route[] => {
   return filteredRoutes.map(route => ({
     name: route.name?.toString() || route.path,
     path: route.path,
+    component: route.component,
   }))
 })
 
 interface Route {
   name: string
   path: string
+  component: Lazy<RouteComponent> | undefined | null
 }
 
 const selectedRoute = ref<Route>({
   name: '',
   path: '',
+  component: undefined,
 })
 
 const Route = shallowRef<unknown>(undefined)
@@ -62,8 +66,9 @@ const currentSelectedComponent = ref<KatzenUIComponent | undefined>(undefined)
 const selectedImage = ref<string | undefined>(undefined)
 
 watch(selectedRoute, async () => {
-  if (selectedRoute.value.path) {
-    Route.value = await defineAsyncComponent(() => import(`~/pages/${selectedRoute.value.name}.vue`))
+  const route = selectedRoute.value
+  if (route.path && route.component) {
+    Route.value = defineAsyncComponent(route.component)
   }
   selectedElement.value = null
 })
@@ -434,8 +439,8 @@ watch(selectedImage, () => {
               >
             </div>
             <div
-              v-for="(image, index) in fillEmptySpace"
-              :key="index"
+              v-for="(k, i) in fillEmptySpace"
+              :key="k+i"
               class="w-full contain-inline-size cursor-not-allowed rounded border-2 border-transparent aspect-square"
             >
               <div class="bg-gray-100 size-full" />

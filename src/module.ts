@@ -51,7 +51,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     addLayout({
       src: resolve('runtime/layouts/cmsLayout.vue'),
-    })
+    }, 'cms-layout')
 
     // ADD BACKEND CMS PAGE
     extendPages(
