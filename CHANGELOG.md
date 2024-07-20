@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.15
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.14...v0.0.15)
+
+### 🚀 Enhancements
+
+- **katzencore:** Implemented RouterComponent Async Loading ([17365d9](https://github.com/maxlkatze/katzen-core/commit/17365d9))
+
+### ❤️ Contributors
+
+- Cuby <max.cubedpixels@gmail.com>
+
 ## v0.0.14
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.13...v0.0.14)
