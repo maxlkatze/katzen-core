@@ -39,11 +39,11 @@ const filteredRoutes = computed((): Route[] => {
     component: route.component,
   }))
 })
-
+type Lazy<T> = () => Promise<T>
 interface Route {
   name: string
   path: string
-  component: Lazy<RouteComponent> | undefined | null
+  component: Lazy<RouteComponent> | RouteComponent | undefined | null
 }
 
 const selectedRoute = ref<Route>({
@@ -68,7 +68,15 @@ const selectedImage = ref<string | undefined>(undefined)
 watch(selectedRoute, async () => {
   const route = selectedRoute.value
   if (route.path && route.component) {
-    Route.value = defineAsyncComponent(route.component)
+    // if route component is not a function wrap it in a function
+    let implementation: Lazy<RouteComponent>
+    if (typeof route.component === 'function') {
+      implementation = route.component as Lazy<RouteComponent>
+    }
+    else {
+      implementation = async () => route.component as RouteComponent
+    }
+    Route.value = defineAsyncComponent(implementation)
   }
   selectedElement.value = null
 })
@@ -133,15 +141,24 @@ onMounted(
 )
 
 watch(hoveredElement, () => {
+  const updatePosition = () => {
+    if (hoverPosition.value && hoveredElement.value) {
+      const elementPositionAbsolute = hoveredElement.value.getBoundingClientRect()
+      hoverPosition.value.style.top = `${elementPositionAbsolute.top}px`
+      hoverPosition.value.style.left = `${elementPositionAbsolute.left}px`
+      hoverPosition.value.style.width = `${elementPositionAbsolute.width}px`
+      hoverPosition.value.style.height = `${elementPositionAbsolute.height}px`
+    }
+  }
   if (hoverPosition.value && hoveredElement.value) {
-    const elementPositionAbsolute = hoveredElement.value.getBoundingClientRect()
-    hoverPosition.value.style.top = `${elementPositionAbsolute.top}px`
-    hoverPosition.value.style.left = `${elementPositionAbsolute.left}px`
-    hoverPosition.value.style.width = `${elementPositionAbsolute.width}px`
-    hoverPosition.value.style.height = `${elementPositionAbsolute.height}px`
+    updatePosition()
+    window.addEventListener('resize', updatePosition)
+    window.addEventListener('scroll', updatePosition)
   }
   else if (!hoveredElement.value && hoverPosition.value) {
     hoverPosition.value.removeAttribute('style')
+    window.removeEventListener('resize', updatePosition)
+    window.removeEventListener('scroll', updatePosition)
   }
 })
 
@@ -284,16 +301,16 @@ const { data: imageResponse } = useAsyncData(async () => await $fetch<ImageListR
 })
 
 // if the images are not 9 in total, add empty strings to the array
-const fillEmptySpace = computed(() => {
+const fillEmptySpace = computed((): string[] => {
   const rest = 9 - imageResponse.value.body.images.length
   if (rest > 0) {
-    return Array.from({ length: rest }).fill('')
+    return Array.from({ length: rest }).fill('') as string[]
   }
 
   // if not 3 last images, fill with empty strings
   const mod = imageResponse.value.body.images.length % 3
   if (mod > 0) {
-    return Array.from({ length: 3 - mod }).fill('')
+    return Array.from({ length: 3 - mod }).fill('') as string[]
   }
 
   return []
@@ -371,7 +388,7 @@ watch(selectedImage, () => {
   </div>
 
   <!-- hover overlay -->
-  <div class="absolute inset-0 opacity-50 z-10 select-none touch-none pointer-events-none">
+  <div class="absolute inset-0 opacity-50 select-none touch-none pointer-events-none ontop">
     <div
       ref="hoverPosition"
       class="absolute z-20 -top-full -left-full bg-red-400/20 border-2 rounded border-red-500"
@@ -381,7 +398,7 @@ watch(selectedImage, () => {
   <!-- selected overlay -->
   <div
     v-if="selectedElement"
-    class="absolute inset-0 z-10 select-none touch-none pointer-events-none flex justify-center items-center"
+    class="absolute inset-0 select-none touch-none pointer-events-none flex justify-center items-center ontop"
   >
     <div class="relative z-40  flex flex-col pointer-events-auto bg-white p-5 border-black border-2 rounded max-w-96 w-full">
       <div class="flex flex-row items-center mb-6">
@@ -461,7 +478,7 @@ watch(selectedImage, () => {
   </div>
 
   <!-- Save Button -->
-  <div class="fixed bottom-0 right-0 m-4">
+  <div class="fixed bottom-0 right-0 m-4 ontop">
     <button
       class="bg-black text-white px-5 py-3 rounded-2xl transition-all flex items-center justify-center border-2 border-black"
       :class="{ '!text-black': saveSuccess || saveLoading, 'bg-white': saveSuccess || saveLoading }"
@@ -508,5 +525,9 @@ watch(selectedImage, () => {
   float: left;
   height: 0;
   pointer-events: none;
+}
+
+.ontop {
+  z-index: 1000;
 }
 </style>
