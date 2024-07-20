@@ -61,7 +61,7 @@ Currently there is no way to hide away any Routes.
 ### Editable Components
 By defining a Composable inside your Vue Component, you can define an editable entry.
 
-#### The importance of the e-kat attribute
+#### The importance of the kat-e attribute
 The e-kat attribute is used to define the key of the editable element.
 The CMS editor uses this key to identify the element and display correct positions and types.
 
@@ -72,7 +72,7 @@ The CMS editor uses this key to identify the element and display correct positio
 </script>
 
 <template>
-  <button e-kat="buttonText">{{ buttonText }}</button>
+  <button kat-e="buttonText">{{ buttonText }}</button>
 </template>
 ```
 
@@ -103,7 +103,7 @@ This is important for SEO and performance reasons.
 
 <template>
   <img
-    e-kat="image"
+    kat-e="image"
     class="size-52"
     :src="image.src"
     :alt="image.alt"
