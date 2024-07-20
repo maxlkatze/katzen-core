@@ -1,6 +1,6 @@
 import type { RouteLocationNormalized } from 'vue-router'
 import { defineNuxtRouteMiddleware, useCookie, useRuntimeConfig } from '#imports'
-import { useAuthentication } from '~/src/runtime/composables/useAuthentication'
+import { useAuthentication } from '../composables/useAuthentication'
 
 export default defineNuxtRouteMiddleware(async (to: RouteLocationNormalized) => {
   const checkAuth = import.meta.client ? clientSideAuthentication : serverSideAuthentication
