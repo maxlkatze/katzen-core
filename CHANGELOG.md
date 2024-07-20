@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.13
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.12...v0.0.13)
+
+### 🚀 Enhancements
+
+- **katzencore:** Fixed import ([f74d2a5](https://github.com/maxlkatze/katzen-core/commit/f74d2a5))
+
+### ❤️ Contributors
+
+- Cuby <max.cubedpixels@gmail.com>
+
 ## v0.0.12
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.11...v0.0.12)
