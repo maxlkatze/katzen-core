@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken'
 import { createStorage } from 'unstorage'
 import fsDriver from 'unstorage/drivers/fs'
 import { defineEventHandler, readBody, useRuntimeConfig } from '#imports'
