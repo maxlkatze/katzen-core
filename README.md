@@ -34,7 +34,7 @@ _Feel free to contribute to this project by creating a pull request.🐱❤️_
 
 ## Quick Setup
 
-1. Install using: `npm install @maxlkate/cms`
+1. Install using: `npm install @maxlkate/cms@latest`
 2. Add `@maxlkate/cms` to the `modules` section of `nuxt.config.js`
 
 ```js

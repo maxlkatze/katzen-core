@@ -32,7 +32,6 @@ const serverSideAuthentication = async () => {
 }
 
 const clientSideAuthentication = async () => {
-  console.log('Client side authentication')
   const token = useCookie('token')
   if (!token.value) return false
   interface VerifyResponse {

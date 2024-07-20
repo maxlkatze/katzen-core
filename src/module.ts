@@ -1,6 +1,7 @@
 import {
   addComponentsDir,
-  addImportsDir, addLayout,
+  addImportsDir,
+  addLayout,
   addPlugin,
   addRouteMiddleware,
   addServerHandler,
@@ -11,6 +12,8 @@ import {
 } from '@nuxt/kit'
 import { createStorage } from 'unstorage'
 import fsDriver from 'unstorage/drivers/fs'
+
+import pkg from '../package.json'
 
 export interface CmsUser {
   name: string
@@ -41,8 +44,14 @@ export default defineNuxtModule<ModuleOptions>({
   },
   async setup(_options, _nuxt) {
     const { resolve } = createResolver(import.meta.url)
-
-    console.info('[KATZE] Module installed;')
+    updateCheck().then(
+      (latestVersion) => {
+        console.warn('\x1B[41m There is a new version of KatzeCMS available \x1B[0m')
+        console.info('\x1B[42m Please update your package with \x1B[0m npm i @maxlkatze/cms@latest')
+        console.info('\x1B[42m If you\'re already on the @latest version run: \x1B[0m npm update @maxlkatze/cms')
+        console.info('\x1B[42m Current version: ' + pkg.version + ' Latest version: ' + latestVersion + '\x1B[0m')
+      },
+    )
 
     await installModules()
     await addImports()
@@ -79,7 +88,7 @@ export default defineNuxtModule<ModuleOptions>({
     })
     const content = await storage.hasItem('content.katze.json') ? await storage.getItem('content.katze.json') as object : {}
     _nuxt.options.runtimeConfig.public.content = content
-    console.info('[KATZE] Content loaded from storage with ' + Object.entries(content).length + ' entries')
+    console.info('Katze loaded ' + Object.entries(content).length + ' entries from content storage')
 
     addRouteMiddleware({
       name: 'auth',
@@ -125,8 +134,6 @@ const addImports = async () => {
 
 const installModules = async () => {
   const { resolve } = createResolver(import.meta.url)
-  console.log('Make sure to install the following modules:')
-  console.log('npm install @nuxtjs/tailwindcss @nuxt/image @pinia/nuxt')
 
   await installModule('@nuxtjs/tailwindcss', {
     // module configuration
@@ -148,5 +155,23 @@ const installModules = async () => {
     storesDirs: [
       './runtime/stores/**',
     ],
+  })
+}
+const updateCheck = async () => {
+  const version = pkg.version
+  const https = await import('node:https')
+  return new Promise<string>((resolve) => {
+    https.get('https://registry.npmjs.org/@maxlkatze/cms/latest', (res) => {
+      let data = ''
+      res.on('data', (chunk) => {
+        data += chunk
+      })
+      res.on('end', () => {
+        const latestVersion = JSON.parse(data).version
+        if (version !== latestVersion) {
+          resolve(latestVersion)
+        }
+      })
+    })
   })
 }
