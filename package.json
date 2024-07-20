@@ -1,7 +1,7 @@
 {
   "name": "@maxlkatze/cms",
   "version": "0.0.16",
-  "description": "Katzen Core Module",
+  "description": "A git based Nuxt Module CMS - zero effort, zero cost",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/maxlkatze/katzen-core.git"
