@@ -1,6 +1,6 @@
 {
   "name": "@maxlkatze/cms",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Katzen Core Module",
   "repository": {
     "type": "git",
@@ -39,7 +39,6 @@
     "@tiptap/starter-kit": "^2.5.1",
     "@tiptap/vue-3": "^2.5.1",
     "universal-dom-parser": "^0.0.3",
-    "@types/jsonwebtoken": "9.0.6",
     "@nuxt/image": "1.7.0"
   },
   "overrides": {
