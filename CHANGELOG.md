@@ -1,6 +1,20 @@
 # Changelog
 
 
+## v0.0.16
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.15...v0.0.16)
+
+### 🚀 Enhancements
+
+- **katzencore:** Added MacOS Run Configuration; Reviewed EditView.vue, Extended README.md ([3236599](https://github.com/maxlkatze/katzen-core/commit/3236599))
+- **katzencore:** Changed MacOS run Configuration ([8752c10](https://github.com/maxlkatze/katzen-core/commit/8752c10))
+- **katzencore:** Changed MacOS run Configuration ([fd5aeb0](https://github.com/maxlkatze/katzen-core/commit/fd5aeb0))
+
+### ❤️ Contributors
+
+- Cuby <max.cubedpixels@gmail.com>
+
 ## v0.0.15
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.14...v0.0.15)
