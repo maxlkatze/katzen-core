@@ -39,7 +39,6 @@
     "@tiptap/starter-kit": "^2.5.1",
     "@tiptap/vue-3": "^2.5.1",
     "universal-dom-parser": "^0.0.3",
-    "jsonwebtoken": "9.0.2",
     "@types/jsonwebtoken": "9.0.6",
     "@nuxt/image": "1.7.0"
   },

@@ -1,6 +1,8 @@
-import { defineNuxtRouteMiddleware, useCookie, useNuxtApp, useRuntimeConfig } from '#imports'
+import type { RouteLocationNormalized } from 'vue-router'
+import { defineNuxtRouteMiddleware, useCookie, useRuntimeConfig } from '#imports'
+import { useAuthentication } from '~/src/runtime/composables/useAuthentication'
 
-export default defineNuxtRouteMiddleware(async (to) => {
+export default defineNuxtRouteMiddleware(async (to: RouteLocationNormalized) => {
   const checkAuth = import.meta.client ? clientSideAuthentication : serverSideAuthentication
   // if route is /preview-login and user is already logged in, redirect to /preview
   if (to.path === '/katze-login') {
@@ -25,8 +27,8 @@ const serverSideAuthentication = async () => {
   const token = useCookie('token')
   if (!token.value) return false
   const runtimeConfig = useRuntimeConfig()
-  const { $verifyJwtToken } = useNuxtApp()
-  return $verifyJwtToken(token.value, runtimeConfig.secret || '')
+  const authentication = useAuthentication()
+  return authentication.verifyToken(token.value, runtimeConfig.secret || '')
 }
 
 const clientSideAuthentication = async () => {

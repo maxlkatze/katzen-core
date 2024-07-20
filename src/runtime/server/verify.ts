@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import { useAuthentication } from '../composables/useAuthentication'
 import { defineEventHandler, readBody, useRuntimeConfig } from '#imports'
 
 export default defineEventHandler(async (event) => {
@@ -12,7 +12,10 @@ export default defineEventHandler(async (event) => {
       },
     }
   }
-  const verify = jwt.verify(token, useRuntimeConfig().secret)
+  const runtimeConfig = useRuntimeConfig()
+  const authentication = useAuthentication()
+
+  const verify = authentication.verifyToken(token, runtimeConfig.secret || '')
 
   if (!verify) {
     return {

@@ -48,10 +48,6 @@ export default defineNuxtModule<ModuleOptions>({
     await addImports()
 
     addPlugin(resolve('./runtime/plugins/chtml.plugin'))
-    addPlugin({
-      src: resolve('./runtime/plugins/plugin.server'),
-      mode: 'server',
-    })
 
     addLayout({
       src: resolve('runtime/layouts/cmsLayout.vue'),
