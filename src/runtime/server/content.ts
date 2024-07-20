@@ -1,5 +1,6 @@
 import { createStorage } from 'unstorage'
 import fsDriver from 'unstorage/drivers/fs'
+import { useAuthentication } from '../composables/useAuthentication'
 import { defineEventHandler, readBody, useRuntimeConfig } from '#imports'
 
 export default defineEventHandler(async (event) => {
@@ -16,8 +17,10 @@ export default defineEventHandler(async (event) => {
   const token = body.token || ''
   const action = body.action || ''
   const content = body.content || ''
-  if (token && action == 'save') {
-    const verify = jwt.verify(token, runtimeConfig.secret)
+
+  if (token) {
+    const authentication = useAuthentication()
+    const verify = authentication.verifyToken(token, runtimeConfig.secret || '')
     if (!verify) {
       return {
         success: false,
@@ -26,6 +29,8 @@ export default defineEventHandler(async (event) => {
         },
       }
     }
+  }
+  if (token && action == 'save') {
     if (!content) {
       return {
         success: false,
@@ -48,15 +53,6 @@ export default defineEventHandler(async (event) => {
   }
 
   if (token && action == 'imageList') {
-    const verify = jwt.verify(token, runtimeConfig.secret)
-    if (!verify) {
-      return {
-        success: false,
-        body: {
-          message: 'Invalid token',
-        },
-      }
-    }
     // read all images from public folder and subfolders only show .png, .jpg, .jpeg, .gif, .svg, .webp
     const extensions = ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp']
 

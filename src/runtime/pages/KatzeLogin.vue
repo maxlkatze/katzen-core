@@ -5,7 +5,7 @@ const username = ref('')
 const password = ref('')
 
 definePageMeta({
-  layout: 'cms',
+  layout: 'cmsLayout',
 })
 
 const failedLogin = ref(false)

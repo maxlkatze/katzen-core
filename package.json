@@ -42,7 +42,10 @@
     "@nuxt/image": "1.7.0"
   },
   "overrides": {
-    "vue": "latest"
+    "vue": "latest",
+    "vite": {
+      "rollup": "npm:@rollup/wasm-node"
+    }
   },
   "devDependencies": {
     "@nuxt/kit": "3.12.4",

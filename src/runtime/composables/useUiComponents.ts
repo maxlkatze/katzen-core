@@ -2,7 +2,7 @@ import { storeToRefs } from 'pinia'
 import { ref, watch } from 'vue'
 import { ComponentType, useUiStore } from '../stores/UiStore'
 import type { KatzenUIComponent, KatzenUIOptions } from '~/src/runtime/stores/UiStore'
-import { useRuntimeConfig } from '#app'
+import { useRuntimeConfig } from '#imports'
 
 interface FetchedContentType {
   content: Record<string, unknown>

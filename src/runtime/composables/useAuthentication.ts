@@ -6,22 +6,25 @@ interface Token {
   expiresAt: number
 }
 
-const alphanum = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+const xorEncryptDecrypt = (input: string, secret: string) => {
+  let output = ''
+  for (let i = 0; i < input.length; i++) {
+    const inputCharCode = input.charCodeAt(i)
+    const secretCharCode = secret.charCodeAt(i % secret.length)
+    output += String.fromCharCode(inputCharCode ^ secretCharCode)
+  }
+  return output
+}
 
 const encryptToken = (token: Token, secret: string) => {
   const tokenString = JSON.stringify(token)
-  let encrypted = ''
-  for (let i = 0; i < tokenString.length; i++) {
-    encrypted += alphanum[(alphanum.indexOf(tokenString[i]) + alphanum.indexOf(secret[i % secret.length])) % alphanum.length]
-  }
-  return encrypted
+  const encrypted = xorEncryptDecrypt(tokenString, secret)
+  return Buffer.from(encrypted, 'utf8').toString('base64')
 }
 
 const decryptToken = (encrypted: string, secret: string) => {
-  let decrypted = ''
-  for (let i = 0; i < encrypted.length; i++) {
-    decrypted += alphanum[(alphanum.indexOf(encrypted[i]) - alphanum.indexOf(secret[i % secret.length]) + alphanum.length) % alphanum.length]
-  }
+  const decoded = Buffer.from(encrypted, 'base64').toString('utf8')
+  const decrypted = xorEncryptDecrypt(decoded, secret)
   return JSON.parse(decrypted) as Token
 }
 
