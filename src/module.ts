@@ -12,6 +12,8 @@ import {
 } from '@nuxt/kit'
 import { createStorage } from 'unstorage'
 import fsDriver from 'unstorage/drivers/fs'
+import type { Storage } from 'unstorage'
+import { defu } from 'defu'
 
 import pkg from '../package.json'
 
@@ -24,6 +26,7 @@ export interface ModuleOptions {
   users: CmsUser[]
   secret: string
   projectLocation: string
+  storage?: Storage
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -42,6 +45,19 @@ export default defineNuxtModule<ModuleOptions>({
     secret: 'secret',
     projectLocation: './',
   },
+
+  hooks: {
+    'nitro:build:before': async (nuxt) => {
+      // load content from git storage
+      console.log('NITRO BUILD HOOK')
+    },
+    'vite:serverCreated': (viteServer, env) => {
+      console.log('VITE HOOK')
+    },
+    'nitro:build:public-assets': (nuxt) => {
+      console.log('NITRO BUILD PUBLIC')
+    },
+  },
   async setup(_options, _nuxt) {
     const { resolve } = createResolver(import.meta.url)
     updateCheck().then(
@@ -52,6 +68,15 @@ export default defineNuxtModule<ModuleOptions>({
         console.info('\x1B[42m Current version: ' + pkg.version + ' Latest version: ' + latestVersion + '\x1B[0m')
       },
     )
+
+    if (!_options.storage) {
+      _options.storage = createStorage({
+        driver: fsDriver({ base: _options.projectLocation + '/' + 'public/' }),
+      })
+    }
+    const storage = _options.storage
+    // extend nuxt with storage as runtimeConfig does not work with objects
+
 
     await installModules()
     await addImports()
@@ -83,12 +108,10 @@ export default defineNuxtModule<ModuleOptions>({
     _nuxt.options.runtimeConfig.users = _options.users
     _nuxt.options.runtimeConfig.secret = _options.secret
     _nuxt.options.runtimeConfig.projectLocation = _options.projectLocation + (_options.projectLocation.endsWith('/') ? '' : '/')
-    const storage = createStorage({
-      driver: fsDriver({ base: _nuxt.options.runtimeConfig.projectLocation + '/' + 'public/' }),
-    })
-    const content = await storage.hasItem('content.katze.json') ? await storage.getItem('content.katze.json') as object : {}
+    const content = await storage.getItem('content.katze.json')
+    console.log(content)
     _nuxt.options.runtimeConfig.public.content = content
-    console.info('Katze loaded ' + Object.entries(content).length + ' entries from content storage')
+    // console.info('Katze loaded ' + Object.entries(content).length + ' entries from content storage')
 
     addRouteMiddleware({
       name: 'auth',

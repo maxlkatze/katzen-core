@@ -5,12 +5,8 @@ import { defineEventHandler, readBody, useRuntimeConfig } from '#imports'
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
-  const storage = createStorage({
-    driver: fsDriver({ base: runtimeConfig.projectLocation + '/' + 'public/' }),
-  })
-  if (!await storage.hasItem('content.katze.json')) {
-    await storage.setItem('content.katze.json', {})
-  }
+  const storage = runtimeConfig.storage
+  console.log('storage', storage)
   let savedContent = await storage.getItem('content.katze.json')
 
   const body = await readBody(event) || {}
@@ -55,8 +51,10 @@ export default defineEventHandler(async (event) => {
   if (token && action == 'imageList') {
     // read all images from public folder and subfolders only show .png, .jpg, .jpeg, .gif, .svg, .webp
     const extensions = ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp']
-
-    const imageKeys = await storage.getKeys('', {})
+    const localStorage = createStorage({
+      driver: fsDriver({ base: runtimeConfig.projectLocation + '/' + 'public/' }),
+    })
+    const imageKeys = await localStorage.getKeys('', {})
     const filteredKeys = imageKeys.filter((key) => {
       return extensions.includes(key.slice(-4))
     }).map((key) => {
