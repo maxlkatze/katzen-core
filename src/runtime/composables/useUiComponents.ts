@@ -4,42 +4,13 @@ import { ComponentType, useUiStore } from '../stores/UiStore'
 import type { KatzenUIComponent, KatzenUIOptions } from '~/src/runtime/stores/UiStore'
 import { useRuntimeConfig } from '#imports'
 
-interface FetchedContentType {
-  content: Record<string, unknown>
-}
-
 export interface ImageContent {
   src: string
   alt: string
 }
 
-export const fetchedContent: FetchedContentType = { content: {} }
-
-export const loadFetchContent = async () => {
-  interface ContentResponse {
-    body: {
-      content: Record<string, unknown>
-    }
-  }
-  const data = await $fetch<ContentResponse>('/content-cms', {
-    method: 'POST',
-  })
-  if (data === null) {
-    console.error('No content fetched')
-    return
-  }
-  fetchedContent.content = data.body.content
-
-  for (const key in fetchedContent.content) {
-    useUiStore().updateUiContent(key, fetchedContent.content[key])
-  }
-}
-
 export const getContent = () => {
-  if (Object.keys(fetchedContent.content).length === 0) {
-    return useRuntimeConfig().public.content as Record<string, unknown> || {}
-  }
-  return fetchedContent.content
+  return useRuntimeConfig().public.content as Record<string, unknown> || {}
 }
 
 export const getContentByKey = <T = string>(key: string) => {

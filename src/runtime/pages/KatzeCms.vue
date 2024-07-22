@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import MainView from '../components/views/MainView.vue'
 import EditView from '../components/views/EditView.vue'
-import { loadFetchContent } from '../composables/useUiComponents'
 import { definePageMeta, ref, useCookie, useRouter } from '#imports'
 
 definePageMeta({
@@ -10,8 +9,6 @@ definePageMeta({
 
 const router = useRouter()
 const currentView = ref<'MainView' | 'EditView'>('MainView')
-
-loadFetchContent()
 
 const logout = () => {
   const tokenCookie = useCookie('token')

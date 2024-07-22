@@ -5,5 +5,7 @@ export default defineNuxtConfig({
   pages: true,
   katzenCore: {
     projectLocation: './playground',
+    secret: 'secret123',
+    projectName: 'playground',
   },
 })

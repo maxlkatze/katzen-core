@@ -10,12 +10,18 @@ import {
   extendPages,
   installModule,
 } from '@nuxt/kit'
-import { createStorage } from 'unstorage'
-import fsDriver from 'unstorage/drivers/fs'
-import type { Storage } from 'unstorage'
-import { defu } from 'defu'
 
+import { type AzureAppConfigurationOptions } from 'unstorage/drivers/azure-app-configuration'
+import { type KVOptions } from 'unstorage/drivers/cloudflare-kv-binding'
+import { type FSStorageOptions } from 'unstorage/drivers/fs'
+import { type GithubOptions } from 'unstorage/drivers/github'
+import { type MongoDbOptions } from 'unstorage/drivers/mongodb'
+import { type NetlifyStoreOptions } from 'unstorage/drivers/netlify-blobs'
+import { type PlanetscaleDriverOptions } from 'unstorage/drivers/planetscale'
+import { type RedisOptions } from 'unstorage/drivers/redis'
+import { type VercelKVOptions } from 'unstorage/drivers/vercel-kv'
 import pkg from '../package.json'
+import { useContentStorage } from './runtime/storage/StorageManagment'
 
 export interface CmsUser {
   name: string
@@ -25,8 +31,12 @@ export interface CmsUser {
 export interface ModuleOptions {
   users: CmsUser[]
   secret: string
+  projectName: string
   projectLocation: string
-  storage?: Storage
+  storage: {
+    type: 'azure-app-configuration' | 'cloudflare-kv-binding' | 'fs' | 'github' | 'mongodb' | 'netlify-blobs' | 'planetscale' | 'redis' | 'vercel-kv'
+    options: AzureAppConfigurationOptions | KVOptions | FSStorageOptions | GithubOptions | MongoDbOptions | NetlifyStoreOptions | PlanetscaleDriverOptions | RedisOptions | VercelKVOptions
+  }
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -43,19 +53,13 @@ export default defineNuxtModule<ModuleOptions>({
       },
     ],
     secret: 'secret',
+    projectName: 'defaultProject',
     projectLocation: './',
-  },
-
-  hooks: {
-    'nitro:build:before': async (nuxt) => {
-      // load content from git storage
-      console.log('NITRO BUILD HOOK')
-    },
-    'vite:serverCreated': (viteServer, env) => {
-      console.log('VITE HOOK')
-    },
-    'nitro:build:public-assets': (nuxt) => {
-      console.log('NITRO BUILD PUBLIC')
+    storage: {
+      type: 'fs',
+      options: {
+        base: './',
+      },
     },
   },
   async setup(_options, _nuxt) {
@@ -68,15 +72,6 @@ export default defineNuxtModule<ModuleOptions>({
         console.info('\x1B[42m Current version: ' + pkg.version + ' Latest version: ' + latestVersion + '\x1B[0m')
       },
     )
-
-    if (!_options.storage) {
-      _options.storage = createStorage({
-        driver: fsDriver({ base: _options.projectLocation + '/' + 'public/' }),
-      })
-    }
-    const storage = _options.storage
-    // extend nuxt with storage as runtimeConfig does not work with objects
-
 
     await installModules()
     await addImports()
@@ -107,9 +102,17 @@ export default defineNuxtModule<ModuleOptions>({
 
     _nuxt.options.runtimeConfig.users = _options.users
     _nuxt.options.runtimeConfig.secret = _options.secret
+    _nuxt.options.runtimeConfig.storage = _options.storage
+    _nuxt.options.runtimeConfig.projectName = _options.projectName
     _nuxt.options.runtimeConfig.projectLocation = _options.projectLocation + (_options.projectLocation.endsWith('/') ? '' : '/')
-    const content = await storage.getItem('content.katze.json')
-    console.log(content)
+    const storageKey = _options.projectName + '_katze_content'
+    _nuxt.options.runtimeConfig.storageKey = storageKey
+
+    const contentStorage = await useContentStorage(_nuxt.options.runtimeConfig)
+    let content = await contentStorage.getItem(storageKey)
+    if (content === null) {
+      content = {}
+    }
     _nuxt.options.runtimeConfig.public.content = content
     // console.info('Katze loaded ' + Object.entries(content).length + ' entries from content storage')
 

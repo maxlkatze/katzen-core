@@ -1,13 +1,13 @@
 import { createStorage } from 'unstorage'
 import fsDriver from 'unstorage/drivers/fs'
 import { useAuthentication } from '../composables/useAuthentication'
+import { useContentStorage } from '../storage/StorageManagment'
 import { defineEventHandler, readBody, useRuntimeConfig } from '#imports'
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
-  const storage = runtimeConfig.storage
-  console.log('storage', storage)
-  let savedContent = await storage.getItem('content.katze.json')
+  const storage = await useContentStorage(runtimeConfig)
+  let savedContent = await storage.getItem(runtimeConfig.storageKey)
 
   const body = await readBody(event) || {}
   const token = body.token || ''
@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
     // add or replace content inside content
     // merge data with content
     savedContent = { ...savedContent as object, ...content }
-    await storage.setItem('content.katze.json', savedContent)
+    await storage.setItem(runtimeConfig.storageKey, savedContent)
 
     return {
       success: true,
