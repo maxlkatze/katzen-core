@@ -15,6 +15,7 @@ export const useContentStorage = async (runtimeConfig: RuntimeConfig): Promise<S
       driver = (await import(`unstorage/drivers/${runtimeConfig.storage.type}`)).default(JSON.parse(JSON.stringify(runtimeConfig.storage.options)))
     }
     catch (e) {
+      console.error(e)
       throw new Error(`Driver ${runtimeConfig.storage.type} not found`)
     }
   }

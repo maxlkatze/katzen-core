@@ -7,7 +7,6 @@ import { defineEventHandler, readBody, useRuntimeConfig } from '#imports'
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
   const storage = await useContentStorage(runtimeConfig)
-  let savedContent = await storage.getItem(runtimeConfig.storageKey)
 
   const body = await readBody(event) || {}
   const token = body.token || ''
@@ -35,6 +34,7 @@ export default defineEventHandler(async (event) => {
         },
       }
     }
+    let savedContent = await storage.getItem(runtimeConfig.storageKey)
     // add or replace content inside content
     // merge data with content
     savedContent = { ...savedContent as object, ...content }
@@ -69,6 +69,7 @@ export default defineEventHandler(async (event) => {
       },
     }
   }
+  const savedContent = await storage.getItem(runtimeConfig.storageKey)
 
   return {
     success: true,
