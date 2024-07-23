@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.25
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.24...v0.0.25)
+
+### 🏡 Chore
+
+- **release:** V0.0.24 ([b8ca991](https://github.com/maxlkatze/katzen-core/commit/b8ca991))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.24
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.23...v0.0.24)
