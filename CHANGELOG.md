@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v0.0.26
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.25...v0.0.26)
+
+### 🚀 Enhancements
+
+- **katzencore:** Removed Image Upload Functionality, Added an Error Message for Deployment ([f180a18](https://github.com/maxlkatze/katzen-core/commit/f180a18))
+- **katzencore:** Added new Content Resolver, moved template from File into Codebase ([5268359](https://github.com/maxlkatze/katzen-core/commit/5268359))
+- **katzencore:** Added Missing Deploy Hook as Result Variable ([bc27b8a](https://github.com/maxlkatze/katzen-core/commit/bc27b8a))
+
+### 🩹 Fixes
+
+- **katzencore:** Fixed Playground Configuration ([de16f0e](https://github.com/maxlkatze/katzen-core/commit/de16f0e))
+
+### ❤️ Contributors
+
+- Maximilian Schleining <maximilian.schleining@agenda-software.de>
+
 ## v0.0.25
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.24...v0.0.25)
