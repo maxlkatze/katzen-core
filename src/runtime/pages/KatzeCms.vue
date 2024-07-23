@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import MainView from '../components/views/MainView.vue'
 import EditView from '../components/views/EditView.vue'
-import { definePageMeta, ref, useCookie, useRouter } from '#imports'
+import { setFetchedContent } from '../composables/useUiComponents'
+import { definePageMeta, onMounted, ref, useCookie, useRouter } from '#imports'
 
 definePageMeta({
   layout: 'cms-layout',
@@ -15,6 +16,33 @@ const logout = () => {
   tokenCookie.value = ''
   router.push('/katze-login')
 }
+
+onMounted(async () => {
+  const tokenCookie = useCookie('token')
+  if (!tokenCookie.value) {
+    return
+  }
+  const token = tokenCookie.value
+
+  interface ContentCmsResponse {
+    success: boolean
+    body?: {
+      content: Record<string, string>
+    }
+  }
+  const response = await $fetch('/content-cms', {
+    method: 'POST',
+    body: {
+      token,
+      action: 'get',
+    },
+  },
+  ) as ContentCmsResponse
+
+  if (response.success && response.body) {
+    setFetchedContent(response.body.content)
+  }
+})
 </script>
 
 <template>

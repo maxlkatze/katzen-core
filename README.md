@@ -14,7 +14,7 @@ Find and replace all on all files (CMD+SHIFT+F):
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-![CmsKatze](/src/runtime/assets/logo.svg)
+![CmsKatze](/src/runtime/assets/logo_outlines.svg)
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
 <!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/cms-katze?file=playground%2Fapp.vue) -->
@@ -22,7 +22,6 @@ Find and replace all on all files (CMD+SHIFT+F):
 
 ## Warning
 In active development, not ready for production use.
-The content.katze.json is not being synced with Git LFS or Git
 
 _Feel free to contribute to this project by creating a pull request.🐱❤️_
 
@@ -35,12 +34,12 @@ _Feel free to contribute to this project by creating a pull request.🐱❤️_
 ## Quick Setup
 
 1. Install using: `npm install @maxlkate/cms@latest`
-2. Add `@maxlkate/cms` to the `modules` section of `nuxt.config.js`
+2. Add `@maxlkatze/cms` to the `modules` section of `nuxt.config.js`
 
 ```js
 {
   modules: [
-    '@maxlkate/cms'
+    '@maxlkatze/cms'
   ]
 }
 ```
@@ -124,8 +123,15 @@ You can configure Katze by adding the `katzenCore` key to `nuxt.config.js`
       password: 'your secret password', // default: "admin"
     },
   ],
-    secret: 'your secret key for token encryption',
-    projectLocation: './', // default: "./"
+  secret: 'your secret key for token encryption',
+  projectLocation: './', // default: "./",
+  projectName: 'YourSiteName',
+  storage: {
+    type: 'fs', // default: "fs" | Unstorage Types supported
+    options: {
+      // UNSTORAGE OPTIONS
+    }
+  }
 }
 ```
 #### Users
@@ -137,6 +143,32 @@ The secret is used to encrypt the Login token for the CMS editor.
 #### Project Location
 The project location is used to store the content.katze.json fileand to locate the public folder.
 
+#### Project Name
+The project name is used to identify the project in the Storage.
+
+#### Storage
+The storage can be configured with unstorage drivers.
+
+##### Supported Unstorage Drivers
+- azure-app-configuration - [Documentation](https://unstorage.unjs.io/drivers/azure)
+- cloudflare-kv-binding - [Documentation](https://unstorage.unjs.io/drivers/cloudflare)
+- fs - [Documentation](https://unstorage.unjs.io/drivers/fs)
+- github - [Documentation](https://unstorage.unjs.io/drivers/github)
+- mongodb - [Documentation](https://unstorage.unjs.io/drivers/mongodb)
+- netlify-blobs - [Documentation](https://unstorage.unjs.io/drivers/netlify)
+- planetscale - [Documentation](https://unstorage.unjs.io/drivers/planetscale)
+- redis - [Documentation](https://unstorage.unjs.io/drivers/redis)
+- vercel-kv - [Documentation](https://unstorage.unjs.io/drivers/vercel)
+
+Storage implementation example:
+```js
+storage: {
+  type: 'fs',
+  options: {
+    base: './',
+  }
+}
+```
 
 ## Contribution
 

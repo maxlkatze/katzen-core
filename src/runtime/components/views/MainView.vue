@@ -41,9 +41,9 @@ defineEmits(['logout', 'openEditPage'])
           class="flex flex-col items-center group/button cursor-zoom-in "
           @click="$emit('openEditPage')"
         >
-          <div class="size-32 rounded border-black border-2 group-hover/button:animate-pulse">
+          <div class="size-32 rounded border-black border-2 group-hover/button:animate-pulse p-4">
             <img
-              src="../../assets/icons/eye.svg"
+              src="../../assets/icons/edit.svg"
               class="size-full p-2 transition-all drop-shadow group-hover/button:scale-90"
               alt="CMS-Katze"
             >

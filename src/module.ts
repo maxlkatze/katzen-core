@@ -21,7 +21,7 @@ import { type PlanetscaleDriverOptions } from 'unstorage/drivers/planetscale'
 import { type RedisOptions } from 'unstorage/drivers/redis'
 import { type VercelKVOptions } from 'unstorage/drivers/vercel-kv'
 import pkg from '../package.json'
-import { useContentStorage } from './runtime/storage/StorageManagment'
+import { useContentStorage } from './runtime/storage/StorageManagement'
 
 export interface CmsUser {
   name: string
@@ -37,12 +37,13 @@ export interface ModuleOptions {
     type: 'azure-app-configuration' | 'cloudflare-kv-binding' | 'fs' | 'github' | 'mongodb' | 'netlify-blobs' | 'planetscale' | 'redis' | 'vercel-kv'
     options: AzureAppConfigurationOptions | KVOptions | FSStorageOptions | GithubOptions | MongoDbOptions | NetlifyStoreOptions | PlanetscaleDriverOptions | RedisOptions | VercelKVOptions
   }
+  deployHookURL?: string
 }
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'KatzenCore',
-    configKey: 'katzenCore',
+    name: 'CMSKatze',
+    configKey: 'katze',
   },
   // Default configuration options of the Nuxt module
   defaults: {
@@ -107,6 +108,7 @@ export default defineNuxtModule<ModuleOptions>({
     _nuxt.options.runtimeConfig.projectLocation = _options.projectLocation + (_options.projectLocation.endsWith('/') ? '' : '/')
     const storageKey = _options.projectName + '_katze_content'
     _nuxt.options.runtimeConfig.storageKey = storageKey
+    _nuxt.options.runtimeConfig.deployHookURL = _options.deployHookURL
 
     const contentStorage = await useContentStorage(_nuxt.options.runtimeConfig)
     let content = await contentStorage.getItem(storageKey)

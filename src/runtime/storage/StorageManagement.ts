@@ -1,11 +1,20 @@
 import { createStorage, type Storage, type Driver } from 'unstorage'
 import type { RuntimeConfig } from 'nuxt/schema'
 
-interface StorageManagmentDriver extends Storage {
+interface StorageManagementDriver extends Storage {
   publishContent: (content: string) => Promise<void>
 }
 
-export const useContentStorage = async (runtimeConfig: RuntimeConfig): Promise<StorageManagmentDriver> => {
+interface ExtendedRuntimeConfig extends RuntimeConfig {
+  storageKey: string
+  storage: {
+    type: string
+    options: object
+  }
+}
+
+export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<StorageManagementDriver> => {
+  const runtimeConfig = _runtimeConfig as ExtendedRuntimeConfig
   let driver: Driver
   try {
     driver = (await import(`unstorage/drivers/${runtimeConfig.storage.type}`))(runtimeConfig.storage.options)
@@ -22,7 +31,7 @@ export const useContentStorage = async (runtimeConfig: RuntimeConfig): Promise<S
 
   const storage = createStorage<object>({
     driver,
-  }) as StorageManagmentDriver
+  }) as StorageManagementDriver
   // Add custom method to publish content
   storage.publishContent = async (content) => {
     // TODO

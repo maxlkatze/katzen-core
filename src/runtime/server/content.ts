@@ -1,17 +1,35 @@
 import { createStorage } from 'unstorage'
 import fsDriver from 'unstorage/drivers/fs'
 import { useAuthentication } from '../composables/useAuthentication'
-import { useContentStorage } from '../storage/StorageManagment'
+import { useContentStorage } from '../storage/StorageManagement'
 import { defineEventHandler, readBody, useRuntimeConfig } from '#imports'
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
-  const storage = await useContentStorage(runtimeConfig)
 
   const body = await readBody(event) || {}
   const token = body.token || ''
   const action = body.action || ''
-  const content = body.content || ''
+
+  if (!token) {
+    return {
+      success: false,
+      body: {
+        message: 'No token provided',
+      },
+    }
+  }
+
+  const authentication = useAuthentication()
+  const verify = authentication.verifyToken(token, runtimeConfig.secret || '')
+  if (!verify) {
+    return {
+      success: false,
+      body: {
+        message: 'Invalid token',
+      },
+    }
+  }
 
   if (token) {
     const authentication = useAuthentication()
@@ -25,7 +43,21 @@ export default defineEventHandler(async (event) => {
       }
     }
   }
-  if (token && action == 'save') {
+
+  if (action == 'get') {
+    const storage = await useContentStorage(runtimeConfig)
+    const savedContent = await storage.getItem(runtimeConfig.storageKey)
+    return {
+      success: true,
+      body: {
+        message: 'Content fetched',
+        content: savedContent,
+      },
+    }
+  }
+
+  if (action == 'save') {
+    const content = body.content || {}
     if (!content) {
       return {
         success: false,
@@ -34,9 +66,8 @@ export default defineEventHandler(async (event) => {
         },
       }
     }
+    const storage = await useContentStorage(runtimeConfig)
     let savedContent = await storage.getItem(runtimeConfig.storageKey)
-    // add or replace content inside content
-    // merge data with content
     savedContent = { ...savedContent as object, ...content }
     await storage.setItem(runtimeConfig.storageKey, savedContent)
 
@@ -48,7 +79,7 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  if (token && action == 'imageList') {
+  if (action == 'imageList') {
     // read all images from public folder and subfolders only show .png, .jpg, .jpeg, .gif, .svg, .webp
     const extensions = ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp']
     const localStorage = createStorage({
@@ -69,13 +100,41 @@ export default defineEventHandler(async (event) => {
       },
     }
   }
-  const savedContent = await storage.getItem(runtimeConfig.storageKey)
+
+  if (action == 'deploy') {
+    const deployHookURL = runtimeConfig.deployHookURL
+    if (!deployHookURL) {
+      return {
+        success: false,
+        body: {
+          message: 'No deploy hook URL provided',
+        },
+      }
+    }
+
+    const response = await fetch(deployHookURL, {
+      method: 'GET',
+    })
+    if (response.ok) {
+      return {
+        success: true,
+        body: {
+          message: 'Content deployed',
+        },
+      }
+    }
+    return {
+      success: false,
+      body: {
+        message: 'Content deploy failed',
+      },
+    }
+  }
 
   return {
-    success: true,
+    success: false,
     body: {
-      message: 'Content fetched',
-      content: savedContent,
+      message: 'Invalid action',
     },
   }
 })

@@ -9,7 +9,16 @@ export interface ImageContent {
   alt: string
 }
 
+let fetchedContent: Record<string, unknown> | undefined
+
+export const setFetchedContent = (content: Record<string, unknown>) => {
+  fetchedContent = content
+}
+
 export const getContent = () => {
+  if (fetchedContent) {
+    return fetchedContent
+  }
   return useRuntimeConfig().public.content as Record<string, unknown> || {}
 }
 
