@@ -1,6 +1,31 @@
 # Changelog
 
 
+## v0.0.18
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.17...v0.0.18)
+
+### 🚀 Enhancements
+
+- **katzencore:** Storage Management improvements ([b505150](https://github.com/maxlkatze/katzen-core/commit/b505150))
+- **katzencore:** Added StorageManagement; README changed; Removed unnecessary icons; Fixed Typos; Added Deploy Hook Config & Function ([488f534](https://github.com/maxlkatze/katzen-core/commit/488f534))
+- **katzencore:** Added Documentation for Deploy Hooks ([13ea8cb](https://github.com/maxlkatze/katzen-core/commit/13ea8cb))
+
+### 🩹 Fixes
+
+- **katzencore:** Fixed README.md ([2cd366e](https://github.com/maxlkatze/katzen-core/commit/2cd366e))
+- **katzencore:** Working on Storage implementation ([4753880](https://github.com/maxlkatze/katzen-core/commit/4753880))
+- **katzencore:** Changed Storage type to object, due to build error ([393bd1c](https://github.com/maxlkatze/katzen-core/commit/393bd1c))
+
+### ✅ Tests
+
+- **katzencore:** Checking out Storage Methods ([e2eeadf](https://github.com/maxlkatze/katzen-core/commit/e2eeadf))
+
+### ❤️ Contributors
+
+- Cuby <max.cubedpixels@gmail.com>
+- Maxlkatze <maximilian.schleining@agenda-software.de>
+
 ## v0.0.17
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.16...v0.0.17)
