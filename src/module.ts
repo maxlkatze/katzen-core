@@ -55,7 +55,6 @@ export default defineNuxtModule<ModuleOptions>({
     storageKey: 'katze_content.json',
   },
   async setup(_options, _nuxt) {
-    const { resolve } = createResolver(import.meta.url)
     updateCheck().then(
       (latestVersion) => {
         katzeError('There is a new version of Katze available')
@@ -65,13 +64,34 @@ export default defineNuxtModule<ModuleOptions>({
       },
     )
 
+    // SET RUNTIME CONFIG
+    _nuxt.options.runtimeConfig.users = _options.users
+    _nuxt.options.runtimeConfig.secret = _options.secret
+    _nuxt.options.runtimeConfig.storage = _options.storage
+    _nuxt.options.runtimeConfig.storageKey = _options.storageKey
+    _nuxt.options.runtimeConfig.projectLocation = _options.projectLocation + (_options.projectLocation.endsWith('/') ? '' : '/')
+    _nuxt.options.runtimeConfig.deployHookURL = _options.deployHookURL
+
+    // LOAD CONTENT STORAGE
+    const contentStorage = await useContentStorage(_nuxt.options.runtimeConfig)
+    let content = await contentStorage.getItem(_options.storageKey)
+    if (content === null) {
+      content = {}
+    }
+    katzeLog('Loaded ' + Object.entries(content).length + ' entries from [' + _options.storage.type + '] storage')
+    _nuxt.options.runtimeConfig.public.content = content // Set content to public runtime config
+
+    // NUXTKIT SETUP
     await installModules()
     await addImports()
 
-    addPlugin(resolve('./runtime/plugins/chtml.plugin'))
+    const { resolve } = createResolver(import.meta.url)
+
+    addPlugin(resolve('runtime/plugins/chtml.plugin'))
 
     addLayout({
-      src: resolve('./runtime/layouts/cmsLayout.vue'),
+      filename: 'cms-layout.vue',
+      getContents: () => '<template><slot /></template>',
     }, 'cms-layout')
 
     // ADD BACKEND CMS PAGE
@@ -81,87 +101,71 @@ export default defineNuxtModule<ModuleOptions>({
           {
             name: 'katze-cms',
             path: '/cms',
-            file: resolve('./runtime/pages/KatzeCms.vue'),
+            file: resolve('runtime/pages/KatzeCms.vue'),
           },
           {
             name: 'katze-cms-login',
             path: '/katze-login',
-            file: resolve('./runtime/pages/KatzeLogin.vue'),
+            file: resolve('runtime/pages/KatzeLogin.vue'),
           },
         ]
         pages.push(...pageList)
       })
 
-    _nuxt.options.runtimeConfig.users = _options.users
-    _nuxt.options.runtimeConfig.secret = _options.secret
-    _nuxt.options.runtimeConfig.storage = _options.storage
-    _nuxt.options.runtimeConfig.storageKey = _options.storageKey
-    _nuxt.options.runtimeConfig.projectLocation = _options.projectLocation + (_options.projectLocation.endsWith('/') ? '' : '/')
-    _nuxt.options.runtimeConfig.deployHookURL = _options.deployHookURL
-
-    const contentStorage = await useContentStorage(_nuxt.options.runtimeConfig)
-    let content = await contentStorage.getItem(_options.storageKey)
-    if (content === null) {
-      content = {}
-    }
-    _nuxt.options.runtimeConfig.public.content = content
-    katzeLog('Loaded ' + Object.entries(content).length + ' entries from [' + _options.storage.type + '] storage')
-
     addRouteMiddleware({
       name: 'auth',
-      path: resolve('./runtime/middleware/authentication'),
+      path: resolve('runtime/middleware/authentication'),
       global: true,
     })
 
     addServerHandler(
       {
         route: '/login-cms',
-        handler: resolve('./runtime/server/login'),
+        handler: resolve('runtime/server/login'),
       },
     )
 
     addServerHandler(
       {
         route: '/verify-cms',
-        handler: resolve('./runtime/server/verify'),
+        handler: resolve('runtime/server/verify'),
       },
     )
 
     addServerHandler(
       {
         route: '/content-cms',
-        handler: resolve('./runtime/server/content'),
+        handler: resolve('runtime/server/content'),
       },
     )
 
     // ADD FRONTEND COMPONENTS
     await addComponentsDir({
-      path: resolve('./runtime/components/ui'),
+      path: resolve('runtime/components/ui'),
     })
   },
 })
 
 const addImports = async () => {
   const { resolve } = createResolver(import.meta.url)
-  addImportsDir(resolve('./runtime/composables'))
-  addImportsDir(resolve('./runtime/components'))
-  addImportsDir(resolve('./runtime/stores'))
-  addImportsDir(resolve('./runtime/middleware'))
+  addImportsDir(resolve('runtime/composables'))
+  addImportsDir(resolve('runtime/components'))
+  addImportsDir(resolve('runtime/stores'))
+  addImportsDir(resolve('runtime/middleware'))
 }
 
 const installModules = async () => {
   const { resolve } = createResolver(import.meta.url)
 
   await installModule('@nuxtjs/tailwindcss', {
-    // module configuration
     exposeConfig: true,
     config: {
       darkMode: 'class',
       content: {
         files: [
-          resolve('./runtime/components/**/*.{vue,mjs,ts}'),
-          resolve('./runtime/pages/**/*.{vue,mjs,ts}'),
-          resolve('./runtime/*.{mjs,js,ts}'),
+          resolve('runtime/components/**/*.{vue,mjs,ts}'),
+          resolve('runtime/pages/**/*.{vue,mjs,ts}'),
+          resolve('runtime/*.{mjs,js,ts}'),
         ],
       },
     },
