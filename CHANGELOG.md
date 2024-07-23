@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.20
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.19...v0.0.20)
+
+### 🩹 Fixes
+
+- **katzencore:** Imports of Storage Drivers are resolvable again ([1eecd3d](https://github.com/maxlkatze/katzen-core/commit/1eecd3d))
+
+### ❤️ Contributors
+
+- Maxlkatze <maximilian.schleining@agenda-software.de>
+
 ## v0.0.19
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.18...v0.0.19)
