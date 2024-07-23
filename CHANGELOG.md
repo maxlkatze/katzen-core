@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.22
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.21...v0.0.22)
+
+### 🚀 Enhancements
+
+- **katzencore:** Removed projectName property, added storageKey ([4057730](https://github.com/maxlkatze/katzen-core/commit/4057730))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.21
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.20...v0.0.21)
