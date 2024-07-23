@@ -106,6 +106,7 @@ export default defineEventHandler(async (event) => {
     if (!deployHookURL) {
       return {
         success: false,
+        missingDeployHookURL: true,
         body: {
           message: 'No deploy hook URL provided',
         },
