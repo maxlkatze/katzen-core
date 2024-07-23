@@ -38,8 +38,7 @@
     "@tiptap/pm": "^2.5.1",
     "@tiptap/starter-kit": "^2.5.1",
     "@tiptap/vue-3": "^2.5.1",
-    "@types/jsdom": "^21.1.7",
-    "jsdom": "^24.1.1",
+    "node-html-parser": "^6.1.13",
     "pinia": "^2.1.8-beta.0"
   },
   "overrides": {

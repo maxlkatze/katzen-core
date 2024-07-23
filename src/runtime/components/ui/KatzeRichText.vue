@@ -1,30 +1,12 @@
 <script setup lang="ts">
+import { parse, type HTMLElement } from 'node-html-parser'
 import { onMounted, ref, watch } from '#imports'
-
-// Load DOMParser for Server and Client
-let DOMParser: unknown = undefined
-
-if (import.meta.client) {
-  if (window.DOMParser) {
-    DOMParser = window.DOMParser
-  }
-}
-else {
-  try {
-    const { JSDOM } = await import('jsdom')
-    DOMParser = new JSDOM().window.DOMParser
-  }
-  catch (e) {
-    console.error(e)
-    throw new Error('DOMParser could not be loaded')
-  }
-}
 
 const props = defineProps({
   content: String,
 })
 
-const htmlElements = ref<Element[]>([])
+const htmlElements = ref<HTMLElement[]>()
 
 onMounted(() => {
   updateHtmlElements(props.content || '')
@@ -36,17 +18,16 @@ watch(() => props.content, (content) => {
 
 const updateHtmlElements = (content: string) => {
   if (!content) return
-  if (!DOMParser) return
-  const parsedContent = new DOMParser().parseFromString(content, 'text/html')
-  const elements = parsedContent.body.children
-  htmlElements.value = Array.from(elements)
+  const parsedContent = parse(content)
+  htmlElements.value = parsedContent.childNodes as HTMLElement[]
 }
+
 updateHtmlElements(props.content || '')
 
-const getElementTag = (element: Element) => {
-  return element.tagName.toLowerCase()
+const getElementTag = (element: HTMLElement) => {
+  return element.rawTagName
 }
-const getElementContent = (element: Element) => {
+const getElementContent = (element: HTMLElement) => {
   return element.innerHTML
 }
 </script>
@@ -55,7 +36,7 @@ const getElementContent = (element: Element) => {
   <component
     :is="getElementTag(element)"
     v-for="(element, index) in htmlElements"
-    :key="index+element.nodeName"
+    :key="index+element.rawTagName"
     v-hypertext="getElementContent(element)"
   />
 </template>
