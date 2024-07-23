@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.0.19
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.18...v0.0.19)
+
+### 🩹 Fixes
+
+- **katzencore:** Fixed Logo Outline ([511c43b](https://github.com/maxlkatze/katzen-core/commit/511c43b))
+- **katzencore:** Fixed Documentation ([c176781](https://github.com/maxlkatze/katzen-core/commit/c176781))
+
+### ❤️ Contributors
+
+- Cuby <max.cubedpixels@gmail.com>
+
 ## v0.0.18
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.17...v0.0.18)
