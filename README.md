@@ -7,7 +7,7 @@ Find and replace all on all files (CMD+SHIFT+F):
 - Description: An easy to setup in APP CMS
 -->
 
-# CmsKatze - A Nuxt Module CMS
+# Katze CMS - A Nuxt Module Headless CMS
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
@@ -20,16 +20,22 @@ Find and replace all on all files (CMD+SHIFT+F):
 <!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/cms-katze?file=playground%2Fapp.vue) -->
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
-## Warning
-In active development, not ready for production use.
+## Description
+Katze is a Nuxt module that provides a headless CMS for your Nuxt app.
+Edit content directly in your Nuxt App, store your content in an [Unstorage](https://unstorage.unjs.io/) supported storage
+and deploy your content to the Edge or host it on your server.
+
+### Warning
+**In active development, not ready for production use.**
 
 _Feel free to contribute to this project by creating a pull request.🐱❤️_
 
 ## Features
 
-- 📝 &nbsp;In app CMS editor for easy content management
-- 🎨 &nbsp;Customizable content blocks
-- 📦 &nbsp;Easy to setup and use
+- 📝 &nbsp;Edit content in your Nuxt app with /cms
+- 🚀 &nbsp;Unstorage KV storage for edge deployment
+- 🎨 &nbsp;Customisable content blocks (text, rich text, image)
+- 📦 &nbsp;Easy to set up and use, just one configuration file
 
 ## Quick Setup
 
@@ -53,16 +59,15 @@ Following Route is now available in your Vue app:
 ![CmsKatze](/documentation/cms_showcase.png)
 
 ### Understanding Editable Routes
-Every Route inside your Nuxt Router is displayed in the CMS editor.
-Currently there is no way to hide away any Routes.
+Every route in your Nuxt Router is displayed in the CMS editor
 ![Edit Pages](/documentation/pages_showcase.png)
 
 ### Editable Components
-By defining a Composable inside your Vue Component, you can define an editable entry.
+By defining a composable within your Vue component, you can define an editable item.
 
 #### The importance of the kat-e attribute
 The e-kat attribute is used to define the key of the editable element.
-The CMS editor uses this key to identify the element and display correct positions and types.
+The CMS editor uses this key to identify the element and display its correct position and type.
 
 #### Plain Text Component
 ```vue
@@ -91,7 +96,7 @@ The CMS editor uses this key to identify the element and display correct positio
 </template>
 ```
 ##### The katze-rich-text component
-The katze-rich-text component different then v-html allows the Content to be rendered on the server and client at the same time.
+The katze-rich-text component, unlike v-html, allows content to be rendered on the server and client at the same time.
 This is important for SEO and performance reasons.
 
 #### Image Component
@@ -124,19 +129,19 @@ You can configure Katze by adding the `katze` key to `nuxt.config.js`
     },
   ],
   secret: 'your secret key for token encryption',
-  projectLocation: './', // default: "./",
-  projectName: 'YourSiteName',
+  projectLocation: './', // default: "./"
   storage: {
     type: 'fs', // default: "fs" | Unstorage Types supported
     options: {
       // UNSTORAGE OPTIONS
     }
   },
-  deployHookURL: 'https://yourdeployhookurl.com'
+  storageKey: 'storageKey', //default: "content.katze.json" | The key to store the content in the storage
+  deployHookURL: 'https://yourdeployhookurl.com' // default: ""
 }
 ```
 #### Users
-Users are used to authenticate the CMS editor. The default user is `admin` with the password `admin`.
+The default user is `admin` with the password `admin`.
 
 #### Secret
 The secret is used to encrypt the Login token for the CMS editor.
@@ -144,11 +149,11 @@ The secret is used to encrypt the Login token for the CMS editor.
 #### Project Location
 The project location is used to store the content.katze.json fileand to locate the public folder.
 
-#### Project Name
-The project name is used to identify the project in the Storage.
-
 #### Storage
-The storage can be configured with unstorage drivers.
+You can configure storage with unstorage drivers.
+
+#### Storage Key
+The key for the content value inside the storage. Can be left as default, when using storages with a base prefix.
 
 ##### Supported Unstorage Drivers
 - azure-app-configuration - [Documentation](https://unstorage.unjs.io/drivers/azure)

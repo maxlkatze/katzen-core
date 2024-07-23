@@ -22,12 +22,12 @@ export interface CmsUser {
 export interface ModuleOptions {
   users: CmsUser[]
   secret: string
-  projectName: string
   projectLocation: string
   storage: {
     type: 'azure-app-configuration' | 'cloudflare-kv-binding' | 'fs' | 'github' | 'mongodb' | 'netlify-blobs' | 'planetscale' | 'redis' | 'vercel-kv'
     options: object
   }
+  storageKey: string
   deployHookURL?: string
 }
 
@@ -45,7 +45,6 @@ export default defineNuxtModule<ModuleOptions>({
       },
     ],
     secret: 'secret',
-    projectName: 'defaultProject',
     projectLocation: './',
     storage: {
       type: 'fs',
@@ -53,15 +52,16 @@ export default defineNuxtModule<ModuleOptions>({
         base: './',
       },
     },
+    storageKey: 'katze_content.json',
   },
   async setup(_options, _nuxt) {
     const { resolve } = createResolver(import.meta.url)
     updateCheck().then(
       (latestVersion) => {
-        console.warn('\x1B[41m There is a new version of KatzeCMS available \x1B[0m')
-        console.info('\x1B[42m Please update your package with \x1B[0m npm i @maxlkatze/cms@latest')
-        console.info('\x1B[42m If you\'re already on the @latest version run: \x1B[0m npm update @maxlkatze/cms')
-        console.info('\x1B[42m Current version: ' + pkg.version + ' Latest version: ' + latestVersion + '\x1B[0m')
+        katzeError('There is a new version of Katze available')
+        console.info('\x1B[43m\x1B[30m Please update your package with \x1B[0m npm i @maxlkatze/cms^' + latestVersion)
+        console.info('\x1B[43m\x1B[30m If you\'re already on the @latest version run: \x1B[0m npm update')
+        console.info('\x1B[43m\x1B[30m Current version: ' + pkg.version + ' Latest version: ' + latestVersion + '\x1B[0m')
       },
     )
 
@@ -95,19 +95,17 @@ export default defineNuxtModule<ModuleOptions>({
     _nuxt.options.runtimeConfig.users = _options.users
     _nuxt.options.runtimeConfig.secret = _options.secret
     _nuxt.options.runtimeConfig.storage = _options.storage
-    _nuxt.options.runtimeConfig.projectName = _options.projectName
+    _nuxt.options.runtimeConfig.storageKey = _options.storageKey
     _nuxt.options.runtimeConfig.projectLocation = _options.projectLocation + (_options.projectLocation.endsWith('/') ? '' : '/')
-    const storageKey = _options.projectName + '_katze_content'
-    _nuxt.options.runtimeConfig.storageKey = storageKey
     _nuxt.options.runtimeConfig.deployHookURL = _options.deployHookURL
 
     const contentStorage = await useContentStorage(_nuxt.options.runtimeConfig)
-    let content = await contentStorage.getItem(storageKey)
+    let content = await contentStorage.getItem(_options.storageKey)
     if (content === null) {
       content = {}
     }
     _nuxt.options.runtimeConfig.public.content = content
-    // console.info('Katze loaded ' + Object.entries(content).length + ' entries from content storage')
+    katzeLog('Loaded ' + Object.entries(content).length + ' entries from [' + _options.storage.type + '] storage')
 
     addRouteMiddleware({
       name: 'auth',
@@ -193,4 +191,12 @@ const updateCheck = async () => {
       })
     })
   })
+}
+
+const katzeLog = (message: string) => {
+  console.log('\x1B[42m\x1B[30m Katze \x1B[0m ' + message)
+}
+
+const katzeError = (message: string) => {
+  console.log('\x1B[41m\x1B[30m !Katze \x1B[0m ' + message)
 }
