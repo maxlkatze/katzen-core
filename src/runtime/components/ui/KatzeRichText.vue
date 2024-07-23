@@ -1,6 +1,24 @@
 <script setup lang="ts">
-import DOMParser from 'universal-dom-parser'
 import { onMounted, ref, watch } from '#imports'
+
+// Load DOMParser for Server and Client
+let DOMParser: unknown = undefined
+
+if (import.meta.client) {
+  if (window.DOMParser) {
+    DOMParser = window.DOMParser
+  }
+}
+else {
+  try {
+    const { JSDOM } = await import('jsdom')
+    DOMParser = new JSDOM().window.DOMParser
+  }
+  catch (e) {
+    console.error(e)
+    throw new Error('DOMParser could not be loaded')
+  }
+}
 
 const props = defineProps({
   content: String,
@@ -18,6 +36,7 @@ watch(() => props.content, (content) => {
 
 const updateHtmlElements = (content: string) => {
   if (!content) return
+  if (!DOMParser) return
   const parsedContent = new DOMParser().parseFromString(content, 'text/html')
   const elements = parsedContent.body.children
   htmlElements.value = Array.from(elements)
