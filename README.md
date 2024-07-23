@@ -112,10 +112,10 @@ This is important for SEO and performance reasons.
 
 ## Configuration
 
-You can configure Katze by adding the `katzenCore` key to `nuxt.config.js`
+You can configure Katze by adding the `katze` key to `nuxt.config.js`
 
 ```js
- katzenCore: {
+ katze: {
   // Configuration
   users: [
     {
