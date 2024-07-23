@@ -71,7 +71,7 @@ export default defineNuxtModule<ModuleOptions>({
     addPlugin(resolve('./runtime/plugins/chtml.plugin'))
 
     addLayout({
-      src: resolve('runtime/layouts/cmsLayout.vue'),
+      src: resolve('./runtime/layouts/cmsLayout.vue'),
     }, 'cms-layout')
 
     // ADD BACKEND CMS PAGE
@@ -81,12 +81,12 @@ export default defineNuxtModule<ModuleOptions>({
           {
             name: 'katze-cms',
             path: '/cms',
-            file: resolve('runtime/pages/KatzeCms.vue'),
+            file: resolve('./runtime/pages/KatzeCms.vue'),
           },
           {
             name: 'katze-cms-login',
             path: '/katze-login',
-            file: resolve('runtime/pages/KatzeLogin.vue'),
+            file: resolve('./runtime/pages/KatzeLogin.vue'),
           },
         ]
         pages.push(...pageList)
@@ -138,17 +138,17 @@ export default defineNuxtModule<ModuleOptions>({
 
     // ADD FRONTEND COMPONENTS
     await addComponentsDir({
-      path: resolve('runtime/components/ui'),
+      path: resolve('./runtime/components/ui'),
     })
   },
 })
 
 const addImports = async () => {
   const { resolve } = createResolver(import.meta.url)
-  addImportsDir(resolve('runtime/composables'))
-  addImportsDir(resolve('runtime/components'))
-  addImportsDir(resolve('runtime/stores'))
-  addImportsDir(resolve('runtime/middleware'))
+  addImportsDir(resolve('./runtime/composables'))
+  addImportsDir(resolve('./runtime/components'))
+  addImportsDir(resolve('./runtime/stores'))
+  addImportsDir(resolve('./runtime/middleware'))
 }
 
 const installModules = async () => {
