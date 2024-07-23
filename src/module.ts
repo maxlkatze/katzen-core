@@ -11,15 +11,6 @@ import {
   installModule,
 } from '@nuxt/kit'
 
-import { type AzureAppConfigurationOptions } from 'unstorage/drivers/azure-app-configuration'
-import { type KVOptions } from 'unstorage/drivers/cloudflare-kv-binding'
-import { type FSStorageOptions } from 'unstorage/drivers/fs'
-import { type GithubOptions } from 'unstorage/drivers/github'
-import { type MongoDbOptions } from 'unstorage/drivers/mongodb'
-import { type NetlifyStoreOptions } from 'unstorage/drivers/netlify-blobs'
-import { type PlanetscaleDriverOptions } from 'unstorage/drivers/planetscale'
-import { type RedisOptions } from 'unstorage/drivers/redis'
-import { type VercelKVOptions } from 'unstorage/drivers/vercel-kv'
 import pkg from '../package.json'
 import { useContentStorage } from './runtime/storage/StorageManagement'
 
@@ -35,7 +26,7 @@ export interface ModuleOptions {
   projectLocation: string
   storage: {
     type: 'azure-app-configuration' | 'cloudflare-kv-binding' | 'fs' | 'github' | 'mongodb' | 'netlify-blobs' | 'planetscale' | 'redis' | 'vercel-kv'
-    options: AzureAppConfigurationOptions | KVOptions | FSStorageOptions | GithubOptions | MongoDbOptions | NetlifyStoreOptions | PlanetscaleDriverOptions | RedisOptions | VercelKVOptions
+    options: object
   }
   deployHookURL?: string
 }
