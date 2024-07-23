@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.0.21
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.20...v0.0.21)
+
+### 🩹 Fixes
+
+- **katzencore:** Normalized Imports ([0e4ce5c](https://github.com/maxlkatze/katzen-core/commit/0e4ce5c))
+
+### 🏡 Chore
+
+- **release:** V0.0.20 ([b6289ac](https://github.com/maxlkatze/katzen-core/commit/b6289ac))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.20
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.19...v0.0.20)
