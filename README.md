@@ -131,7 +131,8 @@ You can configure Katze by adding the `katzenCore` key to `nuxt.config.js`
     options: {
       // UNSTORAGE OPTIONS
     }
-  }
+  },
+  deployHookURL: 'https://yourdeployhookurl.com'
 }
 ```
 #### Users
@@ -169,6 +170,9 @@ storage: {
   }
 }
 ```
+#### Deploy Hook URL
+The deploy hook URL is used to trigger a deploy when publishing content.
+(Simple GET Request to the URL)
 
 ## Contribution
 
