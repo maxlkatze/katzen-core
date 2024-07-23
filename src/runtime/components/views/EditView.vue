@@ -288,6 +288,11 @@ const saveUiContent = async () => {
   }, 2000)
 }
 
+interface PublishResponse {
+  success: boolean
+  missingDeployHookURL?: boolean
+}
+
 const publishPopup = ref(false)
 
 const publishState = ref({
@@ -304,7 +309,7 @@ const deployContent = async () => {
   publishState.value.loading = true
   const token = useCookie('token')
   console.log('deploy')
-  const data: SaveResponse = await $fetch('/content-cms', {
+  const data: PublishResponse = await $fetch('/content-cms', {
     method: 'POST',
     body: {
       token: token.value,
@@ -315,10 +320,24 @@ const deployContent = async () => {
   publishState.value.success = data.success
   publishState.value.failed = !data.success
 
+  if (data.missingDeployHookURL) {
+    errorPopup.value = true
+    errorMessages.value.push('You need to set a deploy hook URL in the environment variables to publish the content.')
+    errorMessages.value.push('If you\'re running the project locally, you can restart the server manually.')
+  }
+
   setTimeout(() => {
     publishState.value.success = false
     publishState.value.failed = false
   }, 2000)
+}
+
+const errorPopup = ref(false)
+const errorMessages = ref<string[]>([])
+
+const closeErrorPopup = () => {
+  errorPopup.value = false
+  errorMessages.value = []
 }
 
 interface ImageListResponse {
@@ -397,8 +416,8 @@ watch(selectedImage, () => {
       </div>
       <!--  grid when no route is selected -->
       <div
-        class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-4 flex-col gap-2 h-full my-2 overflow-y-auto w-full items-start justify-start px-2"
-        :class="{ '[&>*]:max-w-48': Route === undefined, '!flex': Route !== undefined }"
+        class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-10 flex-col gap-2 h-full my-2 overflow-y-auto w-full items-start justify-start px-2"
+        :class="{ '[&>*]:max-w-96': Route === undefined, '!flex': Route !== undefined }"
       >
         <div
           v-for="route in filteredRoutes"
@@ -474,13 +493,6 @@ watch(selectedImage, () => {
 
       <template v-if="currentSelectedComponent?.type === ComponentType.Image">
         <div class="flex flex-col items-center">
-          <button
-            class="bg-black text-white px-5 py-3 rounded-2xl transition-all flex
-          justify-center content-center items-center justify-items-center border-2 border-black"
-          >
-            Upload Image
-          </button>
-          <span>OR</span>
           <div class="h-72 w-72 grid grid-cols-3 grid-flow-row overflow-y-auto justify-center items-center">
             <div
               v-for="(image, index) in imageResponse.body.images"
@@ -633,6 +645,38 @@ watch(selectedImage, () => {
           @click="publishPopup = false"
         >
           Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- error popup -->
+  <div
+    v-if="errorPopup"
+    class="fixed inset-0 bg-black/50 flex justify-center items-center ontop"
+  >
+    <div class="bg-white p-5 rounded border-black border-2 flex flex-col gap-5">
+      <p class="font-mono font-bold uppercase flex flex-row">
+        Something went wrong
+        <img
+          src="../../assets/icons/fail.svg"
+          class="size-6 ml-auto cursor-pointer"
+          alt="close"
+          @click="closeErrorPopup"
+        >
+      </p>
+      <div class="flex flex-col items-center gap-2 max-w-96">
+        <p
+          v-for="(message, index) in errorMessages"
+          :key="index"
+          class="font-mono"
+        >
+          {{ message }}
+        </p>
+        <button
+          class="bg-black text-white px-5 py-3 rounded-2xl max-w-56 w-full"
+          @click="closeErrorPopup"
+        >
+          Close
         </button>
       </div>
     </div>
