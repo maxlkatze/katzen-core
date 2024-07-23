@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.24
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.23...v0.0.24)
+
+### 🩹 Fixes
+
+- **katzencore:** Fixed Option Loading in Client Driver ([895e075](https://github.com/maxlkatze/katzen-core/commit/895e075))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.23
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.22...v0.0.23)
