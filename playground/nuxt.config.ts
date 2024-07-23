@@ -3,9 +3,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   compatibilityDate: '2024-07-08',
   pages: true,
-  katzenCore: {
+  katze: {
     projectLocation: './playground',
     secret: 'secret123',
-    projectName: 'playground',
   },
 })
