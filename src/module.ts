@@ -55,6 +55,7 @@ export default defineNuxtModule<ModuleOptions>({
     storageKey: 'katze_content.json',
   },
   async setup(_options, _nuxt) {
+    const resolver = createResolver(import.meta.url)
     updateCheck().then(
       ({ currentVersion, latestVersion }) => {
         katzeError('There is a new version of Katze available')
@@ -82,12 +83,33 @@ export default defineNuxtModule<ModuleOptions>({
     _nuxt.options.runtimeConfig.public.content = content // Set content to public runtime config
 
     // NUXTKIT SETUP
-    await installModules()
-    await addImports()
+    await installModule('@nuxtjs/tailwindcss', {
+      exposeConfig: true,
+      config: {
+        darkMode: 'class',
+        content: {
+          files: [
+            resolver.resolve('runtime/components/**/*.{vue,mjs,ts}'),
+            resolver.resolve('runtime/pages/**/*.{vue,mjs,ts}'),
+            resolver.resolve('runtime/*.{mjs,js,ts}'),
+          ],
+        },
+      },
+    })
 
-    const { resolve } = createResolver(import.meta.url)
+    await installModule('@nuxt/image')
+    await installModule('@pinia/nuxt', {
+      storesDirs: [
+        './runtime/stores/**',
+      ],
+    })
 
-    addPlugin(resolve('runtime/plugins/chtml.plugin'))
+    addImportsDir(resolver.resolve('runtime/composables'))
+    addImportsDir(resolver.resolve('runtime/components'))
+    addImportsDir(resolver.resolve('runtime/stores'))
+    addImportsDir(resolver.resolve('runtime/middleware'))
+
+    addPlugin(resolver.resolve('runtime/plugins/chtml.plugin'))
 
     addLayout({
       filename: 'cms-layout.vue',
@@ -101,12 +123,12 @@ export default defineNuxtModule<ModuleOptions>({
           {
             name: 'katze-cms',
             path: '/cms',
-            file: resolve('runtime/pages/KatzeCms.vue'),
+            file: resolver.resolve('runtime/pages/KatzeCms.vue'),
           },
           {
             name: 'katze-cms-login',
             path: '/katze-login',
-            file: resolve('runtime/pages/KatzeLogin.vue'),
+            file: resolver.resolve('runtime/pages/KatzeLogin.vue'),
           },
         ]
         pages.push(...pageList)
@@ -114,70 +136,37 @@ export default defineNuxtModule<ModuleOptions>({
 
     addRouteMiddleware({
       name: 'auth',
-      path: resolve('runtime/middleware/authentication'),
+      path: resolver.resolve('runtime/middleware/authentication'),
       global: true,
     })
 
     addServerHandler(
       {
         route: '/login-cms',
-        handler: resolve('runtime/server/login'),
+        handler: resolver.resolve('runtime/server/login'),
       },
     )
 
     addServerHandler(
       {
         route: '/verify-cms',
-        handler: resolve('runtime/server/verify'),
+        handler: resolver.resolve('runtime/server/verify'),
       },
     )
 
     addServerHandler(
       {
         route: '/content-cms',
-        handler: resolve('runtime/server/content'),
+        handler: resolver.resolve('runtime/server/content'),
       },
     )
 
     // ADD FRONTEND COMPONENTS
     await addComponentsDir({
-      path: resolve('runtime/components/ui'),
+      path: resolver.resolve('runtime/components/ui'),
     })
   },
 })
-
-const addImports = async () => {
-  const { resolve } = createResolver(import.meta.url)
-  addImportsDir(resolve('runtime/composables'))
-  addImportsDir(resolve('runtime/components'))
-  addImportsDir(resolve('runtime/stores'))
-  addImportsDir(resolve('runtime/middleware'))
-}
-
-const installModules = async () => {
-  const { resolve } = createResolver(import.meta.url)
-
-  await installModule('@nuxtjs/tailwindcss', {
-    exposeConfig: true,
-    config: {
-      darkMode: 'class',
-      content: {
-        files: [
-          resolve('runtime/components/**/*.{vue,mjs,ts}'),
-          resolve('runtime/pages/**/*.{vue,mjs,ts}'),
-          resolve('runtime/*.{mjs,js,ts}'),
-        ],
-      },
-    },
-  })
-
-  await installModule('@nuxt/image')
-  await installModule('@pinia/nuxt', {
-    storesDirs: [
-      './runtime/stores/**',
-    ],
-  })
-}
 
 const katzeLog = (message: string) => {
   console.log('\x1B[42m\x1B[30m Katze \x1B[0m ' + message)
