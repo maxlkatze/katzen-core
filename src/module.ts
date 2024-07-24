@@ -11,8 +11,8 @@ import {
   installModule,
 } from '@nuxt/kit'
 
-import pkg from '../package.json'
 import { useContentStorage } from './runtime/storage/StorageManagement'
+import { updateCheck } from './runtime/update'
 
 export interface CmsUser {
   name: string
@@ -56,11 +56,11 @@ export default defineNuxtModule<ModuleOptions>({
   },
   async setup(_options, _nuxt) {
     updateCheck().then(
-      (latestVersion) => {
+      ({ currentVersion, latestVersion }) => {
         katzeError('There is a new version of Katze available')
         console.info('\x1B[43m\x1B[30m Please update your package with \x1B[0m npm i @maxlkatze/cms^' + latestVersion)
         console.info('\x1B[43m\x1B[30m If you\'re already on the @latest version run: \x1B[0m npm update')
-        console.info('\x1B[43m\x1B[30m Current version: ' + pkg.version + ' Latest version: ' + latestVersion + '\x1B[0m')
+        console.info('\x1B[43m\x1B[30m Current version: ' + currentVersion + ' Latest version: ' + latestVersion + '\x1B[0m')
       },
     )
 
@@ -176,24 +176,6 @@ const installModules = async () => {
     storesDirs: [
       './runtime/stores/**',
     ],
-  })
-}
-const updateCheck = async () => {
-  const version = pkg.version
-  const https = await import('node:https')
-  return new Promise<string>((resolve) => {
-    https.get('https://registry.npmjs.org/@maxlkatze/cms/latest', (res) => {
-      let data = ''
-      res.on('data', (chunk) => {
-        data += chunk
-      })
-      res.on('end', () => {
-        const latestVersion = JSON.parse(data).version
-        if (version !== latestVersion) {
-          resolve(latestVersion)
-        }
-      })
-    })
   })
 }
 
