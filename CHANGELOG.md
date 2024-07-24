@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.33
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.32...v0.0.33)
+
+### 🩹 Fixes
+
+- **katzencore:** Changed order of imports ([48072c7](https://github.com/maxlkatze/katzen-core/commit/48072c7))
+
+### ❤️ Contributors
+
+- Cuby <max@cubedpixels.net>
+
 ## v0.0.32
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.31...v0.0.32)
