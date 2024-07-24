@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.0.29
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.28...v0.0.29)
+
+### 🚀 Enhancements
+
+- **katzencore:** Removed JSDOM, using node-html-parser from now on ([d644151](https://github.com/maxlkatze/katzen-core/commit/d644151))
+
+### 🏡 Chore
+
+- **release:** V0.0.28 ([535209a](https://github.com/maxlkatze/katzen-core/commit/535209a))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.28
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.27...v0.0.28)
