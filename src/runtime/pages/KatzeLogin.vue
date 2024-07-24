@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { LoginResponse } from '../types/server/ServerResponses'
 import { definePageMeta, navigateTo, ref, useCookie } from '#imports'
 
 const username = ref('')
@@ -9,6 +10,7 @@ definePageMeta({
 })
 
 const failedLogin = ref(false)
+const failureMessage = ref('')
 
 const onSubmit = async () => {
   const body = {
@@ -16,25 +18,18 @@ const onSubmit = async () => {
     password: password.value,
   }
 
-  interface LoginResponse {
-    success: boolean
-    body?: {
-      token: string
-    }
-  }
-
-  const data = await $fetch('/login-cms', {
+  const data = await $fetch<LoginResponse>('/api/katze/login', {
     method: 'POST',
     body: JSON.stringify(body),
-  }) as LoginResponse
-  if (data.success && data.body) {
-    const token = data.body.token
+  })
+  if (data.success && data.token) {
     const tokenCookie = useCookie('token')
-    tokenCookie.value = token
+    tokenCookie.value = data.token
     await navigateTo('/cms')
   }
   else {
     failedLogin.value = true
+    failureMessage.value = data.message || 'Something went wrong'
   }
 }
 </script>
@@ -76,7 +71,7 @@ const onSubmit = async () => {
       <span
         v-if="failedLogin"
         class="text-red-500 text-center"
-      >Wrong credentials!</span>
+      >{{ failureMessage }}</span>
     </div>
   </div>
 </template>

@@ -18,7 +18,7 @@ export default defineEventHandler(async (event): Promise<ContentGetResponse> => 
     }
   }
   const storage = await useContentStorage(runtimeConfig)
-  const storedContent = await storage.getItem(runtimeConfig.storageKey) as object
+  const storedContent = await storage.getItem(runtimeConfig.storageKey) as Record<string, unknown>
   let savedContent = storedContent || {}
   savedContent = { ...savedContent, ...content }
   await storage.setItem(runtimeConfig.storageKey, savedContent)

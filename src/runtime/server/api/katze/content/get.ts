@@ -12,7 +12,7 @@ export default defineEventHandler(async (event): Promise<ContentGetResponse> => 
 
   const storage = await useContentStorage(runtimeConfig)
   const savedContent = await storage.getItem(runtimeConfig.storageKey)
-  const content = (savedContent as object) || {}
+  const content = (savedContent as Record<string, unknown>) || {}
   return {
     success: true,
     content,

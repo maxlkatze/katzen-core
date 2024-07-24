@@ -4,7 +4,7 @@ export interface ServerResponse {
 }
 
 export interface ContentGetResponse extends ServerResponse {
-  content?: object
+  content?: Record<string, unknown>
 }
 
 export interface ContentImageListResponse extends ServerResponse {

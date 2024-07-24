@@ -37,7 +37,7 @@ const clientSideAuthentication = async () => {
   interface VerifyResponse {
     success: boolean
   }
-  const authenticationResponse = await $fetch('/verify-cms', {
+  const authenticationResponse = await $fetch('/api/katze/verifyToken', {
     method: 'POST',
     body: {
       token: token.value,
