@@ -4,7 +4,7 @@ import {
   addLayout,
   addPlugin,
   addRouteMiddleware,
-  addServerHandler,
+  addServerScanDir,
   createResolver,
   defineNuxtModule,
   extendPages,
@@ -82,26 +82,34 @@ export default defineNuxtModule<ModuleOptions>({
     _nuxt.options.runtimeConfig.public.content = content // Set content to public runtime config
 
     // NUXTKIT SETUP
+    const { resolve } = createResolver(import.meta.url)
+
+    // MODULE INSTALLATION & AUTO IMPORTS
     await installModules()
     await addImports()
 
-    const { resolve } = createResolver(import.meta.url)
-
-    addPlugin(resolve('runtime/plugins/chtml.plugin'))
-
+    // LAYOUTS
     addLayout({
       filename: 'cms-layout.vue',
       getContents: () => '<template><slot /></template>',
     }, 'cms-layout')
 
-    // ADD BACKEND CMS PAGE
+    // PLUGINS
+    addPlugin(resolve('runtime/plugins/chtml.plugin'))
+
+    // PAGES
     extendPages(
       (pages) => {
         const pageList = [
           {
-            name: 'katze-cms',
+            name: 'katze-cms-home',
             path: '/cms',
-            file: resolve('runtime/pages/KatzeCms.vue'),
+            file: resolve('runtime/pages/cms/KatzeHome.vue'),
+          },
+          {
+            name: 'katze-cms-edit',
+            path: '/cms/edit',
+            file: resolve('runtime/pages/cms/KatzeEditor.vue'),
           },
           {
             name: 'katze-cms-login',
@@ -112,34 +120,17 @@ export default defineNuxtModule<ModuleOptions>({
         pages.push(...pageList)
       })
 
+    // MIDDLEWARE
     addRouteMiddleware({
       name: 'auth',
       path: resolve('runtime/middleware/authentication'),
       global: true,
     })
 
-    addServerHandler(
-      {
-        route: '/login-cms',
-        handler: resolve('runtime/server/login'),
-      },
-    )
+    // BACKEND HANDLERS
+    addServerScanDir(resolve('runtime/server'))
 
-    addServerHandler(
-      {
-        route: '/verify-cms',
-        handler: resolve('runtime/server/verify'),
-      },
-    )
-
-    addServerHandler(
-      {
-        route: '/content-cms',
-        handler: resolve('runtime/server/content'),
-      },
-    )
-
-    // ADD FRONTEND COMPONENTS
+    // EXPORTED FRONTEND COMPONENTS
     await addComponentsDir({
       path: resolve('runtime/components/ui'),
     })
