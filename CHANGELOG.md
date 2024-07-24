@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.32
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.31...v0.0.32)
+
+### 🚀 Enhancements
+
+- **katzencore:** Trying to fix windows resolve issues after release (test) ([0682351](https://github.com/maxlkatze/katzen-core/commit/0682351))
+
+### ❤️ Contributors
+
+- Cuby <max@cubedpixels.net>
+
 ## v0.0.31
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.30...v0.0.31)
