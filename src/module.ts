@@ -170,8 +170,6 @@ const installModules = async () => {
       },
     },
   })
-
-  await installModule('@nuxt/image')
   await installModule('@pinia/nuxt', {
     storesDirs: [
       './runtime/stores/**',
