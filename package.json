@@ -30,16 +30,14 @@
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
   "dependencies": {
-    "@nuxt/image": "1.7.0",
-    "@nuxtjs/tailwindcss": "6.12.1",
-    "@pinia/nuxt": "^0.5.2-beta.0",
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "@pinia/nuxt": "^0.5.1",
     "@tiptap/extension-highlight": "^2.5.2",
     "@tiptap/extension-placeholder": "^2.5.1",
     "@tiptap/pm": "^2.5.1",
     "@tiptap/starter-kit": "^2.5.1",
     "@tiptap/vue-3": "^2.5.1",
-    "node-html-parser": "^6.1.13",
-    "pinia": "^2.1.8-beta.0"
+    "pinia": "^2.1.7"
   },
   "overrides": {
     "vue": "latest",
