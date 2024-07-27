@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.37
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.36...v0.0.37)
+
+### 🩹 Fixes
+
+- **katzencore:** Fixed Element Closing Tag Issue ([c1383e8](https://github.com/maxlkatze/katzen-core/commit/c1383e8))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.36
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.35...v0.0.36)
