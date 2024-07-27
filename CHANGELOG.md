@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.36
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.35...v0.0.36)
+
+### 🩹 Fixes
+
+- **katzencore:** Added Element min-height ([06ce4e5](https://github.com/maxlkatze/katzen-core/commit/06ce4e5))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.35
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.34...v0.0.35)
