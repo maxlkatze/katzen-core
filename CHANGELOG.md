@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.0.35
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.34...v0.0.35)
+
+### 🚀 Enhancements
+
+- **katzencore:** Removed Any DOM Parser and Wrote own implementation ([4a2b78c](https://github.com/maxlkatze/katzen-core/commit/4a2b78c))
+
+### 🩹 Fixes
+
+- **katzencore:** Added mobile / desktop view switch ([22a04bf](https://github.com/maxlkatze/katzen-core/commit/22a04bf))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.34
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.33...v0.0.34)
