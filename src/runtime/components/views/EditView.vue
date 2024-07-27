@@ -491,7 +491,7 @@ watch(mobileView, () => {
         class="size-full bg-gray-300"
         :class="mobileView?['max-w-[390px]', 'max-h-[844px]']:[]"
       >
-        <div class="size-full bg-white overflow-y-scroll ">
+        <div class="size-full bg-white overflow-y-scroll route-container">
           <Route
             v-if="Route"
             :component="Route"
@@ -773,5 +773,10 @@ watch(mobileView, () => {
 
 .ontop {
   z-index: 1000;
+}
+
+.route-container *[kat-e] {
+  min-height: 12px;
+  min-width: 12px;
 }
 </style>

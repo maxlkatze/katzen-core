@@ -32,6 +32,7 @@
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@pinia/nuxt": "^0.5.1",
+    "@tailwindcss/container-queries": "^0.1.1",
     "@tiptap/extension-highlight": "^2.5.2",
     "@tiptap/extension-placeholder": "^2.5.1",
     "@tiptap/pm": "^2.5.1",
