@@ -7,7 +7,7 @@ import { Extension } from '@tiptap/core'
 import type { RouteComponent } from 'vue-router'
 import { ComponentType, type KatzenUIComponent, useUiStore } from '../../stores/UiStore'
 import type { ImageContent } from '../../composables/useUiComponents'
-import { computed, defineAsyncComponent, onMounted, ref, shallowRef, useCookie, watch } from '#imports'
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref, shallowRef, useCookie, watch } from '#imports'
 import { useAsyncData, useRouter } from '#app'
 
 const DisableEnter = Extension.create({
@@ -137,8 +137,19 @@ onMounted(
       childList: true,
       subtree: true,
     })
+
+    window.addEventListener('resize', resizeListener)
   },
 )
+
+const resizeListener = () => {
+  viewPortHeight.value = window.innerHeight
+  viewPortWidth.value = window.innerWidth
+}
+
+onUnmounted(() => {
+  window.removeEventListener('resize', resizeListener)
+})
 
 watch(hoveredElement, () => {
   const updatePosition = () => {
@@ -385,6 +396,41 @@ watch(selectedImage, () => {
     })
   }
 })
+
+const mobileView = ref(false)
+const viewPortHeight = ref(0)
+const viewPortWidth = ref(0)
+
+watch(mobileView, () => {
+  if (mobileView.value) {
+    // set meta viewport width to 768px
+    // find if meta[name=viewport] exists if not create it
+    const metaViewport = document.querySelector('meta[name=viewport]')
+    if (metaViewport) {
+      metaViewport.setAttribute('content', 'width=768, initial-scale=1')
+    }
+    else {
+      const meta = document.createElement('meta')
+      meta.name = 'viewport'
+      meta.content = 'width=768'
+      document.head.appendChild(meta)
+    }
+  }
+  else {
+    // set meta viewport width to device-width
+    // find if meta[name=viewport] exists if not create it
+    const metaViewport = document.querySelector('meta[name=viewport]')
+    if (metaViewport) {
+      metaViewport.setAttribute('content', 'width=device-width, initial-scale=1')
+    }
+    else {
+      const meta = document.createElement('meta')
+      meta.name = 'viewport'
+      meta.content = 'width=device-width'
+      document.head.appendChild(meta)
+    }
+  }
+})
 </script>
 
 <template>
@@ -437,247 +483,276 @@ watch(selectedImage, () => {
     </div>
     <div
       ref="routeWrapper"
-      class="flex-1 bg-slate-50 overflow-y-scroll relative w-0"
+      class="flex-1 bg-slate-50 relative w-0 flex justify-center items-center"
       :class="{ '!w-full': Route }"
     >
-      <component
-        :is="Route"
-        v-if="Route"
-      />
-    </div>
-  </div>
-
-  <!-- hover overlay -->
-  <div class="absolute inset-0 opacity-50 select-none touch-none pointer-events-none ontop">
-    <div
-      ref="hoverPosition"
-      class="absolute z-20 -top-full -left-full bg-red-400/20 border-2 rounded border-red-500"
-    />
-  </div>
-
-  <!-- selected overlay -->
-  <div
-    v-if="selectedElement"
-    class="absolute inset-0 select-none touch-none pointer-events-none flex justify-center items-center ontop"
-  >
-    <div class="relative z-40  flex flex-col pointer-events-auto bg-white p-5 border-black border-2 rounded max-w-96 w-full">
-      <div class="flex flex-row items-center mb-6">
-        <p class="font-mono font-bold uppercase">
-          Change Element Value
-        </p>
-        <img
-          src="../../assets/icons/close.svg"
-          class="size-6 ml-auto cursor-pointer"
-          alt="close"
-          @click="selectedElement=null; currentSelectedKey=undefined"
-        >
-      </div>
-
+      <!-- mobile size: width: 768px height: 1024px -->
       <div
-        v-if="editor && currentSelectedComponent?.type === ComponentType.RichText"
-        class="bg-white mb-2 border-b-2 border-black/10 pb-2"
+        class="size-full bg-gray-300"
+        :class="mobileView?['max-w-[390px]', 'max-h-[844px]']:[]"
       >
-        <div class="flex flex-row flex-wrap gap-2">
-          <button
-            v-for="(entry, index) in menuEntries"
-            :key="index"
-            :class="entry.active()?'bg-amber-50':''"
-            class="border border-b-2 p-0.5 border-black rounded "
-            @click="entry.click"
-          >
-            {{ entry.name }}
-          </button>
+        <div class="size-full bg-white overflow-y-scroll ">
+          <Route
+            v-if="Route"
+            :component="Route"
+          />
         </div>
       </div>
-      <!-- IMAGE CHOOSER / UPLOAD -->
 
-      <template v-if="currentSelectedComponent?.type === ComponentType.Image">
-        <div class="flex flex-col items-center">
-          <div class="h-72 w-72 grid grid-cols-3 grid-flow-row overflow-y-auto justify-center items-center">
-            <div
-              v-for="(image, index) in imageResponse.body.images"
-              :key="index"
-              class="w-full aspect-square"
+      <!-- hover overlay -->
+      <div class="absolute inset-0 opacity-50 select-none touch-none pointer-events-none ontop">
+        <div
+          ref="hoverPosition"
+          class="absolute z-20 -top-full -left-full bg-red-400/20 border-2 rounded border-red-500"
+        />
+      </div>
+
+      <!-- selected overlay -->
+      <div
+        v-if="selectedElement"
+        class="absolute inset-0 select-none touch-none pointer-events-none flex justify-center items-center ontop"
+      >
+        <div class="relative z-40  flex flex-col pointer-events-auto bg-white p-5 border-black border-2 rounded max-w-96 w-full">
+          <div class="flex flex-row items-center mb-6">
+            <p class="font-mono font-bold uppercase">
+              Change Element Value
+            </p>
+            <img
+              src="../../assets/icons/close.svg"
+              class="size-6 ml-auto cursor-pointer"
+              alt="close"
+              @click="selectedElement=null; currentSelectedKey=undefined"
             >
-              <img
-                :src="image"
-                class="object-cover size-full hover:drop-shadow cursor-pointer border-2 border-transparent
-                contain-inline-size hover:border-purple-400 transition-colors duration-300 rounded"
-                alt="image"
-                :class="{ 'border-yellow-500': selectedImage === image, 'animate-pulse': selectedImage === image }"
-                @click="selectedImage = image"
+          </div>
+
+          <div
+            v-if="editor && currentSelectedComponent?.type === ComponentType.RichText"
+            class="bg-white mb-2 border-b-2 border-black/10 pb-2"
+          >
+            <div class="flex flex-row flex-wrap gap-2">
+              <button
+                v-for="(entry, index) in menuEntries"
+                :key="index"
+                :class="entry.active()?'bg-amber-50':''"
+                class="border border-b-2 p-0.5 border-black rounded "
+                @click="entry.click"
               >
-            </div>
-            <div
-              v-for="(k, i) in fillEmptySpace"
-              :key="k+i"
-              class="w-full contain-inline-size cursor-not-allowed rounded border-2 border-transparent aspect-square"
-            >
-              <div class="bg-gray-100 size-full" />
+                {{ entry.name }}
+              </button>
             </div>
           </div>
+          <!-- IMAGE CHOOSER / UPLOAD -->
+
+          <template v-if="currentSelectedComponent?.type === ComponentType.Image">
+            <div class="flex flex-col items-center">
+              <div class="h-72 w-72 grid grid-cols-3 grid-flow-row overflow-y-auto justify-center items-center">
+                <div
+                  v-for="(image, index) in imageResponse.body.images"
+                  :key="index"
+                  class="w-full aspect-square"
+                >
+                  <img
+                    :src="image"
+                    class="object-cover size-full hover:drop-shadow cursor-pointer border-2 border-transparent
+                contain-inline-size hover:border-purple-400 transition-colors duration-300 rounded"
+                    alt="image"
+                    :class="{ 'border-yellow-500': selectedImage === image, 'animate-pulse': selectedImage === image }"
+                    @click="selectedImage = image"
+                  >
+                </div>
+                <div
+                  v-for="(k, i) in fillEmptySpace"
+                  :key="k+i"
+                  class="w-full contain-inline-size cursor-not-allowed rounded border-2 border-transparent aspect-square"
+                >
+                  <div class="bg-gray-100 size-full" />
+                </div>
+              </div>
+            </div>
+            <p class="font-mono font-bold">
+              ALT:
+            </p>
+          </template>
+
+          <!-- TEXT INPUT -->
+          <EditorContent
+            class="size-full max-h-72 overflow-y-auto border-b-2 border-black"
+            :editor="editor"
+          />
         </div>
-        <p class="font-mono font-bold">
-          ALT:
-        </p>
-      </template>
+      </div>
 
-      <!-- TEXT INPUT -->
-      <EditorContent
-        class="size-full max-h-72 overflow-y-auto border-b-2 border-black"
-        :editor="editor"
-      />
-    </div>
-  </div>
-
-  <!-- Save Button -->
-  <div class="fixed flex gap-2 bottom-0 right-0 m-4 ontop">
-    <button
-      class="relative bg-black text-white px-5 py-3 rounded-2xl transition-all flex items-center justify-center border-2 border-black"
-      title="Save Changes"
-      :class="{ '!text-black': hasSaveState,
-                'bg-white': hasSaveState }"
-      @click="saveUiContent"
-    >
-      <img
-        src="../../assets/icons/disk.svg"
-        class="size-4 transition-all duration-300"
-        :class="{ invert: !hasSaveState }"
-        alt="loading"
-      >
-      <span
-        class="transition-all duration-300 w-0 ml-0"
-        :class="{ '!w-4': hasSaveState,
-                  '!ml-2': hasSaveState }"
-      >
-        <template v-if="saveState.loading">
-          <img
-            src="../../assets/icons/loading.svg"
-            class="size-4 animate-spin"
-            alt="loading"
-          >
-        </template>
-        <template v-if="saveState.success">
-          <img
-            src="../../assets/icons/check.svg"
-            class="size-4"
-            alt="check"
-          >
-        </template>
-        <template v-if="saveState.failed">
-          <img
-            src="../../assets/icons/fail.svg"
-            class="size-4"
-            alt="fail"
-          >
-        </template>
-      </span>
-    </button>
-
-    <!-- publish button -->
-    <button
-      class="relative bg-black text-white px-5 py-3 rounded-2xl transition-all flex items-center justify-center border-2 border-black"
-      title="Deploy Content"
-      :class="{ '!text-black': hasPublishState,
-                'bg-white': hasPublishState }"
-      @click="publishPopup = true"
-    >
-      <img
-        src="../../assets/icons/publish.svg"
-        class="size-4 transition-all duration-300"
-        :class="{ invert: !hasPublishState }"
-        alt="loading"
-      >
-      <span
-        class="transition-all duration-300 w-0 ml-0"
-        :class="{ '!w-4': hasPublishState,
-                  '!ml-2': hasPublishState }"
-      >
-        <template v-if="publishState.loading">
-          <img
-            src="../../assets/icons/loading.svg"
-            class="size-4 animate-spin"
-            alt="loading"
-          >
-        </template>
-        <template v-if="publishState.success">
-          <img
-            src="../../assets/icons/check.svg"
-            class="size-4"
-            alt="check"
-          >
-        </template>
-        <template v-if="publishState.failed">
-          <img
-            src="../../assets/icons/fail.svg"
-            class="size-4"
-            alt="fail"
-          >
-        </template>
-      </span>
-    </button>
-  </div>
-
-  <!-- publish popup -->
-  <div
-    v-if="publishPopup"
-    class="fixed inset-0 bg-black/50 flex justify-center items-center ontop"
-  >
-    <div class="bg-white p-5 rounded border-black border-2 flex flex-col gap-5">
-      <p class="font-mono font-bold uppercase">
-        Deploy Content
-      </p>
-      <p class="font-mono">
-        Are you sure you want to publish the changes?
-      </p>
-      <p class="font-mono">
-        This will trigger a rebuild of the website.
-      </p>
-      <div class="flex flex-row gap-5 font-mono">
+      <!-- Save Button -->
+      <div class="fixed flex gap-2 bottom-0 right-0 m-4 ontop">
         <button
-          class="bg-black text-white px-5 py-3 rounded-2xl"
-          @click="deployContent"
+          class="relative bg-black text-white px-5 py-3 rounded-2xl transition-all flex items-center justify-center border-2 border-black"
+          title="Save Changes"
+          :class="{ '!text-black': hasSaveState,
+                    'bg-white': hasSaveState }"
+          @click="saveUiContent"
         >
-          Deploy
+          <img
+            src="../../assets/icons/disk.svg"
+            class="size-4 transition-all duration-300"
+            :class="{ invert: !hasSaveState }"
+            alt="loading"
+          >
+          <span
+            class="transition-all duration-300 w-0 ml-0"
+            :class="{ '!w-4': hasSaveState,
+                      '!ml-2': hasSaveState }"
+          >
+            <template v-if="saveState.loading">
+              <img
+                src="../../assets/icons/loading.svg"
+                class="size-4 animate-spin"
+                alt="loading"
+              >
+            </template>
+            <template v-if="saveState.success">
+              <img
+                src="../../assets/icons/check.svg"
+                class="size-4"
+                alt="check"
+              >
+            </template>
+            <template v-if="saveState.failed">
+              <img
+                src="../../assets/icons/fail.svg"
+                class="size-4"
+                alt="fail"
+              >
+            </template>
+          </span>
         </button>
+
+        <!-- publish button -->
         <button
-          class="bg-red-500 text-white px-5 py-3 rounded-2xl"
-          @click="publishPopup = false"
+          class="relative bg-black text-white px-5 py-3 rounded-2xl transition-all flex items-center justify-center border-2 border-black"
+          title="Deploy Content"
+          :class="{ '!text-black': hasPublishState,
+                    'bg-white': hasPublishState }"
+          @click="publishPopup = true"
         >
-          Cancel
+          <img
+            src="../../assets/icons/publish.svg"
+            class="size-4 transition-all duration-300"
+            :class="{ invert: !hasPublishState }"
+            alt="loading"
+          >
+          <span
+            class="transition-all duration-300 w-0 ml-0"
+            :class="{ '!w-4': hasPublishState,
+                      '!ml-2': hasPublishState }"
+          >
+            <template v-if="publishState.loading">
+              <img
+                src="../../assets/icons/loading.svg"
+                class="size-4 animate-spin"
+                alt="loading"
+              >
+            </template>
+            <template v-if="publishState.success">
+              <img
+                src="../../assets/icons/check.svg"
+                class="size-4"
+                alt="check"
+              >
+            </template>
+            <template v-if="publishState.failed">
+              <img
+                src="../../assets/icons/fail.svg"
+                class="size-4"
+                alt="fail"
+              >
+            </template>
+          </span>
+        </button>
+
+        <button
+          class="relative bg-black text-white px-5 py-3 rounded-2xl transition-all flex items-center justify-center border-2 border-black"
+          :title="mobileView?'Switch to Desktop View':'Switch to Mobile View'"
+          @click="mobileView = !mobileView"
+        >
+          <img
+            v-if="mobileView"
+            src="../../assets/icons/phone.svg"
+            class="size-4 transition-all duration-300 invert"
+            :class="{ invert: mobileView }"
+            alt="phone"
+          >
+          <img
+            v-else
+            src="../../assets/icons/desktop.svg"
+            class="size-4 transition-all duration-300 invert"
+            :class="{ invert: mobileView }"
+            alt="desktop"
+          >
         </button>
       </div>
-    </div>
-  </div>
-  <!-- error popup -->
-  <div
-    v-if="errorPopup"
-    class="fixed inset-0 bg-black/50 flex justify-center items-center ontop"
-  >
-    <div class="bg-white p-5 rounded border-black border-2 flex flex-col gap-5">
-      <p class="font-mono font-bold uppercase flex flex-row">
-        Something went wrong
-        <img
-          src="../../assets/icons/fail.svg"
-          class="size-6 ml-auto cursor-pointer"
-          alt="close"
-          @click="closeErrorPopup"
-        >
-      </p>
-      <div class="flex flex-col items-center gap-2 max-w-96">
-        <p
-          v-for="(message, index) in errorMessages"
-          :key="index"
-          class="font-mono"
-        >
-          {{ message }}
-        </p>
-        <button
-          class="bg-black text-white px-5 py-3 rounded-2xl max-w-56 w-full"
-          @click="closeErrorPopup"
-        >
-          Close
-        </button>
+
+      <!-- publish popup -->
+      <div
+        v-if="publishPopup"
+        class="fixed inset-0 bg-black/50 flex justify-center items-center ontop"
+      >
+        <div class="bg-white p-5 rounded border-black border-2 flex flex-col gap-5">
+          <p class="font-mono font-bold uppercase">
+            Deploy Content
+          </p>
+          <p class="font-mono">
+            Are you sure you want to publish the changes?
+          </p>
+          <p class="font-mono">
+            This will trigger a rebuild of the website.
+          </p>
+          <div class="flex flex-row gap-5 font-mono">
+            <button
+              class="bg-black text-white px-5 py-3 rounded-2xl"
+              @click="deployContent"
+            >
+              Deploy
+            </button>
+            <button
+              class="bg-red-500 text-white px-5 py-3 rounded-2xl"
+              @click="publishPopup = false"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- error popup -->
+      <div
+        v-if="errorPopup"
+        class="fixed inset-0 bg-black/50 flex justify-center items-center ontop"
+      >
+        <div class="bg-white p-5 rounded border-black border-2 flex flex-col gap-5">
+          <p class="font-mono font-bold uppercase flex flex-row">
+            Something went wrong
+            <img
+              src="../../assets/icons/fail.svg"
+              class="size-6 ml-auto cursor-pointer"
+              alt="close"
+              @click="closeErrorPopup"
+            >
+          </p>
+          <div class="flex flex-col items-center gap-2 max-w-96">
+            <p
+              v-for="(message, index) in errorMessages"
+              :key="index"
+              class="font-mono"
+            >
+              {{ message }}
+            </p>
+            <button
+              class="bg-black text-white px-5 py-3 rounded-2xl max-w-56 w-full"
+              @click="closeErrorPopup"
+            >
+              Close
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
