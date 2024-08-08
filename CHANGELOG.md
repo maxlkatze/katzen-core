@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.38
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.37...v0.0.38)
+
+### 🩹 Fixes
+
+- **katzencore:** Fixed formatting after save ([7a757fa](https://github.com/maxlkatze/katzen-core/commit/7a757fa))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.37
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.36...v0.0.37)
