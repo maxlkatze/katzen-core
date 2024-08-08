@@ -120,7 +120,21 @@ onMounted(
                       selectedImage.value = content.src
                     }
                     else {
-                      editor.value?.commands.setContent(component.content as string)
+                      if (component.type === ComponentType.Text) {
+                        editor.value?.commands.setContent(component.content as string)
+                      }
+                      else if (component.type === ComponentType.RichText) {
+                        const parser = new DOMParser()
+                        const dom = parser.parseFromString(component.content as string, 'text/html')
+                        const pTags = dom.querySelectorAll('span')
+                        const newDom = document.createElement('body')
+                        pTags.forEach((pTag) => {
+                          const p = document.createElement('p')
+                          p.innerHTML = pTag.innerHTML
+                          newDom.appendChild(p)
+                        })
+                        editor.value?.commands.setContent(newDom.innerHTML as string)
+                      }
                     }
                   }
                 }
@@ -206,6 +220,7 @@ const editor = useEditor({
       const text = dom.body.textContent || ''
 
       if (currentSelectedComponent.value?.type === ComponentType.RichText) {
+        console.log(html)
         const newDom = document.createElement('body')
         const pTags = dom.querySelectorAll('p')
         pTags.forEach((pTag, index) => {
