@@ -4,7 +4,7 @@ const customImage = useKatzeImage({ key: 'image_link' })
 
 <template>
   <div>
-    <h1>Image Test</h1>
+    <h1>Custom Image Test</h1>
     <div class="flex flex-col">
       <div class="flex flex-row">
         <div

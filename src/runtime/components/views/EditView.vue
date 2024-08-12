@@ -791,7 +791,20 @@ watch(mobileView, () => {
 }
 
 .route-container *[kat-e] {
-  min-height: 12px;
-  min-width: 12px;
+  min-height: 24px;
+  min-width: 24px;
+  position: relative;
+}
+
+.route-container *[kat-e]:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  border: 2px dashed rgb(255 207 207 / 85%);
 }
 </style>

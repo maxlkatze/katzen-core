@@ -22,17 +22,17 @@ export const getContent = () => {
   return useRuntimeConfig().public.content as Record<string, unknown> || {}
 }
 
-export const getContentByKey = <T = string>(key: string) => {
+export const getContentByKey = <T = string>(key: string, defaultValue: string = '') => {
   const content = getContent()
   if (content[key]) {
-    return content[key] as T
+    return content[key] as T || defaultValue
   }
-  return undefined
+  return defaultValue
 }
 
 export const useKatzeRichText = (options: KatzenUIOptions) => {
   const uiStore = useUiStore()
-  const component: KatzenUIComponent = { type: ComponentType.RichText, options, content: getContentByKey(options.key) }
+  const component: KatzenUIComponent = { type: ComponentType.RichText, options, content: getContentByKey(options.key, options.default) }
   uiStore.addToContextStack(component)
   return reactiveProperty(options.key)
 }
@@ -46,7 +46,7 @@ export const useKatzeImage = (options: KatzenUIOptions) => {
 
 export const useKatzeText = (options: KatzenUIOptions) => {
   const uiStore = useUiStore()
-  const component: KatzenUIComponent = { type: ComponentType.Text, options, content: getContentByKey(options.key) }
+  const component: KatzenUIComponent = { type: ComponentType.Text, options, content: getContentByKey(options.key, options.default) }
   uiStore.addToContextStack(component)
   return reactiveProperty(options.key)
 }
