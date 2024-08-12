@@ -160,12 +160,19 @@ onMounted(
     })
 
     window.addEventListener('resize', resizeListener)
+    resizeListener()
   },
 )
 
 const resizeListener = () => {
   viewPortHeight.value = window.innerHeight
   viewPortWidth.value = window.innerWidth
+
+  const container = document.querySelector('body')
+  if (container) {
+    const containerWidth = container.clientWidth
+    isMobile.value = containerWidth < 768
+  }
 }
 
 onUnmounted(() => {
@@ -453,28 +460,59 @@ watch(mobileView, () => {
     }
   }
 })
+
+const openList = ref(false)
+
+const isMobile = ref(false)
 </script>
 
 <template>
   <div class="h-screen w-full flex flex-row">
     <div
-      class="w-full h-full bg-amber-50 flex flex-col"
-      :class="{ '!w-52': Route!==undefined }"
+      v-if="isMobile && !openList"
+      class="fixed top-0 left-0 z-50 bg-amber-50 w-24 h-12 flex flex-row items-center justify-center"
     >
-      <div
-        class="flex flex-row gap-2 justify-center p-2 m-4 border-black border-2 rounded hover:drop-shadow cursor-pointer transition-all"
-        @click="$emit('openHomePage')"
+      <img
+        src="../../assets/icons/edit.svg"
+        class="size-6 cursor-pointer"
+        alt="menu"
+        @click="openList = true"
       >
-        <img
-          src="../../assets/icons/back_arrow.svg"
-          class="size-6"
-          alt="arrow_back"
+    </div>
+
+    <div
+      class="w-full h-full bg-amber-50 flex flex-col"
+      :class="{ '!w-52': (Route!==undefined && !mobileView) || (Route!==undefined && isMobile && openList),
+                '!w-0': Route!==undefined && isMobile && !openList }"
+    >
+      <div class="flex flex-row gap-2">
+        <div
+          class="flex flex-row gap-2 justify-center p-2 m-4 border-black border-2 rounded hover:drop-shadow cursor-pointer transition-all"
+          :class="{ 'mr-0': isMobile }"
+          @click="$emit('openHomePage')"
         >
-        <p
-          class="font-mono font-bold uppercase"
+          <img
+            src="../../assets/icons/back_arrow.svg"
+            class="size-6"
+            alt="arrow_back"
+          >
+          <p
+            class="font-mono font-bold uppercase"
+          >
+            Back to Menu
+          </p>
+        </div>
+        <div
+          v-if="isMobile"
+          class="p-2 m-4 ml-0 border-black border-2 rounded hover:drop-shadow cursor-pointer transition-all flex justify-center items-center"
+          @click="openList = false"
         >
-          Back to Menu
-        </p>
+          <img
+            src="../../assets/icons/close.svg"
+            class="size-6"
+            alt="close"
+          >
+        </div>
       </div>
 
       <div class="flex flex-col items-center justify-center">
