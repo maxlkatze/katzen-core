@@ -26,7 +26,7 @@ Edit content directly in your Nuxt App, store your content in an [Unstorage](htt
 and deploy your content to the Edge or host it on your server.
 
 ### Warning
-**In active development, not ready for production use.**
+**In active development, bugs may be present**
 
 _Feel free to contribute to this project by creating a pull request.🐱❤️_
 
