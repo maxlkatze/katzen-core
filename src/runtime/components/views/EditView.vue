@@ -101,11 +101,18 @@ onMounted(
               element.addEventListener('mouseleave', () => {
                 hoveredElement.value = null
               })
+              element.removeAttribute('href')
+              element.removeAttribute('target')
               element.addEventListener('click', (event) => {
                 if (selectedElement.value === element) {
                   return
                 }
                 selectedElement.value = element
+
+                //cancel click event
+                event.preventDefault()
+                event.stopPropagation()
+                event.stopImmediatePropagation()
 
                 const attribute = selectedElement.value.getAttribute('kat-e')
                 if (attribute) {

@@ -8,10 +8,19 @@ const buttonText = useKatzeText({ key: 'button_text', default: 'The text on this
 const richTextExample = useKatzeRichText({ key: 'rich_text_example',
   default: '<span>This is a rich text example. You can edit this text add italics and boldness and more.</span>',
 })
+
+const customImage = useKatzeImage({ key: 'custom_image', default: { src: '/images/test.svg', alt: 'Placeholder Image' }})
 </script>
 
 <template>
   <div class="size-full flex flex-col items-center">
+    <NuxtLink
+      class="bg-red-500 hover:bg-red-700 text-white font-bold p-4 m-2 w-1/2 text-center transition-colors
+       rounded"
+      to="/cms"
+    >
+      Go to CMS
+    </NuxtLink>
     <h1 class="text-4xl font-bold font-mono py-20">
       Katze CMS Playground
     </h1>
@@ -22,12 +31,13 @@ const richTextExample = useKatzeRichText({ key: 'rich_text_example',
       >
         {{ editableText }}
       </p>
-      <button
+      <NuxtLink
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         kat-e="button_text"
+        to="/animation_test"
       >
-        {{ buttonText }}
-      </button>
+        Hardcoded Text and {{ buttonText }}
+      </NuxtLink>
 
       <p
         class="text-2xl"
@@ -35,6 +45,17 @@ const richTextExample = useKatzeRichText({ key: 'rich_text_example',
       >
         <katze-rich-text :content="richTextExample" />
       </p>
+
+      <div
+        class="w-52 h-52"
+        kat-e="custom_image"
+      >
+        <img
+          class="size-full"
+          :src="customImage.src"
+          :alt="customImage.alt"
+        >
+      </div>
     </div>
   </div>
 </template>

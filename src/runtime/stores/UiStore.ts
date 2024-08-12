@@ -1,9 +1,5 @@
 import { defineStore } from 'pinia'
-
-export interface KatzenUIOptions {
-  key: string
-  default?: string
-}
+import type {KatzenUIOptions} from '../composables/useUiComponents';
 
 export enum ComponentType {
   Text = 'text',

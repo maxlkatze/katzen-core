@@ -10,7 +10,7 @@ export default defineNuxtConfig({
       {
         name: 'admin',
         password: 'admin123',
-      }
-    ]
+      },
+    ],
   },
 })

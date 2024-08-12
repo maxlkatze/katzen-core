@@ -1,12 +1,17 @@
 import { storeToRefs } from 'pinia'
 import { ref, watch } from 'vue'
 import { ComponentType, useUiStore } from '../stores/UiStore'
-import type { KatzenUIComponent, KatzenUIOptions } from '~/src/runtime/stores/UiStore'
+import type { KatzenUIComponent } from '../stores/UiStore'
 import { useRuntimeConfig } from '#imports'
 
 export interface ImageContent {
   src: string
   alt: string
+}
+
+export interface KatzenUIOptions {
+  key: string
+  default?: string | ImageContent
 }
 
 let fetchedContent: Record<string, unknown> | undefined
@@ -22,7 +27,7 @@ export const getContent = () => {
   return useRuntimeConfig().public.content as Record<string, unknown> || {}
 }
 
-export const getContentByKey = <T = string>(key: string, defaultValue: string = '') => {
+export const getContentByKey = <T = string>(key: string, defaultValue: string|ImageContent = '') => {
   const content = getContent()
   if (content[key]) {
     return content[key] as T || defaultValue
@@ -39,7 +44,7 @@ export const useKatzeRichText = (options: KatzenUIOptions) => {
 
 export const useKatzeImage = (options: KatzenUIOptions) => {
   const uiStore = useUiStore()
-  const component: KatzenUIComponent = { type: ComponentType.Image, options, content: getContentByKey(options.key) }
+  const component: KatzenUIComponent = { type: ComponentType.Image, options, content: getContentByKey(options.key, options.default) }
   uiStore.addToContextStack(component)
   return reactiveProperty<ImageContent>(options.key)
 }
