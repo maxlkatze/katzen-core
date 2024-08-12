@@ -109,7 +109,7 @@ onMounted(
                 }
                 selectedElement.value = element
 
-                //cancel click event
+                // cancel click event
                 event.preventDefault()
                 event.stopPropagation()
                 event.stopImmediatePropagation()

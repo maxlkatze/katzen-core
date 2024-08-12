@@ -4,7 +4,7 @@
  * - useScrollAnimation
  * - useTimelineAnimation (WIP)
  */
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import type { Ref } from 'vue'
 import { onMounted, onUnmounted } from '#imports'
 

@@ -9,7 +9,7 @@ const richTextExample = useKatzeRichText({ key: 'rich_text_example',
   default: '<span>This is a rich text example. You can edit this text add italics and boldness and more.</span>',
 })
 
-const customImage = useKatzeImage({ key: 'custom_image', default: { src: '/images/test.svg', alt: 'Placeholder Image' }})
+const customImage = useKatzeImage({ key: 'custom_image', default: { src: '/images/test.svg', alt: 'Placeholder Image' } })
 </script>
 
 <template>

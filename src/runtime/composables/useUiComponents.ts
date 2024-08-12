@@ -27,7 +27,7 @@ export const getContent = () => {
   return useRuntimeConfig().public.content as Record<string, unknown> || {}
 }
 
-export const getContentByKey = <T = string>(key: string, defaultValue: string|ImageContent = '') => {
+export const getContentByKey = <T = string>(key: string, defaultValue: string | ImageContent = '') => {
   const content = getContent()
   if (content[key]) {
     return content[key] as T || defaultValue

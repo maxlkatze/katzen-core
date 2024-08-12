@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type {KatzenUIOptions} from '../composables/useUiComponents';
+import type { KatzenUIOptions } from '../composables/useUiComponents'
 
 export enum ComponentType {
   Text = 'text',

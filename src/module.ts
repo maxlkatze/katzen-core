@@ -60,7 +60,7 @@ export default defineNuxtModule<ModuleOptions>({
       },
     )
 
-    if(_options.users.length === 0) {
+    if (_options.users.length === 0) {
       katzeError('No users found in the configuration adding default user')
       _options.users = [
         {
