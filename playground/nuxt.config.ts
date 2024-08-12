@@ -6,5 +6,11 @@ export default defineNuxtConfig({
   katze: {
     projectLocation: './playground',
     secret: 'secret123',
+    users: [
+      {
+        name: 'admin',
+        password: 'admin123',
+      }
+    ]
   },
 })

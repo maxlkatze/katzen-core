@@ -38,12 +38,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // Default configuration options of the Nuxt module
   defaults: {
-    users: [
-      {
-        name: 'admin',
-        password: 'admin',
-      },
-    ],
+    users: [],
     secret: 'secret',
     projectLocation: './',
     storage: {
@@ -64,6 +59,16 @@ export default defineNuxtModule<ModuleOptions>({
         console.info('\x1B[43m\x1B[30m Current version: ' + currentVersion + ' Latest version: ' + latestVersion + '\x1B[0m')
       },
     )
+
+    if(_options.users.length === 0) {
+      katzeError('No users found in the configuration adding default user')
+      _options.users = [
+        {
+          name: 'admin',
+          password: 'admin',
+        },
+      ]
+    }
 
     // SET RUNTIME CONFIG
     _nuxt.options.runtimeConfig.users = _options.users
