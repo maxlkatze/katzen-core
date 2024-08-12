@@ -48,7 +48,10 @@ export const useScrollAnimation = (options: ScrollAnimationOptions) => {
     throw new Error('Please provide an element or set global or screenHeight to true in the options')
   }
 
-  onMounted(() => window.addEventListener('scroll', globalScrollListener))
+  onMounted(() => {
+    window.removeEventListener('scroll', globalScrollListener)
+    window.addEventListener('scroll', globalScrollListener)
+  })
   onUnmounted(() => window.removeEventListener('scroll', globalScrollListener))
 
   return reactiveScrollProperty
