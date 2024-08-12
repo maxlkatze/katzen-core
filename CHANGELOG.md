@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v0.0.39
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.38...v0.0.39)
+
+### 🚀 Enhancements
+
+- **katzencore:** Added Default value to UI Components ([5732cf1](https://github.com/maxlkatze/katzen-core/commit/5732cf1))
+- **katzencore:** Added Scroll Animations to composables ([3ee8fbc](https://github.com/maxlkatze/katzen-core/commit/3ee8fbc))
+- **katzencore:** Removed default user for security reasons ([7bc725d](https://github.com/maxlkatze/katzen-core/commit/7bc725d))
+- **katzencore:** Added Animation Library and added back default Video ([6682d28](https://github.com/maxlkatze/katzen-core/commit/6682d28))
+
+### 🩹 Fixes
+
+- **katzencore:** Fixed some ESLint errors ([ca2ce3a](https://github.com/maxlkatze/katzen-core/commit/ca2ce3a))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+- Maximilian Schleining <maximilian.schleining@agenda-software.de>
+
 ## v0.0.38
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.37...v0.0.38)
