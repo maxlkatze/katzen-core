@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import type { RouteComponent } from 'vue-router'
 import type { ContentCmsResponse, Route, Lazy, ApiResponse } from '../../types/EditTypes'
 import {
-  defineAsyncComponent,
+  defineAsyncComponent, definePageMeta,
   onMounted,
   onUnmounted,
   setFetchedContent,
@@ -12,6 +12,10 @@ import {
   useUiStore,
   watch,
 } from '#imports'
+
+definePageMeta({
+  layout: 'cms-layout',
+})
 
 // COMPOSABLE
 const uiStore = useUiStore()
