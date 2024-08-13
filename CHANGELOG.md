@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.41
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.40...v0.0.41)
+
+### 🚀 Enhancements
+
+- **katzencore:** Added CMS Layout ([3a01354](https://github.com/maxlkatze/katzen-core/commit/3a01354))
+
+### ❤️ Contributors
+
+- Maximilian Schleining <maximilian.schleining@agenda-software.de>
+
 ## v0.0.40
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.39...v0.0.40)
