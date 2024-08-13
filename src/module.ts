@@ -126,7 +126,12 @@ export default defineNuxtModule<ModuleOptions>({
           {
             name: 'katze-cms',
             path: '/cms',
-            file: resolver.resolve('runtime/pages/KatzeCms.vue'),
+            file: resolver.resolve('runtime/pages/cms/KatzeHome.vue'),
+          },
+          {
+            name: 'katze-cms-edit',
+            path: '/cms/edit',
+            file: resolver.resolve('runtime/pages/cms/KatzeEdit.vue'),
           },
           {
             name: 'katze-cms-login',
@@ -167,6 +172,9 @@ export default defineNuxtModule<ModuleOptions>({
     // ADD FRONTEND COMPONENTS
     await addComponentsDir({
       path: resolver.resolve('runtime/components/ui'),
+    })
+    await addComponentsDir({
+      path: resolver.resolve('runtime/components/views'),
     })
   },
 })
