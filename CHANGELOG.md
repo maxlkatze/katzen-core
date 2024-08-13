@@ -1,6 +1,20 @@
 # Changelog
 
 
+## v0.0.40
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.39...v0.0.40)
+
+### 🩹 Fixes
+
+- **katzencore:** Removing Scroll Listener to not add it multiple times ([21ebe19](https://github.com/maxlkatze/katzen-core/commit/21ebe19))
+- **katzencore:** Changes to mobile CMS view ([757d5e8](https://github.com/maxlkatze/katzen-core/commit/757d5e8))
+- **katzencore:** Refactored Edit View, Mobile Editing View added. Improvement of Content Parsing without DOM Tree ([275312b](https://github.com/maxlkatze/katzen-core/commit/275312b))
+
+### ❤️ Contributors
+
+- Maximilian Schleining <maximilian.schleining@agenda-software.de>
+
 ## v0.0.39
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.38...v0.0.39)
