@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.45
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.44...v0.0.45)
+
+### 🚀 Enhancements
+
+- **katzencore:** Device Addon added, with test site ([753a0f2](https://github.com/maxlkatze/katzen-core/commit/753a0f2))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.44
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.43...v0.0.44)
