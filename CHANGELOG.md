@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.42
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.41...v0.0.42)
+
+### 🩹 Fixes
+
+- **katzencore:** Added Device Type Addon ([54da0f9](https://github.com/maxlkatze/katzen-core/commit/54da0f9))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.41
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.40...v0.0.41)
