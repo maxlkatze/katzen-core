@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.43
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.42...v0.0.43)
+
+### 🩹 Fixes
+
+- **katzencore:** Changed Interface for AddonDeviceRecognition ([b03d9e0](https://github.com/maxlkatze/katzen-core/commit/b03d9e0))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.42
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.41...v0.0.42)
