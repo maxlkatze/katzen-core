@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.44
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.43...v0.0.44)
+
+### 🩹 Fixes
+
+- **katzencore:** Added Assertion of Package.json ([91253ab](https://github.com/maxlkatze/katzen-core/commit/91253ab))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.43
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.42...v0.0.43)
