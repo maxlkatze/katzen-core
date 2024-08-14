@@ -19,6 +19,6 @@ export interface ModuleOptions {
 }
 
 export interface AddonDeviceRecognition {
-  defaultUserAgent: string
+  defaultUserAgent?: string
   responsiveContainerClass?: string
 }
