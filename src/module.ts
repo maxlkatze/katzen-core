@@ -13,23 +13,7 @@ import {
 
 import { useContentStorage } from './runtime/storage/StorageManagement'
 import { updateCheck } from './runtime/update'
-
-export interface CmsUser {
-  name: string
-  password: string
-}
-
-export interface ModuleOptions {
-  users: CmsUser[]
-  secret: string
-  projectLocation: string
-  storage: {
-    type: 'azure-app-configuration' | 'cloudflare-kv-binding' | 'fs' | 'github' | 'mongodb' | 'netlify-blobs' | 'planetscale' | 'redis' | 'vercel-kv'
-    options: object
-  }
-  storageKey: string
-  deployHookURL?: string
-}
+import type { ModuleOptions } from './runtime/types/ModuleTypes'
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -48,8 +32,13 @@ export default defineNuxtModule<ModuleOptions>({
       },
     },
     storageKey: 'katze_content.json',
+    addons: {
+      deviceRecognition: {
+        defaultUserAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
+      },
+    },
   },
-  async setup(_options, _nuxt) {
+  async setup(_options: ModuleOptions, _nuxt) {
     const resolver = createResolver(import.meta.url)
     updateCheck().then(
       ({ currentVersion, latestVersion }) => {
@@ -77,6 +66,9 @@ export default defineNuxtModule<ModuleOptions>({
     _nuxt.options.runtimeConfig.storageKey = _options.storageKey
     _nuxt.options.runtimeConfig.projectLocation = _options.projectLocation + (_options.projectLocation.endsWith('/') ? '' : '/')
     _nuxt.options.runtimeConfig.deployHookURL = _options.deployHookURL
+
+    // ADDONS
+    _nuxt.options.runtimeConfig.public.deviceRecognition = _options.addons.deviceRecognition
 
     // LOAD CONTENT STORAGE
     const contentStorage = await useContentStorage(_nuxt.options.runtimeConfig)
