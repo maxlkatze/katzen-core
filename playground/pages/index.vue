@@ -56,6 +56,22 @@ const customImage = useKatzeImage({ key: 'custom_image', default: { src: '/image
           :alt="customImage.alt"
         >
       </div>
+
+      <div class="flex flex-row gap-5">
+        <NuxtLink
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          to="/addon_device"
+        >
+          Device Addon
+        </NuxtLink>
+
+        <NuxtLink
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          to="/animation_test"
+        >
+          Animation Addon
+        </NuxtLink>
+      </div>
     </div>
   </div>
 </template>

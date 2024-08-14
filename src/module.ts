@@ -105,6 +105,7 @@ export default defineNuxtModule<ModuleOptions>({
     addImportsDir(resolver.resolve('runtime/middleware'))
 
     addPlugin(resolver.resolve('runtime/plugins/chtml.plugin'))
+    addPlugin(resolver.resolve('runtime/plugins/device.plugin'))
 
     addLayout({
       filename: 'cms-layout.vue',
