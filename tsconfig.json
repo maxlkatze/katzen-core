@@ -5,6 +5,9 @@
     "node_modules",
     "playground",
   ],
+  "compilerOptions": {
+    "module": "esnext",
+  },
   "include": [
     "src/runtime/**/*"
   ]

@@ -4,9 +4,9 @@
  * - useScrollAnimation
  * - useTimelineAnimation (WIP)
  */
-import { ref } from 'vue'
 import type { Ref } from 'vue'
-import { nextTick, onBeforeUnmount, onMounted } from '#imports'
+
+import { nextTick, onBeforeUnmount, onMounted, ref } from '#imports'
 
 interface ScrollAnimationOptions {
   global?: boolean

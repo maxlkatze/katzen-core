@@ -4,7 +4,8 @@ export interface UpdateResult {
 }
 
 export const updateCheck = async () => {
-  const pkg = (await import('../../package.json')).default
+  const pkg = (await import('../../package.json', { assert: { type: 'json' } })
+  ).default as { version: string }
   const version = pkg.version
   const https = await import('node:https')
   return new Promise<UpdateResult>((resolve) => {
