@@ -8,12 +8,12 @@ const screenScroll = useScrollAnimation({ screenHeight: true })
 
 <template>
   <div>
-    <h1>Animation Test Page</h1>
+    <h1>Animation Test Page 2</h1>
     <NuxtLink
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      to="/animation_test_2"
+      to="/animation_test"
     >
-      Animation Test Page 2
+      Animation Test Page
     </NuxtLink>
     <div class="flex flex-col">
       <div class="flex flex-row">

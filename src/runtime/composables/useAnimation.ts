@@ -6,7 +6,7 @@
  */
 import { ref } from 'vue'
 import type { Ref } from 'vue'
-import { onMounted, onUnmounted } from '#imports'
+import { nextTick, onBeforeUnmount, onMounted } from '#imports'
 
 interface ScrollAnimationOptions {
   global?: boolean
@@ -23,7 +23,7 @@ interface ScrollAnimationValues {
   full: number
 }
 
-const watchingElements: Map<HTMLElement, UpdateFunction> = new Map()
+const watchingElements = ref<Map<HTMLElement, UpdateFunction>>(new Map())
 const globalScrollPercentage = ref<ScrollAnimationValues>({ capped: 0, full: 0 })
 const screenHeightPercentage = ref<ScrollAnimationValues>({ capped: 0, full: 0 })
 
@@ -37,22 +37,27 @@ export const useScrollAnimation = (options: ScrollAnimationOptions) => {
   }
   else if (options.element) {
     // wait for element to be mounted
-    onMounted(() => {
+    onMounted(async () => {
+      await nextTick()
       const updateFunction = (values: ScrollAnimationValues) => {
         reactiveScrollProperty.value = values
       }
-      watchingElements.set(<HTMLElement>options.element?.value, updateFunction)
+      watchingElements.value.set(<HTMLElement>options.element?.value, updateFunction)
     })
   }
   else {
     throw new Error('Please provide an element or set global or screenHeight to true in the options')
   }
 
-  onMounted(() => {
-    window.removeEventListener('scroll', globalScrollListener)
+  onMounted(async () => {
+    await nextTick()
+    globalScrollListener()
     window.addEventListener('scroll', globalScrollListener)
   })
-  onUnmounted(() => window.removeEventListener('scroll', globalScrollListener))
+  onBeforeUnmount(() => {
+    window.removeEventListener('scroll', globalScrollListener)
+    watchingElements.value = new Map()
+  })
 
   return reactiveScrollProperty
 }
@@ -66,7 +71,7 @@ const globalScrollListener = () => {
   const screenHeightPercent = scrollY / window.innerHeight
   screenHeightPercentage.value = { capped: Math.min(1, screenHeightPercent), full: screenHeightPercent }
 
-  watchingElements.forEach((updateFunction, element) => {
+  watchingElements.value.forEach((updateFunction, element) => {
     const elementTop = element.getBoundingClientRect().top
     const elementHeight = element.getBoundingClientRect().height
     const cappedValue = Math.max(0, Math.min(1, (elementTop + elementHeight) / window.innerHeight))

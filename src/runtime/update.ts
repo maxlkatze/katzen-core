@@ -1,11 +1,10 @@
-import pkg from '../../package.json' assert { type: 'json' }
-
 export interface UpdateResult {
   currentVersion: string
   latestVersion: string
 }
 
 export const updateCheck = async () => {
+  const pkg = (await import('../../package.json')).default
   const version = pkg.version
   const https = await import('node:https')
   return new Promise<UpdateResult>((resolve) => {
