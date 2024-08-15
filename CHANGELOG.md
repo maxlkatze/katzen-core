@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.48
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.47...v0.0.48)
+
+### 🩹 Fixes
+
+- **katzencore:** Trying new updater ([ba24729](https://github.com/maxlkatze/katzen-core/commit/ba24729))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.47
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.46...v0.0.47)
