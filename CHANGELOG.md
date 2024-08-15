@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.46
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.45...v0.0.46)
+
+### 🚀 Enhancements
+
+- **katzencore:** Updated Version Check, New Animation Strategy for mounting ([0709e15](https://github.com/maxlkatze/katzen-core/commit/0709e15))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.45
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.44...v0.0.45)
