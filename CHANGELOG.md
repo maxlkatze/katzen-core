@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.47
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.46...v0.0.47)
+
+### 🚀 Enhancements
+
+- **katzencore:** New Module Target and json import assertion ([0396f0c](https://github.com/maxlkatze/katzen-core/commit/0396f0c))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.46
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.45...v0.0.46)
