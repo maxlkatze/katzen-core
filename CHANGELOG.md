@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.50
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.49...v0.0.50)
+
+### 🏡 Chore
+
+- **release:** V0.0.49 ([4ab7cc5](https://github.com/maxlkatze/katzen-core/commit/4ab7cc5))
+
+### ❤️ Contributors
+
+- Maximilian Schleining <maximilian.schleining@agenda-software.de>
+
 ## v0.0.49
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.48...v0.0.49)
