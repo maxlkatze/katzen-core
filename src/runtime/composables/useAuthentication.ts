@@ -44,6 +44,7 @@ export const useAuthentication = () => {
       return decrypted
     }
     catch (e) {
+      console.error(e)
       return false
     }
   }
