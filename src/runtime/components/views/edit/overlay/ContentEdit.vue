@@ -67,8 +67,8 @@ const editor = useEditor({
     switch (type) {
       case ComponentType.RichText: {
         const spans = Array.from(dom.querySelectorAll('p'))
-          .map(pTag => `<span>${pTag.innerHTML}</span>`)
-          .join('<br/>')
+          .map(pTag => pTag.innerHTML.trim().length == 0 ? '' : `<span>${pTag.innerHTML}</span>`)
+          .join('<br>')
         uiStore.updateUiContent(props.selectedKey, spans)
         break
       }
