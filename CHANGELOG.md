@@ -1,6 +1,10 @@
 # Changelog
 
 
+## v0.0.51
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.50...v0.0.51)
+
 ## v0.0.50
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.49...v0.0.50)
