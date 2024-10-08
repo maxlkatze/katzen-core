@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v0.0.49
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.48...v0.0.49)
+
+### 🚀 Enhancements
+
+- Logging error in authentication ([daea477](https://github.com/maxlkatze/katzen-core/commit/daea477))
+
+### 🩹 Fixes
+
+- ContentEdit.vue fix for newline breaks ([7f98fe4](https://github.com/maxlkatze/katzen-core/commit/7f98fe4))
+
+### 🏡 Chore
+
+- **release:** V0.0.48 ([4ed70dd](https://github.com/maxlkatze/katzen-core/commit/4ed70dd))
+
+### ❤️ Contributors
+
+- Maximilian Schleining <maximilian.schleining@agenda-software.de>
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.48
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.47...v0.0.48)
