@@ -1,6 +1,45 @@
 # Changelog
 
 
+## v0.0.52
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.51...v0.0.52)
+
+### 🚀 Enhancements
+
+- Exciting new drag-and-drop interface for media uploads with multi-file support and folder organization ([8bcbe80](https://github.com/maxlkatze/katzen-core/commit/8bcbe80))
+- Updated .gitignore to exclude katze_content.json ([98c2124](https://github.com/maxlkatze/katzen-core/commit/98c2124))
+- Impressive new page component for CMS editing with state management and content preview features ([d0c9160](https://github.com/maxlkatze/katzen-core/commit/d0c9160))
+- Enhanced authentication by adding server-side API and middleware for streamlined user management ([253b3b0](https://github.com/maxlkatze/katzen-core/commit/253b3b0))
+- Introduced CMS layout and button component for improved user interface and navigation functionality ([f3548be](https://github.com/maxlkatze/katzen-core/commit/f3548be))
+- Comprehensive overhaul of content management system with new API, type definitions, and storage restructuring ([30748a1](https://github.com/maxlkatze/katzen-core/commit/30748a1))
+- Significant removal of obsolete components and introduction of a new dashboard page with enhanced navigation and news features ([1db253a](https://github.com/maxlkatze/katzen-core/commit/1db253a))
+- Comprehensive removal of unused components, addition of new image and content editors, and a major overhaul of the playground page for enhanced user experience ([ed019bc](https://github.com/maxlkatze/katzen-core/commit/ed019bc))
+- Significant deletion of outdated components with the introduction of new global text, image, and rich text editors for improved functionality and user interaction. ([921a91c](https://github.com/maxlkatze/katzen-core/commit/921a91c))
+- Comprehensive redesign of login and media management components with improved user experience and authentication handling. ([c7cebdd](https://github.com/maxlkatze/katzen-core/commit/c7cebdd))
+- Intuitive redesign of CMS UI for enhanced user experience and content management ([f98ad83](https://github.com/maxlkatze/katzen-core/commit/f98ad83))
+- Enhanced module structure and improved storage handling for better CMS functionality and organization ([3226917](https://github.com/maxlkatze/katzen-core/commit/3226917))
+- Updated dependencies and optimized configuration for improved performance and compatibility ([b57fe14](https://github.com/maxlkatze/katzen-core/commit/b57fe14))
+- Comprehensive refactor and enhancement of page editing components for improved usability and functionality ([8b2ec40](https://github.com/maxlkatze/katzen-core/commit/8b2ec40))
+- Exciting addition of TextEditor and Site Settings components for enhanced configuration management and user interaction ([cad0e3e](https://github.com/maxlkatze/katzen-core/commit/cad0e3e))
+- Comprehensive overhaul by removing outdated components and introducing new content management utilities for streamlined user experience and enhanced functionality ([3ee0182](https://github.com/maxlkatze/katzen-core/commit/3ee0182))
+- Significant refactor by removing obsolete UI components and server verification, while adding new navigation and route management utilities for improved application structure and user navigation experience ([a1f847c](https://github.com/maxlkatze/katzen-core/commit/a1f847c))
+- Streamlined README with updated installation instructions and enhanced component usage examples for better clarity and user guidance ([363c19e](https://github.com/maxlkatze/katzen-core/commit/363c19e))
+
+### 🩹 Fixes
+
+- Simplified error handling and improved code clarity across multiple files ([e8755a3](https://github.com/maxlkatze/katzen-core/commit/e8755a3))
+
+### 💅 Refactors
+
+- Removed obsolete Vue files for a streamlined project structure ([674a765](https://github.com/maxlkatze/katzen-core/commit/674a765))
+- Removed redundant SVG icons for a cleaner assets directory ([4ce75f8](https://github.com/maxlkatze/katzen-core/commit/4ce75f8))
+- Renamed chtml.plugin.ts to client directory for improved organization and clarity ([ff78135](https://github.com/maxlkatze/katzen-core/commit/ff78135))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.51
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.50...v0.0.51)
