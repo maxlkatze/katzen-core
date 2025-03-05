@@ -6,7 +6,7 @@ import type { Lazy } from '../../../types/EditTypes'
 import { useContentSource } from '../../composables/cms/useContentSource'
 import { ContentType, type ContentValue } from '../../../types/ContentTypes'
 import { useAuthentication } from '../../composables/cms/useAuthentication'
-import { defineAsyncComponent, definePageMeta, shallowRef, useRoute, useNuxtApp } from '#imports'
+import { defineAsyncComponent, definePageMeta, shallowRef, useRoute } from '#imports'
 
 definePageMeta({
   layout: 'katze-cms-layout',
@@ -62,7 +62,7 @@ if (!routeId) {
   throw new Error('Route ID is required')
 }
 
-const RouteComponent = shallowRef<unknown>(undefined)
+const RouteComponent = shallowRef<unknown | undefined>(undefined)
 const routeFinder = useRouteFinder()
 const foundRoute = routeFinder.findRouteBySlug(routeId)
 if (!foundRoute) {
@@ -95,7 +95,7 @@ const revertChange = (key: string, event: Event) => {
 }
 
 // Function to get a truncated preview of the content
-const getContentPreview = (value: any): string => {
+const getContentPreview = (value: unknown): string => {
   if (value === null || value === undefined) return 'null'
 
   const stringValue = String(value)
@@ -174,9 +174,9 @@ const saveChanges = async () => {
       errorMessage.value = response.body?.message || 'Failed to save changes'
     }
   }
-  catch (error: any) {
+  catch (error) {
     saveSuccess.value = false
-    errorMessage.value = error.message || 'An error occurred while saving'
+    errorMessage.value = error as string || 'An error occurred while saving'
   }
   finally {
     isSaving.value = false
@@ -220,9 +220,9 @@ const deployChanges = async () => {
       errorMessage.value = response.body?.message || 'Failed to deploy changes'
     }
   }
-  catch (error: any) {
+  catch (error) {
     deploySuccess.value = false
-    errorMessage.value = error.message || 'An error occurred during deployment'
+    errorMessage.value = error as string || 'An error occurred during deployment'
   }
   finally {
     isDeploying.value = false
@@ -553,6 +553,7 @@ const deployChanges = async () => {
     <div class="size-full flex-1 flex">
       <ClientOnly>
         <cms-edit-page-view
+          v-if="RouteComponent"
           :route-component="RouteComponent"
           :emulate-mobile="emulateMobile"
           @select-key="handleClickOnElement"

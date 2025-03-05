@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
 import { useAuthentication } from '../composables/cms/useAuthentication'
-import { definePageMeta, useRuntimeConfig } from '#imports'
+import { definePageMeta } from '#imports'
 
 definePageMeta({
   layout: 'katze-cms-layout',
@@ -51,8 +51,8 @@ const fetchImages = async () => {
       error.value = response.body?.message || 'Failed to fetch images'
     }
   }
-  catch (err: any) {
-    error.value = err.message || 'An error occurred while fetching images'
+  catch (err) {
+    error.value = err as string || 'An error occurred while fetching images'
   }
   finally {
     isLoading.value = false
@@ -105,7 +105,7 @@ const getFileExtension = (path: string) => {
 /**
  * Format file size (placeholder - would need actual file size data)
  */
-const getFileSize = (path: string) => {
+const getFileSize = () => {
   // This would typically come from the API
   // For now, returning a placeholder
   return '~100 KB'
@@ -114,7 +114,7 @@ const getFileSize = (path: string) => {
 /**
  * Format date (placeholder - would need actual file date data)
  */
-const getFileDate = (path: string) => {
+const getFileDate = () => {
   // This would typically come from the API
   // For now, returning a placeholder
   return new Date().toLocaleDateString()
@@ -301,7 +301,7 @@ const getFileDate = (path: string) => {
           </div>
           <div class="flex justify-between items-center mt-1">
             <span class="text-xs text-gray-500">{{ getFileExtension(image) }}</span>
-            <span class="text-xs text-gray-500">{{ getFileSize(image) }}</span>
+            <span class="text-xs text-gray-500">{{ getFileSize() }}</span>
           </div>
         </div>
       </div>
@@ -407,7 +407,7 @@ const getFileDate = (path: string) => {
                             Size
                           </div>
                           <div class="text-sm text-gray-900">
-                            {{ getFileSize(selectedImage) }}
+                            {{ getFileSize() }}
                           </div>
                         </div>
 
@@ -416,7 +416,7 @@ const getFileDate = (path: string) => {
                             Date added
                           </div>
                           <div class="text-sm text-gray-900">
-                            {{ getFileDate(selectedImage) }}
+                            {{ getFileDate() }}
                           </div>
                         </div>
                       </div>

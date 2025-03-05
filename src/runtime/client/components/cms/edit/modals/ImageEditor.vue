@@ -54,7 +54,8 @@ onMounted(async () => {
     const index = availableImages.value.findIndex(img => img === imageData.value.src)
     if (index !== -1) {
       selectedImageIndex.value = index
-    } else if (imageData.value.src) {
+    }
+    else if (imageData.value.src) {
       // If we couldn't find the image in available images, it must be external
       isExternalSource.value = true
       externalUrl.value = imageData.value.src
@@ -88,8 +89,8 @@ const fetchImages = async () => {
       error.value = response.body.message || 'Failed to fetch images'
     }
   }
-  catch (err: any) {
-    error.value = err.message || 'An error occurred while fetching images'
+  catch (err) {
+    error.value = err as string || 'An error occurred while fetching images'
   }
   finally {
     isLoading.value = false
@@ -116,7 +117,8 @@ const toggleSourceType = () => {
   if (isExternalSource.value) {
     imageData.value.src = externalUrl.value
     selectedImageIndex.value = -1
-  } else {
+  }
+  else {
     externalUrl.value = imageData.value.src
     imageData.value.src = selectedImageIndex.value >= 0 ? availableImages.value[selectedImageIndex.value] : ''
   }
@@ -137,7 +139,8 @@ const updateExternalSource = () => {
 const canSave = computed(() => {
   if (isExternalSource.value) {
     return !!externalUrl.value
-  } else {
+  }
+  else {
     return selectedImageIndex.value >= 0
   }
 })
@@ -160,25 +163,34 @@ const handleSave = () => {
     <div class="flex items-center justify-between px-1">
       <span class="text-sm font-medium text-gray-700">Image Source</span>
       <div class="flex items-center space-x-2">
-        <span :class="{ 'font-medium': !isExternalSource }" class="text-sm text-gray-600">Internal</span>
+        <span
+          :class="{ 'font-medium': !isExternalSource }"
+          class="text-sm text-gray-600"
+        >Internal</span>
         <button
           type="button"
-          @click="toggleSourceType"
           class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           :class="isExternalSource ? 'bg-blue-600' : 'bg-gray-200'"
+          @click="toggleSourceType"
         >
           <span
             aria-hidden="true"
             class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
             :class="isExternalSource ? 'translate-x-5' : 'translate-x-0'"
-          ></span>
+          />
         </button>
-        <span :class="{ 'font-medium': isExternalSource }" class="text-sm text-gray-600">External</span>
+        <span
+          :class="{ 'font-medium': isExternalSource }"
+          class="text-sm text-gray-600"
+        >External</span>
       </div>
     </div>
 
     <!-- External URL Input (only visible when external source is selected) -->
-    <div v-if="isExternalSource" class="space-y-2">
+    <div
+      v-if="isExternalSource"
+      class="space-y-2"
+    >
       <label
         for="external-url"
         class="block text-sm font-medium text-gray-700"
@@ -196,7 +208,10 @@ const handleSave = () => {
       </p>
 
       <!-- External Image Preview -->
-      <div v-if="externalUrl" class="mt-4 border rounded-md p-4 bg-gray-50">
+      <div
+        v-if="externalUrl"
+        class="mt-4 border rounded-md p-4 bg-gray-50"
+      >
         <h3 class="font-medium mb-2">
           External Image Preview
         </h3>

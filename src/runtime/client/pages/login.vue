@@ -49,9 +49,8 @@ const handleLogin = async () => {
       error.value = response.body?.message || 'Login failed'
     }
   }
-  catch (err: any) {
-    console.error('Login error:', err)
-    error.value = err.message || 'An error occurred during login'
+  catch (err) {
+    error.value = err as string || 'An error occurred during login'
   }
   finally {
     isLoading.value = false

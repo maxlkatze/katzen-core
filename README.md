@@ -8,7 +8,7 @@
 ![CmsKatze](/src/runtime/client/assets/logo_outlines.svg)
 
 - [✨ Release Notes](/CHANGELOG.md)
-- [🏀 Online playground](https://stackblitz.com/github/maxlkatze/cms-katze?file=playground%2Fapp.vue)
+- [🏀 Online playground](https://stackblitz.com/github/maxlkatze/katzen-core?file=playground%2Fapp.vue)
 
 ## Description
 Katze is a Nuxt module that provides a headless CMS for your Nuxt app.
