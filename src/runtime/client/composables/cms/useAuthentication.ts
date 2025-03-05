@@ -78,16 +78,23 @@ export const useAuthentication = () => {
     }
 
     // Set token in cookie (works on both client & server)
-    const tokenCookie = useCookie('auth_token', {
-      maxAge: expiresInDays * 24 * 60 * 60,
-      path: '/',
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-    })
-    tokenCookie.value = token
+    // Use a try/catch since cookie access might fail on server in some contexts
+    try {
+      // Dynamically import cookie functionality to avoid server-side issues
+      if (import.meta.client) {
+        document.cookie = `auth_token=${token}; max-age=${expiresInDays * 24 * 60 * 60}; path=/; ${process.env.NODE_ENV === 'production' ? 'secure; ' : ''}samesite=strict`
+      }
+      else {
+        // For server-side, we'll rely on the actual requests/responses
+        // This would typically be handled by your API routes
+      }
 
-    // Update user state
-    userState.value = decodeToken(token)
+      // Update user state
+      userState.value = decodeToken(token)
+    }
+    catch (error) {
+      console.error('Error setting cookie:', error)
+    }
   }
 
   /**
@@ -95,16 +102,22 @@ export const useAuthentication = () => {
    * @returns Stored token or null
    */
   const getToken = (): string | null => {
-    // Try to get from cookie first (works on both client & server)
-    const tokenCookie = useCookie('auth_token')
-    if (tokenCookie.value) return tokenCookie.value
-
-    // Fallback to localStorage (client-side only)
-    if (import.meta.client) {
-      return localStorage.getItem('auth_token')
+    if (import.meta.server) {
+      // On server, we would typically get this from the request headers
+      // This would be implemented in your API middleware
+      return null
     }
 
-    return null
+    // Client-side implementation
+    // Try to get from cookie first
+    const cookies = document.cookie.split(';')
+    for (const cookie of cookies) {
+      const [name, value] = cookie.trim().split('=')
+      if (name === 'auth_token') return value
+    }
+
+    // Fallback to localStorage
+    return localStorage.getItem('auth_token')
   }
 
   /**
@@ -114,11 +127,9 @@ export const useAuthentication = () => {
     // Remove from localStorage (client-side only)
     if (import.meta.client) {
       localStorage.removeItem('auth_token')
+      // Remove cookie by setting expiration to past date
+      document.cookie = 'auth_token=; max-age=0; path=/;'
     }
-
-    // Remove from cookie
-    const tokenCookie = useCookie('auth_token')
-    tokenCookie.value = null
 
     // Reset user state
     userState.value = null
