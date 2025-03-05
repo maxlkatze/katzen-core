@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.55
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.54...v0.0.55)
+
+### 🚀 Enhancements
+
+- Enhanced layout management by adding an empty layout and updating the login page to utilize it ([c08ccb0](https://github.com/maxlkatze/katzen-core/commit/c08ccb0))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.54
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.53...v0.0.54)
