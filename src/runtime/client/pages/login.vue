@@ -2,6 +2,11 @@
 import { ref } from 'vue'
 import { useAuthentication } from '../composables/cms/useAuthentication'
 import { useRouter } from '#app'
+import { definePageMeta } from '#imports'
+
+definePageMeta({
+  layout: 'katze-cms-empty',
+})
 
 const username = ref('')
 const password = ref('')

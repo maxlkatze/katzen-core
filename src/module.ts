@@ -75,6 +75,10 @@ export default defineNuxtModule<ModuleOptions>({
       src: resolver.resolve('runtime/client/layouts/cms.vue'),
     }, 'katze-cms-layout')
 
+    addLayout({
+      src: resolver.resolve('runtime/client/layouts/empty.vue'),
+    }, 'katze-cms-empty')
+
     addComponentsDir({
       path: resolver.resolve('runtime/client/components/cms/ui'),
       prefix: 'cms-ui',
