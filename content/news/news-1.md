@@ -1,9 +1,9 @@
 ---
 id: "1"
-title: "New Media Upload Feature"
+title: "New CMS UI"
 date: "2025-03-01"
 author: "CMS Katze"
 tags: ["feature", "media"]
 ---
 
-We've added a new drag-and-drop interface for media uploads. You can now upload multiple files at once and organize them into folders.
+We've redesigned the CMS UI to be more user-friendly. The new interface is more intuitive and easier to use. We've also added new features to help you manage your content more efficiently.
