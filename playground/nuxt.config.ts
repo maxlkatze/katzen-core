@@ -1,8 +1,7 @@
 export default defineNuxtConfig({
   modules: ['../src/module'],
   devtools: { enabled: true },
-  compatibilityDate: '2024-07-08',
-  pages: true,
+  compatibilityDate: '2025-03-03',
   katze: {
     projectLocation: './playground',
     secret: 'secret123',
@@ -12,5 +11,11 @@ export default defineNuxtConfig({
         password: 'admin123',
       },
     ],
+    storage: {
+      type: 'fs',
+      options: {
+        base: './',
+      },
+    },
   },
 })
