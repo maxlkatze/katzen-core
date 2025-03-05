@@ -1,16 +1,9 @@
 import { createStorage, type Storage, type Driver } from 'unstorage'
 import type { RuntimeConfig } from 'nuxt/schema'
+import type { ExtendedRuntimeConfig } from '../types/ModuleTypes'
 
 interface StorageManagementDriver extends Storage {
   publishContent: (content: string) => Promise<void>
-}
-
-interface ExtendedRuntimeConfig extends RuntimeConfig {
-  storageKey: string
-  storage: {
-    type: 'azure-app-configuration' | 'cloudflare-kv-binding' | 'fs' | 'github' | 'mongodb' | 'netlify-blobs' | 'planetscale' | 'redis' | 'vercel-kv'
-    options: unknown
-  }
 }
 
 interface DynamicModuleImport {
