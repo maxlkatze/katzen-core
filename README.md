@@ -26,10 +26,10 @@ _Feel free to contribute to this project by creating a pull request.🐱❤️_
 - 📦 &nbsp;Easy to set up and use, just one configuration file
 
 1. Install using one of the following package managers:
-   - NPM: `npm install @maxlkate/cms@latest`
-   - Yarn: `yarn add @maxlkate/cms@latest`
-   - PNPM: `pnpm add @maxlkate/cms@latest`
-   - Bun: `bun install @maxlkate/cms@latest`
+   - NPM: `npm install @maxlkate/cms`
+   - Yarn: `yarn add @maxlkate/cms`
+   - PNPM: `pnpm add @maxlkate/cms`
+   - Bun: `bun install @maxlkate/cms`
 2. Add `@maxlkatze/cms` to the `modules` section of `nuxt.config.js`
 
 ```js
