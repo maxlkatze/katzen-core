@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.0.54
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.53...v0.0.54)
+
+### 🚀 Enhancements
+
+- Enhanced package dependencies by adding 'jose' and optimizing existing ones ([3c74922](https://github.com/maxlkatze/katzen-core/commit/3c74922))
+
+### 🩹 Fixes
+
+- Updated installation commands for @maxlkate/cms to remove version specifier for better clarity ([e000d43](https://github.com/maxlkatze/katzen-core/commit/e000d43))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.53
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.52...v0.0.53)
