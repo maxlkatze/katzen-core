@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.56
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.55...v0.0.56)
+
+### 🚀 Enhancements
+
+- Improved cookie handling for authentication with error management and fallback strategies ([1e5a7c7](https://github.com/maxlkatze/katzen-core/commit/1e5a7c7))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.55
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.54...v0.0.55)
