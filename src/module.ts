@@ -65,7 +65,12 @@ export default defineNuxtModule<ModuleOptions>({
       config: {
         content: {
           files: [
-            resolver.resolve('runtime/client/**/*.{vue,mjs,ts}'),
+            resolver.resolve('runtime/client/components/**/*.{vue,mjs,ts}'),
+            resolver.resolve('runtime/client/components/**/**/*.{vue,mjs,ts}'),
+            resolver.resolve('runtime/client/pages/**/*.{vue,mjs,ts}'),
+            resolver.resolve('runtime/client/pages/**/**/*.{vue,mjs,ts}'),
+            resolver.resolve('runtime/client/layouts/**/*.{vue,mjs,ts}'),
+            resolver.resolve('runtime/client/*.{mjs,js,ts}'),
           ],
         },
       },
