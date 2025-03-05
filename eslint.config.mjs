@@ -12,14 +12,9 @@ export default createConfigForNuxt({
   dirs: {
     src: [
       './playground',
-      './src',
     ],
   },
 })
   .append(
-    {
-      rules: {
-        'vue/multi-word-component-names': 0,
-      },
-    },
+    // your custom flat config here...
   )

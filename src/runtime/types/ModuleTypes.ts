@@ -1,4 +1,6 @@
-export interface CmsUser {
+import type { RuntimeConfig } from 'nuxt/schema'
+
+export type CmsUser = {
   name: string
   password: string
 }
@@ -7,10 +9,7 @@ export interface ModuleOptions {
   users: CmsUser[]
   secret: string
   projectLocation: string
-  storage: {
-    type: 'azure-app-configuration' | 'cloudflare-kv-binding' | 'fs' | 'github' | 'mongodb' | 'netlify-blobs' | 'planetscale' | 'redis' | 'vercel-kv'
-    options: object
-  }
+  storage: StorageDefinition
   storageKey: string
   deployHookURL?: string
   addons: {
@@ -18,7 +17,22 @@ export interface ModuleOptions {
   }
 }
 
-export interface AddonDeviceRecognition {
+export type StorageDefinition = {
+  type: StorageType
+  options: unknown
+}
+
+export type StorageType = 'azure-app-configuration' | 'cloudflare-kv-binding' | 'fs' | 'github' | 'mongodb' | 'netlify-blobs' | 'planetscale' | 'redis' | 'vercel-kv'
+
+export type AddonDeviceRecognition = {
   defaultUserAgent?: string
   responsiveContainerClass?: string
+}
+
+export interface ExtendedRuntimeConfig extends RuntimeConfig {
+  storageKey: string
+  storage: {
+    type: 'azure-app-configuration' | 'cloudflare-kv-binding' | 'fs' | 'github' | 'mongodb' | 'netlify-blobs' | 'planetscale' | 'redis' | 'vercel-kv'
+    options: unknown
+  }
 }
