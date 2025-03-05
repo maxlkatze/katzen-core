@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.57
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.56...v0.0.57)
+
+### 🚀 Enhancements
+
+- Enhanced file resolution for client components and pages in module configuration ([714993a](https://github.com/maxlkatze/katzen-core/commit/714993a))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.56
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.55...v0.0.56)
