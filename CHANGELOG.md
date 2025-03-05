@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.58
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.57...v0.0.58)
+
+### 🚀 Enhancements
+
+- Improved package dependencies by adding Tailwind CSS for better styling support ([6273c55](https://github.com/maxlkatze/katzen-core/commit/6273c55))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.57
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.56...v0.0.57)
