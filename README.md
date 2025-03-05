@@ -1,12 +1,3 @@
-<!--
-Get your module up and running quickly.
-
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: CmsKatze
-- Package name: cms-katze
-- Description: An easy to setup in APP CMS
--->
-
 # Katze CMS - A Nuxt Module Headless CMS
 
 [![npm version][npm-version-src]][npm-version-href]
@@ -14,19 +5,16 @@ Find and replace all on all files (CMD+SHIFT+F):
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-![CmsKatze](/src/runtime/assets/logo_outlines.svg)
+![CmsKatze](/src/runtime/client/assets/logo_outlines.svg)
 
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/cms-katze?file=playground%2Fapp.vue) -->
-<!-- - [📖 &nbsp;Documentation](https://example.com) -->
+- [✨ Release Notes](/CHANGELOG.md)
+- [🏀 Online playground](https://stackblitz.com/github/maxlkatze/cms-katze?file=playground%2Fapp.vue)
 
 ## Description
 Katze is a Nuxt module that provides a headless CMS for your Nuxt app.
 Edit content directly in your Nuxt App, store your content in an [Unstorage](https://unstorage.unjs.io/) supported storage
 and deploy your content to the Edge or host it on your server.
 
-### Warning
-**In active development, bugs may be present**
 
 _Feel free to contribute to this project by creating a pull request.🐱❤️_
 
@@ -37,9 +25,11 @@ _Feel free to contribute to this project by creating a pull request.🐱❤️_
 - 🎨 &nbsp;Customisable content blocks (text, rich text, image)
 - 📦 &nbsp;Easy to set up and use, just one configuration file
 
-## Quick Setup
-
-1. Install using: `npm install @maxlkate/cms@latest`
+1. Install using one of the following package managers:
+   - NPM: `npm install @maxlkate/cms@latest`
+   - Yarn: `yarn add @maxlkate/cms@latest`
+   - PNPM: `pnpm add @maxlkate/cms@latest`
+   - Bun: `bun install @maxlkate/cms@latest`
 2. Add `@maxlkatze/cms` to the `modules` section of `nuxt.config.js`
 
 ```js
@@ -55,24 +45,69 @@ That's it! You can now use CmsKatze in your Nuxt app ✨
 ## Usage
 
 Following Route is now available in your Vue app:
-'/cms' - The CMS editor
-![CmsKatze](/documentation/cms_showcase.png)
+'/cms/dashboard' - The CMS Dashboard
+![CmsKatze](/documentation/cms_dashboard.jpg)
 
 ### Understanding Editable Routes
 Every route in your Nuxt Router is displayed in the CMS editor
-![Edit Pages](/documentation/pages_showcase.png)
+![Edit Pages](/documentation/cms_page_edit.jpg)
+
+## Component-Based Usage
+
+### KatzeText Component
+Simple text editing for headlines, paragraphs, and other text elements:
+
+```vue
+<template>
+  <KatzeText
+    id="hero_title"
+    element="h2"
+    class="text-4xl font-extrabold text-gray-900"
+    default-content="The future of content editing is here"
+  />
+</template>
+```
+
+### KatzeRichText Component
+Rich text editing with HTML support:
+
+```vue
+<template>
+  <KatzeRichText
+    id="example_rich_text"
+    default-content="<p>This is <strong>rich text</strong> that supports <em>formatting</em>, <u>underlining</u>, and even <a href='#'>links</a>!</p>"
+    class="prose max-w-none"
+  />
+</template>
+```
+
+### KatzeImage Component
+Easy image management with on-the-fly replacements:
+
+```vue
+<template>
+  <KatzeImage
+    id="example_image"
+    default-src="/test.svg"
+    default-alt="Example image that can be replaced"
+    class="max-w-md rounded-lg shadow-md"
+  />
+</template>
+```
+
+## Composable-Based Usage
 
 ### Editable Components
-By defining a composable within your Vue component, you can define an editable item.
+In addition to the component approach, you can define editable items using composables within your Vue component.
 
 #### The importance of the kat-e attribute
-The e-kat attribute is used to define the key of the editable element.
+The kat-e attribute is used to define the key of the editable element.
 The CMS editor uses this key to identify the element and display its correct position and type.
 
 #### Plain Text Component
 ```vue
 <script setup lang="ts">
-  const buttonText = useKatzeText( { key: 'buttonText' } );
+  const buttonText = useKatzeText({ key: 'buttonText', default: 'defaultValue' });
 </script>
 
 <template>
@@ -83,7 +118,7 @@ The CMS editor uses this key to identify the element and display its correct pos
 #### Rich Text Component
 ```vue
 <script setup lang="ts">
-  const richText = useKatzeRichText( { key: 'richText' } );
+  const richText = useKatzeRichText({ key: 'richText', default: 'defaultValue' });
 </script>
 
 <template>
@@ -102,7 +137,7 @@ This is important for SEO and performance reasons.
 #### Image Component
 ```vue
 <script setup lang="ts">
-  const image = useKatzeImage( { key: 'image' } );
+  const image = useKatzeImage({ key: 'image' });
 </script>
 
 <template>
@@ -182,28 +217,28 @@ The deploy hook URL is used to trigger a deploy when publishing content.
 ## Contribution
 
 1. Clone this repository
-2. Install dependencies using `npm install`
-3. Generate type stubs using `npm dev:prepare`
-4. Develop with the playground using `npm dev`
+2. Install dependencies using `bun install`
+3. Generate type stubs using `bun dev:prepare`
+4. Develop with the playground using `bun dev`
 
 <details>
   <summary>Local development</summary>
-  
+
   ```bash
   # Install dependencies
-  npm install
+  bun install
   
   # Generate type stubs
-  npm run dev:prepare
+  bun run dev:prepare
   
   # Develop with the playground
-  npm run dev
+  bun run dev
   
   # Build the playground
-  npm run dev:build
+  bun run dev:build
   
   # Run ESLint
-  npm run lint
+  bun run lint
   ```
 
 </details>
