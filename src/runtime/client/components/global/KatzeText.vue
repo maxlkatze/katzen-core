@@ -25,10 +25,13 @@ const content = useKatzeText({
 
 effect(() => {
   if (isRef(content)) {
+    console.log('Content Updated!', content.value)
     // set innerHTML
     const element = document.querySelector(`[kat-e="${props.id}"]`)
+    console.log('Element', element)
     if (element) {
       element.innerHTML = content.value as string
+      console.log('Element Updated!')
     }
   }
 })
