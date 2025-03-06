@@ -114,9 +114,9 @@ onMounted(() => {
                  index !== filteredRoutes.length - 1 ? 'border-b border-gray-200' : '']"
       >
         <div class="flex-1">
-          <h3 class="font-medium text-gray-900">
+          <p class="font-medium text-gray-900 text-xl">
             {{ route.name }}
-          </h3>
+          </p>
           <p class="text-sm text-gray-500">
             {{ route.path }}
           </p>

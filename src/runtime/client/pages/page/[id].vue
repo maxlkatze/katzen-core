@@ -240,9 +240,9 @@ const deployChanges = async () => {
 <template>
   <div class="flex flex-col size-full">
     <div class="border-b flex flex-col md:flex-row pb-2 md:pb-1 items-center justify-between drop-shadow-sm shadow-sm z-50">
-      <h1 class="font-mono px-2 font-bold">
+      <p class="font-mono px-2 font-bold">
         Edit: {{ routeId }}
-      </h1>
+      </p>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
         <cms-ui-button
           v-if="!isMobile"
