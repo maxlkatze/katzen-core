@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useKatzeText } from '#imports'
+import { effect, isRef, useKatzeText } from '#imports'
 
 const props = defineProps(
   {
@@ -21,6 +21,16 @@ const props = defineProps(
 const content = useKatzeText({
   key: props.id,
   default: props.defaultContent,
+})
+
+effect(() => {
+  if (isRef(content)) {
+    // set innerHTML
+    const element = document.querySelector(`[kat-e="${props.id}"]`)
+    if (element) {
+      element.innerHTML = content.value as string
+    }
+  }
 })
 </script>
 
