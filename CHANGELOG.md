@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.59
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.58...v0.0.59)
+
+### 🚀 Enhancements
+
+- Improved Tailwind CSS configuration and refined component styling for better usability and layout management ([f1ec20d](https://github.com/maxlkatze/katzen-core/commit/f1ec20d))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.58
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.57...v0.0.58)
