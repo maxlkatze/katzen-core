@@ -242,224 +242,226 @@ const deployChanges = async () => {
       <p class="font-mono px-2 font-bold">
         Edit: {{ routeId }}
       </p>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-        <!-- Changes Button with counter -->
-        <div
-          ref="changesButtonRef"
-          class="relative"
-        >
-          <cms-ui-button
-            class="relative"
-            @click="toggleChangesDropdown($event)"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              class="size-5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M3 3v18h18" />
-              <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
-            </svg>
-            Changes
-            <!-- Changes counter badge -->
-            <span
-              v-if="hasChanges"
-              class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold"
-            >
-              {{ Object.keys(changesCount).length }}
-            </span>
-          </cms-ui-button>
-
-          <!-- Changes dropdown -->
+      <ClientOnly>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+          <!-- Changes Button with counter -->
           <div
-            v-show="showChangesDropdown && hasChanges"
-            class="absolute right-0 top-full mt-2 w-80 bg-white shadow-xl rounded-lg overflow-hidden z-10 border border-gray-200"
+            ref="changesButtonRef"
+            class="relative"
           >
-            <div class="p-3 bg-gray-50 border-b flex items-center justify-between">
-              <h3 class="font-medium text-gray-800">
-                Content Changes
-              </h3>
-              <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
-                {{ Object.keys(changesCount).length }} {{ Object.keys(changesCount).length === 1 ? 'item' : 'items' }}
-              </span>
-            </div>
-            <div class="max-h-80 overflow-y-auto divide-y divide-gray-100">
-              <div
-                v-for="(value, key) in changesCount"
-                :key="key"
-                class="p-3 hover:bg-gray-50"
+            <cms-ui-button
+              class="relative"
+              @click="toggleChangesDropdown($event)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="size-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               >
-                <!-- Changed item details -->
-                <div class="mb-2">
-                  <div class="font-medium text-sm mb-1 text-gray-700">
-                    {{ key }}
+                <path d="M3 3v18h18" />
+                <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+              </svg>
+              Changes
+              <!-- Changes counter badge -->
+              <span
+                v-if="hasChanges"
+                class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold"
+              >
+                {{ Object.keys(changesCount).length }}
+              </span>
+            </cms-ui-button>
+
+            <!-- Changes dropdown -->
+            <div
+              v-show="showChangesDropdown && hasChanges"
+              class="absolute right-0 top-full mt-2 w-80 bg-white shadow-xl rounded-lg overflow-hidden z-10 border border-gray-200"
+            >
+              <div class="p-3 bg-gray-50 border-b flex items-center justify-between">
+                <h3 class="font-medium text-gray-800">
+                  Content Changes
+                </h3>
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                  {{ Object.keys(changesCount).length }} {{ Object.keys(changesCount).length === 1 ? 'item' : 'items' }}
+                </span>
+              </div>
+              <div class="max-h-80 overflow-y-auto divide-y divide-gray-100">
+                <div
+                  v-for="(value, key) in changesCount"
+                  :key="key"
+                  class="p-3 hover:bg-gray-50"
+                >
+                  <!-- Changed item details -->
+                  <div class="mb-2">
+                    <div class="font-medium text-sm mb-1 text-gray-700">
+                      {{ key }}
+                    </div>
+                    <div class="text-xs bg-gray-50 p-2 rounded border border-gray-200 text-gray-600 font-mono">
+                      {{ getContentPreview(value) }}
+                    </div>
                   </div>
-                  <div class="text-xs bg-gray-50 p-2 rounded border border-gray-200 text-gray-600 font-mono">
-                    {{ getContentPreview(value) }}
+                  <!-- Action buttons -->
+                  <div class="flex justify-end gap-2">
+                    <button
+                      class="text-blue-600 hover:text-blue-800 text-xs px-3 py-1 rounded-md hover:bg-blue-50 border border-blue-200 flex items-center gap-1"
+                      @click="openEditModal(key, value, $event)"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="size-3"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                      </svg>
+                      Edit
+                    </button>
+                    <button
+                      class="text-red-600 hover:text-red-800 text-xs px-3 py-1 rounded-md hover:bg-red-50 border border-red-200 flex items-center gap-1"
+                      @click="revertChange(key, $event)"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="size-3"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M3 12h18M3 12l5-5M3 12l5 5" />
+                      </svg>
+                      Revert
+                    </button>
                   </div>
-                </div>
-                <!-- Action buttons -->
-                <div class="flex justify-end gap-2">
-                  <button
-                    class="text-blue-600 hover:text-blue-800 text-xs px-3 py-1 rounded-md hover:bg-blue-50 border border-blue-200 flex items-center gap-1"
-                    @click="openEditModal(key, value, $event)"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="size-3"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                    </svg>
-                    Edit
-                  </button>
-                  <button
-                    class="text-red-600 hover:text-red-800 text-xs px-3 py-1 rounded-md hover:bg-red-50 border border-red-200 flex items-center gap-1"
-                    @click="revertChange(key, $event)"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="size-3"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M3 12h18M3 12l5-5M3 12l5 5" />
-                    </svg>
-                    Revert
-                  </button>
                 </div>
               </div>
-            </div>
-            <div
-              v-if="hasChanges"
-              class="p-2 bg-gray-50 border-t text-center"
-            >
-              <button
-                class="text-xs text-gray-600 hover:text-gray-800"
-                @click="showChangesDropdown = false"
+              <div
+                v-if="hasChanges"
+                class="p-2 bg-gray-50 border-t text-center"
               >
-                Close
-              </button>
+                <button
+                  class="text-xs text-gray-600 hover:text-gray-800"
+                  @click="showChangesDropdown = false"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
+
+          <!-- Save Button -->
+          <cms-ui-button
+            :disabled="!hasChanges || isSaving"
+            :class="{ 'opacity-50 cursor-not-allowed': !hasChanges || isSaving }"
+            @click="saveChanges"
+          >
+            <template v-if="isSaving">
+              <svg
+                class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                />
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </svg>
+              Saving...
+            </template>
+            <template v-else>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="size-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                <polyline points="17 21 17 13 7 13 7 21" />
+                <polyline points="7 3 7 8 15 8" />
+              </svg>
+              Save
+            </template>
+          </cms-ui-button>
+
+          <!-- Publish (Deploy) Button -->
+          <cms-ui-button
+            :disabled="isDeploying"
+            :class="{ 'opacity-50 cursor-not-allowed': isDeploying }"
+            @click="deployChanges"
+          >
+            <template v-if="isDeploying">
+              <svg
+                class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                />
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </svg>
+              Publishing...
+            </template>
+            <template v-else>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="size-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line
+                  x1="12"
+                  y1="3"
+                  x2="12"
+                  y2="15"
+                />
+              </svg>
+              Publish
+            </template>
+          </cms-ui-button>
         </div>
-
-        <!-- Save Button -->
-        <cms-ui-button
-          :disabled="!hasChanges || isSaving"
-          :class="{ 'opacity-50 cursor-not-allowed': !hasChanges || isSaving }"
-          @click="saveChanges"
-        >
-          <template v-if="isSaving">
-            <svg
-              class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              />
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
-            Saving...
-          </template>
-          <template v-else>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              class="size-5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
-              <polyline points="17 21 17 13 7 13 7 21" />
-              <polyline points="7 3 7 8 15 8" />
-            </svg>
-            Save
-          </template>
-        </cms-ui-button>
-
-        <!-- Publish (Deploy) Button -->
-        <cms-ui-button
-          :disabled="isDeploying"
-          :class="{ 'opacity-50 cursor-not-allowed': isDeploying }"
-          @click="deployChanges"
-        >
-          <template v-if="isDeploying">
-            <svg
-              class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              />
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
-            Publishing...
-          </template>
-          <template v-else>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              class="size-5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="17 8 12 3 7 8" />
-              <line
-                x1="12"
-                y1="3"
-                x2="12"
-                y2="15"
-              />
-            </svg>
-            Publish
-          </template>
-        </cms-ui-button>
-      </div>
+      </ClientOnly>
     </div>
 
     <!-- Status messages -->
