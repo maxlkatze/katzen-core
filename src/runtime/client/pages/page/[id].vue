@@ -17,7 +17,6 @@ await contentSource.enableCMSMode()
 
 // UI state
 const isMobile = ref(false)
-const emulateMobile = ref(false)
 const showChangesDropdown = ref(false)
 const changesButtonRef = ref<HTMLElement | null>(null)
 const isSaving = ref(false)
@@ -244,38 +243,6 @@ const deployChanges = async () => {
         Edit: {{ routeId }}
       </p>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-        <cms-ui-button
-          v-if="!isMobile"
-          @click="emulateMobile = !emulateMobile"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            class="size-5"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <rect
-              x="5"
-              y="2"
-              width="14"
-              height="20"
-              rx="2"
-              ry="2"
-            />
-            <line
-              x1="12"
-              y1="18"
-              x2="12"
-              y2="18.01"
-            />
-          </svg>
-          {{ emulateMobile ? 'Desktop' : 'Mobile' }}
-        </cms-ui-button>
-
         <!-- Changes Button with counter -->
         <div
           ref="changesButtonRef"
@@ -555,7 +522,7 @@ const deployChanges = async () => {
         <cms-edit-page-view
           v-if="RouteComponent"
           :route-component="RouteComponent"
-          :emulate-mobile="emulateMobile"
+          :emulate-mobile="false"
           @select-key="handleClickOnElement"
         />
       </ClientOnly>
