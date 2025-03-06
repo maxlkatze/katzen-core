@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v0.0.60
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.59...v0.0.60)
+
+### 🚀 Enhancements
+
+- Enhanced RichTextEditor with HTML mode toggle and improved content handling for better editing flexibility ([9831895](https://github.com/maxlkatze/katzen-core/commit/9831895))
+- Refined page headers by replacing <h1> and <h3> tags with <p> for improved styling consistency and readability across pages ([a8c3dbe](https://github.com/maxlkatze/katzen-core/commit/a8c3dbe))
+- Enhanced dashboard styling by replacing <h3> tags with <p> for better visual consistency and readability ([54a1c7c](https://github.com/maxlkatze/katzen-core/commit/54a1c7c))
+
+### 🩹 Fixes
+
+- Improved RichTextEditor functionality by refining editor state handling and ensuring consistent HTML content updates ([02a6b48](https://github.com/maxlkatze/katzen-core/commit/02a6b48))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.59
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.58...v0.0.59)
