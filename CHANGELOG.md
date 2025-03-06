@@ -1,6 +1,21 @@
 # Changelog
 
 
+## v0.0.63
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.61...v0.0.63)
+
+### 🚀 Enhancements
+
+- Improved KatzeText component with enhanced logging for content updates and element modification ([3cadb40](https://github.com/maxlkatze/katzen-core/commit/3cadb40))
+- Streamlined mobile emulation handling in page component by removing unnecessary state and props ([7f922cc](https://github.com/maxlkatze/katzen-core/commit/7f922cc))
+- Enhanced changes management in page component with streamlined dropdown and button integration ([cf5a538](https://github.com/maxlkatze/katzen-core/commit/cf5a538))
+- Improved content watch functionality in KatzeText component and updated package version to 0.0.62 ([671fa0f](https://github.com/maxlkatze/katzen-core/commit/671fa0f))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.61
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.60...v0.0.61)
