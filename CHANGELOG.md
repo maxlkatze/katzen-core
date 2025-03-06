@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.64
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.63...v0.0.64)
+
+### 🚀 Enhancements
+
+- Enhanced storage management with connection closing support and improved content handling ([aa1435e](https://github.com/maxlkatze/katzen-core/commit/aa1435e))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.63
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.61...v0.0.63)
