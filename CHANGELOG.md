@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.61
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.60...v0.0.61)
+
+### 🚀 Enhancements
+
+- Enhanced KatzeText component by adding reactive HTML content updates and improving prop handling ([586e9e4](https://github.com/maxlkatze/katzen-core/commit/586e9e4))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.60
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.59...v0.0.60)
