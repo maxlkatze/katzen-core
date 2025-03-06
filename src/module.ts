@@ -30,6 +30,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   async setup(_options: ModuleOptions, _nuxt) {
     const resolver = createResolver(import.meta.url)
+    let contentStorage = null
 
     // Check for user array length to be greater than 0
     if (_options.users.length === 0) {
@@ -51,7 +52,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (_options.storage) {
       _nuxt.options.runtimeConfig.storage = _options.storage as StorageDefinition
       // LOAD CONTENT STORAGE
-      const contentStorage = await useContentStorage(_nuxt.options.runtimeConfig)
+      contentStorage = await useContentStorage(_nuxt.options.runtimeConfig)
       let content = await contentStorage.getItem(_options.storageKey)
       if (content === null) {
         content = {}
@@ -62,6 +63,20 @@ export default defineNuxtModule<ModuleOptions>({
     else {
       katzeError('No storage found in the configuration')
     }
+
+    // Set up hooks to properly close connections
+    _nuxt.hook('close', async () => {
+      if (contentStorage && typeof contentStorage.close === 'function') {
+        try {
+          katzeLog('Closing storage connection')
+          await contentStorage.close()
+          katzeLog('Storage connection closed')
+        }
+        catch (err) {
+          katzeError('Failed to close storage connection: ' + err)
+        }
+      }
+    })
 
     // INSTALL TAILWIND
     _nuxt.hook('tailwindcss:config', (tailwindConfig) => {
@@ -84,15 +99,8 @@ export default defineNuxtModule<ModuleOptions>({
         tailwindConfig.content.files.push(...contentPathsToAdd)
       }
 
-      // Set up darkMode if not already configured
-      if (!tailwindConfig.darkMode) {
-        tailwindConfig.darkMode = 'class'
-      }
-
-      // You can add any other theme extensions here if needed
       tailwindConfig.theme = tailwindConfig.theme ?? {}
       tailwindConfig.theme.extend = tailwindConfig.theme.extend ?? {}
-      // Add any custom colors or other theme elements your module needs
     })
     const tailwindOptions = {
       exposeConfig: true,
