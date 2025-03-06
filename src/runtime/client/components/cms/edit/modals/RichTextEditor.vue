@@ -44,8 +44,12 @@ onMounted(() => {
     onUpdate: ({ editor }) => {
       // Update HTML content when editor content changes
       htmlContent.value = editor.getHTML()
-    }
+    },
   })
+
+  if (!editor.value) {
+    return
+  }
 
   // Initialize the HTML content
   htmlContent.value = editor.value.getHTML()
@@ -59,7 +63,8 @@ const handleSave = () => {
   if (isHtmlMode.value) {
     // If in HTML mode, save the raw HTML content
     emit('save', htmlContent.value)
-  } else if (editor.value) {
+  }
+  else if (editor.value) {
     // If in editor mode, save from the editor
     emit('save', editor.value.getHTML())
   }
@@ -72,7 +77,8 @@ const toggleEditMode = () => {
   if (!isHtmlMode.value && editor.value) {
     // When switching back to editor mode, update editor content from HTML
     editor.value.commands.setContent(htmlContent.value)
-  } else if (isHtmlMode.value && editor.value) {
+  }
+  else if (isHtmlMode.value && editor.value) {
     // When switching to HTML mode, ensure HTML content is up to date
     htmlContent.value = editor.value.getHTML()
   }
@@ -382,7 +388,10 @@ const removeLink = () => {
         </div>
 
         <!-- Editor Content -->
-        <div class="border border-gray-300 rounded-b-md p-4 min-h-[200px] bg-white prose">
+        <div
+          v-if="editor"
+          class="border border-gray-300 rounded-b-md p-4 min-h-[200px] bg-white prose"
+        >
           <editor-content
             :editor="editor"
             class="prose max-w-none"
@@ -401,7 +410,7 @@ const removeLink = () => {
             class="w-full p-4 min-h-[300px] font-mono text-sm focus:outline-none"
             placeholder="<p>Your HTML content here...</p>"
             @input="updateFromHtml"
-          ></textarea>
+          />
         </div>
       </div>
     </div>
