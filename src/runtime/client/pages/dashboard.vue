@@ -35,9 +35,9 @@ const navigationWithoutDashboard = navigation.items.filter(item => item.to !== '
             class="rounded-full p-4 mb-3"
             v-html="action.icon"
           />
-          <h3 class="font-medium text-gray-800">
+          <p class="font-medium text-gray-800">
             Edit {{ action.title }}
-          </h3>
+          </p>
         </NuxtLink>
       </div>
       <div class="p-4 rounded-xl col-span-2 mt-6 bg-white border border-gray-200">
