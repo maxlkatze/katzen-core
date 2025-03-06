@@ -10,6 +10,9 @@ import {
   addRouteMiddleware,
   addServerHandler,
 } from '@nuxt/kit'
+import { defu } from 'defu'
+import { join } from 'pathe'
+import type { ModuleOptions as TailwindModuleOptions } from '@nuxtjs/tailwindcss'
 import type { ModuleOptions, StorageDefinition } from './runtime/types/ModuleTypes'
 import { useContentStorage } from './runtime/storage/ContentStorage'
 
@@ -60,21 +63,49 @@ export default defineNuxtModule<ModuleOptions>({
       katzeError('No storage found in the configuration')
     }
 
-    await installModule('@nuxtjs/tailwindcss', {
+    // INSTALL TAILWIND
+    _nuxt.hook('tailwindcss:config', (tailwindConfig) => {
+      const contentPathsToAdd = [
+        resolver.resolve('runtime/client/components/**/*.{vue,mjs,ts}'),
+        resolver.resolve('runtime/client/components/**/**/*.{vue,mjs,ts}'),
+        resolver.resolve('runtime/client/pages/**/*.{vue,mjs,ts}'),
+        resolver.resolve('runtime/client/pages/**/**/*.{vue,mjs,ts}'),
+        resolver.resolve('runtime/client/layouts/**/*.{vue,mjs,ts}'),
+        resolver.resolve('runtime/client/*.{mjs,js,ts}'),
+      ]
+
+      // Handle different content configuration formats
+      tailwindConfig.content = tailwindConfig.content ?? { files: [] }
+      if (Array.isArray(tailwindConfig.content)) {
+        tailwindConfig.content.push(...contentPathsToAdd)
+      }
+      else {
+        tailwindConfig.content.files = tailwindConfig.content.files || []
+        tailwindConfig.content.files.push(...contentPathsToAdd)
+      }
+
+      // Set up darkMode if not already configured
+      if (!tailwindConfig.darkMode) {
+        tailwindConfig.darkMode = 'class'
+      }
+
+      // You can add any other theme extensions here if needed
+      tailwindConfig.theme = tailwindConfig.theme ?? {}
+      tailwindConfig.theme.extend = tailwindConfig.theme.extend ?? {}
+      // Add any custom colors or other theme elements your module needs
+    })
+    const tailwindOptions = {
       exposeConfig: true,
       config: {
-        content: {
-          files: [
-            resolver.resolve('runtime/client/components/**/*.{vue,mjs,ts}'),
-            resolver.resolve('runtime/client/components/**/**/*.{vue,mjs,ts}'),
-            resolver.resolve('runtime/client/pages/**/*.{vue,mjs,ts}'),
-            resolver.resolve('runtime/client/pages/**/**/*.{vue,mjs,ts}'),
-            resolver.resolve('runtime/client/layouts/**/*.{vue,mjs,ts}'),
-            resolver.resolve('runtime/client/*.{mjs,js,ts}'),
-          ],
-        },
+        darkMode: 'class',
       },
-    })
+      configPath: [
+        join(_nuxt.options.rootDir, 'tailwind.config'),
+      ],
+    } as Partial<TailwindModuleOptions>
+    const userOptions = (_nuxt.options.tailwindcss || {})
+    const mergedOptions = defu(tailwindOptions, userOptions) as TailwindModuleOptions
+    await installModule('@nuxtjs/tailwindcss', mergedOptions)
 
     addLayout({
       src: resolver.resolve('runtime/client/layouts/cms.vue'),

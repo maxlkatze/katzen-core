@@ -137,7 +137,7 @@ const handleOverlayMouseLeave = (event: MouseEvent) => {
         <routeComponent v-if="routeComponent" />
 
         <!-- overlays for content editing (eg. element overlays) -->
-        <div class="fixed inset-0 pointer-events-none touch-none z-[1000]">
+        <div class="fixed inset-0 pointer-events-none touch-none z-[1000] overflow-hidden">
           <div
             v-if="currentHoveredElement"
             class="absolute element-overlay-container"
