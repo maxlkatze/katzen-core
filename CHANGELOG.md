@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.68
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.67...v0.0.68)
+
+### 🚀 Enhancements
+
+- Improved image handling by adding separate storage for images and merging keys for better access ([743a8bc](https://github.com/maxlkatze/katzen-core/commit/743a8bc))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.67
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.66...v0.0.67)
