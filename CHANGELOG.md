@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.65
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.64...v0.0.65)
+
+### 🚀 Enhancements
+
+- Improved storage options by adding Upstash support and updating type definitions ([adc7ab2](https://github.com/maxlkatze/katzen-core/commit/adc7ab2))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.64
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.63...v0.0.64)
