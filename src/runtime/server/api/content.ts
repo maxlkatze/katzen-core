@@ -113,9 +113,14 @@ async function handleImageList() {
   const localStorage = createStorage({
     driver: fsDriver({ base: `${runtimeConfig.projectLocation}/public/` }),
   })
+  const imageStorage = createStorage({
+    driver: fsDriver({ base: `${runtimeConfig.projectLocation}/images/` }),
+  })
 
   const imageKeys = await localStorage.getKeys('', {})
-  const filteredImages = imageKeys
+  const imageKeys2 = await imageStorage.getKeys('', {})
+  const mergedKeys = [...imageKeys, ...imageKeys2]
+  const filteredImages = mergedKeys
     .filter(key => extensions.some(ext => key.toLowerCase().endsWith(ext)))
     .map(key => `/${key.replace(/:/g, '/')}`)
 
