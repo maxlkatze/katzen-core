@@ -22,7 +22,7 @@ export type StorageDefinition = {
   options: unknown
 }
 
-export type StorageType = 'azure-app-configuration' | 'cloudflare-kv-binding' | 'fs' | 'github' | 'mongodb' | 'netlify-blobs' | 'planetscale' | 'redis' | 'vercel-kv'
+export type StorageType = 'azure-app-configuration' | 'cloudflare-kv-binding' | 'fs' | 'github' | 'mongodb' | 'netlify-blobs' | 'planetscale' | 'redis' | 'upstash' | 'vercel-kv'
 
 export type AddonDeviceRecognition = {
   defaultUserAgent?: string
@@ -32,7 +32,7 @@ export type AddonDeviceRecognition = {
 export interface ExtendedRuntimeConfig extends RuntimeConfig {
   storageKey: string
   storage: {
-    type: 'azure-app-configuration' | 'cloudflare-kv-binding' | 'fs' | 'github' | 'mongodb' | 'netlify-blobs' | 'planetscale' | 'redis' | 'vercel-kv'
+    type: StorageType
     options: unknown
   }
 }

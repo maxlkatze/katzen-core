@@ -200,6 +200,7 @@ The key for the content value inside the storage. Can be left as default, when u
 - planetscale - [Documentation](https://unstorage.unjs.io/drivers/planetscale)
 - redis - [Documentation](https://unstorage.unjs.io/drivers/redis)
 - vercel-kv - [Documentation](https://unstorage.unjs.io/drivers/vercel)
+- upstash - [Documentation](https://unstorage.unjs.io/drivers/upstash)
 
 Storage implementation example:
 ```js
