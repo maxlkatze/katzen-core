@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.67
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.66...v0.0.67)
+
+### 🚀 Enhancements
+
+- Enhanced package.json by adding unstorage dependency for improved storage management ([1da55e9](https://github.com/maxlkatze/katzen-core/commit/1da55e9))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.66
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.65...v0.0.66)
