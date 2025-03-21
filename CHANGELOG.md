@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.69
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.68...v0.0.69)
+
+### 🏡 Chore
+
+- Updated dependencies for better stability and performance across the project ([d54d813](https://github.com/maxlkatze/katzen-core/commit/d54d813))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.68
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.67...v0.0.68)
