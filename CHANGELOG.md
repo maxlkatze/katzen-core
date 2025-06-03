@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.73
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.72...v0.0.73)
+
+### 🚀 Enhancements
+
+- Enhance ContentStorage for db0 connector support and error handling (master) ([5ab4000](https://github.com/maxlkatze/katzen-core/commit/5ab4000))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.72
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.71...v0.0.72)
