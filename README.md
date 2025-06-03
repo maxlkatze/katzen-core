@@ -215,6 +215,13 @@ storage: {
 The deploy hook URL is used to trigger a deploy when publishing content.
 (Simple GET Request to the URL)
 
+#### Lifecycle CRON Job
+You can configure a cron job to run and keep the storage alive.
+
+```
+https://example.com/cms/api/lifecycle
+```
+
 ## Contribution
 
 1. Clone this repository

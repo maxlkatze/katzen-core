@@ -1,17 +1,26 @@
 # Changelog
 
 
+## v0.0.70
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.69...v0.0.70)
+
 ## v0.0.69
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.68...v0.0.69)
 
+### 🚀 Enhancements
+
+- Added lifecycle handler and token validation (master) ([26dbd34](https://github.com/maxlkatze/katzen-core/commit/26dbd34))
+
 ### 🏡 Chore
 
+- **release:** V0.0.68 ([2706a2d](https://github.com/maxlkatze/katzen-core/commit/2706a2d))
 - Updated dependencies for better stability and performance across the project ([d54d813](https://github.com/maxlkatze/katzen-core/commit/d54d813))
 
 ### ❤️ Contributors
 
-- Maxlkatze <max@cubedpixels.net>
+- Maxlkatze <git@cubedpixels.net>
 
 ## v0.0.68
 

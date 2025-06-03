@@ -153,6 +153,13 @@ async function handleRefresh(
 
   const userData = authentication.decodeToken(token)
 
+  if (!userData) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: 'Invalid token',
+    })
+  }
+
   // Generate new token
   const newToken = await authentication.generateToken(userData, runtimeConfig.secret, '12h')
 

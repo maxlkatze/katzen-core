@@ -202,6 +202,13 @@ export default defineNuxtModule<ModuleOptions>({
         handler: resolver.resolve('runtime/server/api/authentication'),
       },
     )
+
+    addServerHandler(
+      {
+        route: '/cms/api/lifecycle',
+        handler: resolver.resolve('runtime/server/api/lifecycle'),
+      },
+    )
   },
 })
 
