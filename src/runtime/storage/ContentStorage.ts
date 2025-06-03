@@ -16,6 +16,10 @@ interface DynamicConnectorImport {
   default: (opts: unknown) => Connector
 }
 
+interface DynamicNitroPackConnectorImport {
+  (opts: unknown): Connector
+}
+
 interface DynamicNitroPackImport {
   (opts: unknown): Driver
 }
@@ -67,7 +71,7 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
   }
 
   let options = runtimeConfig.storage.options || {}
-  let type = undefined
+  let type: unknown
 
   // if the driver is db0, the type is the connector type / database options is inside options
   if (runtimeConfig.storage.type === 'db0') {
@@ -97,8 +101,21 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
         throw new Error(`DB0 storage driver does not support "${databaseOptions.type}" type`)
     }
 
-    const connectorImport = type as DynamicConnectorImport
-    const connector = connectorImport.default(databaseOptions.options) as Connector
+    let connector: Connector
+    try {
+      const nitroPackImport = type as DynamicNitroPackConnectorImport
+      connector = nitroPackImport(options) as Connector
+    }
+    catch (e1) {
+      try {
+        const moduleImport = type as DynamicConnectorImport
+        connector = moduleImport.default(options) as Connector
+      }
+      catch (e2) {
+        console.log('\x1B[41m\x1B[30m !Katze \x1B[0m Have you installed the db0 connector for the storage type? Consult the db0 documentation for more information')
+        throw new Error(`Connector ${databaseOptions.type} could not be imported, possible error: ${e1}, ${e2}`)
+      }
+    }
     options = {
       connector,
       table: 'katze_content',
