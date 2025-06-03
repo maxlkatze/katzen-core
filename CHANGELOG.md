@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.72
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.71...v0.0.72)
+
+### 🚀 Enhancements
+
+- Add upload and download functionality for site configuration (master) ([7e07d1e](https://github.com/maxlkatze/katzen-core/commit/7e07d1e))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.71
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.70...v0.0.71)
