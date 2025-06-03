@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.76
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.75...v0.0.76)
+
+### 💅 Refactors
+
+- Improve database initialization in ContentStorage (master) ([49ec1de](https://github.com/maxlkatze/katzen-core/commit/49ec1de))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.75
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.74...v0.0.75)
