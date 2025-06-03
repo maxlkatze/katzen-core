@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v0.0.71
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.70...v0.0.71)
+
+### 🚀 Enhancements
+
+- Enhanced site settings with upload functionality and added db0 storage support ([39ef344](https://github.com/maxlkatze/katzen-core/commit/39ef344))
+
+### 📖 Documentation
+
+- Update README with lifecycle CRON job instructions ([a90fdc2](https://github.com/maxlkatze/katzen-core/commit/a90fdc2))
+
+### 🏡 Chore
+
+- **release:** V0.0.69 ([aa6ef8f](https://github.com/maxlkatze/katzen-core/commit/aa6ef8f))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.70
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.69...v0.0.70)
