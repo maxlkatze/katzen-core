@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.75
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.74...v0.0.75)
+
+### 💅 Refactors
+
+- Update connector usage to improve code clarity in ContentStorage (master) ([ac8fba0](https://github.com/maxlkatze/katzen-core/commit/ac8fba0))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.74
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.73...v0.0.74)
