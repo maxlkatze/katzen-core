@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.74
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.73...v0.0.74)
+
+### 💅 Refactors
+
+- Improve error handling and type definitions in ContentStorage (master) ([8292922](https://github.com/maxlkatze/katzen-core/commit/8292922))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.73
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.72...v0.0.73)
