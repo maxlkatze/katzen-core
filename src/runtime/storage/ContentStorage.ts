@@ -1,5 +1,6 @@
 import { createStorage, type Storage, type Driver } from 'unstorage'
 import type { RuntimeConfig } from 'nuxt/schema'
+import type { Connector } from 'db0'
 import type { ExtendedRuntimeConfig } from '../types/ModuleTypes'
 
 interface StorageManagementDriver extends Storage {
@@ -11,8 +12,17 @@ interface DynamicModuleImport {
   default: (opts: unknown) => Driver
 }
 
+interface DynamicConnectorImport {
+  default: (opts: unknown) => Connector
+}
+
 interface DynamicNitroPackImport {
   (opts: unknown): Driver
+}
+
+type DatabaseOptions = {
+  type: 'bunSqlite' | 'cloudflareD1' | 'mysql' | 'postgresql'
+  options: Record<string, unknown>
 }
 
 export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<StorageManagementDriver> => {
@@ -56,15 +66,54 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
       throw new Error(`Driver ${runtimeConfig.storage.type} not found`)
   }
 
+  let options = runtimeConfig.storage.options || {}
+  let type = undefined
+
+  // if the driver is db0, the type is the connector type / database options is inside options
+  if (runtimeConfig.storage.type === 'db0') {
+    const databaseOptions = options as DatabaseOptions
+    // type ( bunSqlite, cloudflareD1, mysql(mysql2), postgresql
+    if (!databaseOptions.type) {
+      throw new Error('DB0 storage driver requires a "type" option to be specified')
+    }
+    // database options
+    if (!databaseOptions.options) {
+      throw new Error('DB0 storage driver requires a "options" option to be specified')
+    }
+    switch (databaseOptions.type) {
+      case 'bunSqlite':
+        type = await import('db0/connectors/bun-sqlite')
+        break
+      case 'cloudflareD1':
+        type = await import('db0/connectors/cloudflare-d1')
+        break
+      case 'mysql':
+        type = await import('db0/connectors/mysql2')
+        break
+      case 'postgresql':
+        type = await import('db0/connectors/postgresql')
+        break
+      default:
+        throw new Error(`DB0 storage driver does not support "${databaseOptions.type}" type`)
+    }
+
+    const connectorImport = type as DynamicConnectorImport
+    const connector = connectorImport.default(databaseOptions.options) as Connector
+    options = {
+      connector,
+      table: 'katze_content',
+    }
+  }
+
   let driver: Driver
   try {
     const nitroPackImport = module as DynamicNitroPackImport
-    driver = nitroPackImport(runtimeConfig.storage.options) as Driver
+    driver = nitroPackImport(options) as Driver
   }
   catch (e1) {
     try {
       const moduleImport = module as DynamicModuleImport
-      driver = moduleImport.default(runtimeConfig.storage.options) as Driver
+      driver = moduleImport.default(options) as Driver
     }
     catch (e2) {
       console.log('\x1B[41m\x1B[30m !Katze \x1B[0m Have you installed the driver for the storage type? Consult the unstorage documentation for more information')
