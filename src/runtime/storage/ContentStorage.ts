@@ -1,6 +1,7 @@
 import { createStorage, type Storage, type Driver } from 'unstorage'
 import type { RuntimeConfig } from 'nuxt/schema'
 import type { Connector } from 'db0'
+import { createDatabase } from 'db0'
 import type { ExtendedRuntimeConfig } from '../types/ModuleTypes'
 
 interface StorageManagementDriver extends Storage {
@@ -12,16 +13,16 @@ interface DynamicModuleImport {
   default: (opts: unknown) => Driver
 }
 
+interface DynamicNitroPackImport {
+  (opts: unknown): Driver
+}
+
 interface DynamicConnectorImport {
   default: (opts: unknown) => Connector
 }
 
 interface DynamicNitroPackConnectorImport {
   (opts: unknown): Connector
-}
-
-interface DynamicNitroPackImport {
-  (opts: unknown): Driver
 }
 
 type DatabaseOptions = {
@@ -117,7 +118,7 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
       }
     }
     options = {
-      database: connector,
+      database: createDatabase(connector),
       table: 'katze_content',
     }
   }
