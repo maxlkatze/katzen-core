@@ -104,12 +104,12 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
     let connector: Connector
     try {
       const nitroPackImport = type as DynamicNitroPackConnectorImport
-      connector = nitroPackImport(options) as Connector
+      connector = nitroPackImport(databaseOptions.options) as Connector
     }
     catch (e1) {
       try {
         const moduleImport = type as DynamicConnectorImport
-        connector = moduleImport.default(options) as Connector
+        connector = moduleImport.default(databaseOptions.options) as Connector
       }
       catch (e2) {
         console.log('\x1B[41m\x1B[30m !Katze \x1B[0m Have you installed the db0 connector for the storage type? Consult the db0 documentation for more information')
@@ -117,7 +117,7 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
       }
     }
     options = {
-      connector,
+      database: connector,
       table: 'katze_content',
     }
   }
