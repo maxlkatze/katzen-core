@@ -120,6 +120,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
           type="submit"
           :disabled="isLoading"
           class="w-full"
+          @click="handleLogin"
         >
           <template v-if="isLoading">
             <svg

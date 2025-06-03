@@ -201,6 +201,7 @@ The key for the content value inside the storage. Can be left as default, when u
 - redis - [Documentation](https://unstorage.unjs.io/drivers/redis)
 - vercel-kv - [Documentation](https://unstorage.unjs.io/drivers/vercel)
 - upstash - [Documentation](https://unstorage.unjs.io/drivers/upstash)
+- db0 - [Documentation](https://unstorage.unjs.io/drivers/db0)
 
 Storage implementation example:
 ```js

@@ -142,6 +142,12 @@ function getTypeIcon(type: string): string {
       return 'text-gray-500'
   }
 }
+
+const uploadContent = async () => {
+  // Placeholder for upload logic
+  // This should handle file input and send the content to the server
+  alert('Upload functionality is not implemented yet.')
+}
 </script>
 
 <template>
@@ -157,7 +163,7 @@ function getTypeIcon(type: string): string {
     </div>
 
     <!-- Search -->
-    <div class="mb-6">
+    <div class="mb-6 flex flex-row">
       <div class="relative max-w-md">
         <input
           v-model="searchQuery"
@@ -190,6 +196,24 @@ function getTypeIcon(type: string): string {
             />
           </svg>
         </span>
+      </div>
+      <div class="ml-4 flex items-center">
+        <!-- button to upload config file and replace the serverside config -->
+        <cms-ui-button
+          class="ml-2 text-white"
+          variant="primary"
+          @click="uploadContent"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+          </svg>
+          Upload Config
+        </cms-ui-button>
       </div>
     </div>
 

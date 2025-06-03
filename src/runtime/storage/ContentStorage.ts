@@ -46,6 +46,9 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
     case 'upstash':
       module = await import('unstorage/drivers/upstash')
       break
+    case 'db0':
+      module = await import('unstorage/drivers/db0')
+      break
     case 'vercel-kv':
       module = await import('unstorage/drivers/vercel-kv')
       break
