@@ -42,5 +42,6 @@ export const useContentSource = () => {
     getContentByKey,
     isCMSUser,
     editContentStorage,
+    content,
   }
 }

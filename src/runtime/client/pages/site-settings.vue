@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useAuthentication } from '../composables/cms/useAuthentication'
+import { useContentSource } from '../composables/cms/useContentSource'
 import { useRuntimeConfig, definePageMeta } from '#imports'
 
 definePageMeta({
@@ -143,10 +145,63 @@ function getTypeIcon(type: string): string {
   }
 }
 
+const auth = useAuthentication()
+
 const uploadContent = async () => {
-  // Placeholder for upload logic
-  // This should handle file input and send the content to the server
-  alert('Upload functionality is not implemented yet.')
+  // open a file dialog to select a config file (json)
+  const fileInput = document.createElement('input')
+  fileInput.type = 'file'
+  fileInput.accept = '.json'
+  fileInput.onchange = async (event) => {
+    const file = (event.target as HTMLInputElement).files?.[0]
+    if (!file) return
+
+    const token = auth.getToken()
+    if (!token) {
+      throw new Error('Authentication required. Please log in again.')
+    }
+    const content = await file.text()
+    const jsonContent = JSON.parse(content)
+    const response = await $fetch('/cms/api/content', {
+      method: 'POST',
+      body: {
+        token,
+        action: 'save',
+        content: jsonContent,
+      },
+    })
+
+    if (response.success) {
+      // Reload the page to reflect changes
+      window.location.reload()
+    }
+    else {
+      console.error('Failed to upload config:', response.error)
+      alert('Failed to upload config: ' + response.error)
+    }
+  }
+  fileInput.click()
+}
+
+const contentSource = useContentSource()
+const downloadConfig = async () => {
+  const content = contentSource.content
+  if (!content) {
+    alert('No content available to download.')
+    return
+  }
+  // Convert content to JSON string
+  const jsonContent = JSON.stringify(content, null, 2)
+  // Create a Blob from the JSON string
+  const blob = new Blob([jsonContent], { type: 'application/json' })
+  // Create a link element to trigger download
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(blob)
+  link.download = 'site-config.json'
+  // Append link to the body
+  document.body.appendChild(link)
+  // Trigger the download
+  link.click()
 }
 </script>
 
@@ -204,15 +259,15 @@ const uploadContent = async () => {
           variant="primary"
           @click="uploadContent"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 mr-2"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-          </svg>
           Upload Config
+        </cms-ui-button>
+
+        <cms-ui-button
+          class="ml-2 text-white"
+          variant="secondary"
+          @click="downloadConfig"
+        >
+          Download Config
         </cms-ui-button>
       </div>
     </div>

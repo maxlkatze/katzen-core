@@ -57,15 +57,14 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
   }
 
   let driver: Driver
-  const copiedOptions = JSON.parse(JSON.stringify(runtimeConfig.storage.options))
   try {
     const nitroPackImport = module as DynamicNitroPackImport
-    driver = nitroPackImport(copiedOptions) as Driver
+    driver = nitroPackImport(runtimeConfig.storage.options) as Driver
   }
   catch (e1) {
     try {
       const moduleImport = module as DynamicModuleImport
-      driver = moduleImport.default(copiedOptions) as Driver
+      driver = moduleImport.default(runtimeConfig.storage.options) as Driver
     }
     catch (e2) {
       console.log('\x1B[41m\x1B[30m !Katze \x1B[0m Have you installed the driver for the storage type? Consult the unstorage documentation for more information')
