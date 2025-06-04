@@ -114,11 +114,11 @@ async function handleImageList() {
     driver: fsDriver({ base: `${runtimeConfig.projectLocation}/public/` }),
   })
   const imageStorage = createStorage({
-    driver: fsDriver({ base: `${runtimeConfig.projectLocation}/images/` }),
+    driver: fsDriver({ base: `${runtimeConfig.projectLocation}/../../static/images/` }),
   })
 
   const fileStore = createStorage({
-    driver: fsDriver({ base: `${runtimeConfig.projectLocation}` }),
+    driver: fsDriver({ base: `${runtimeConfig.projectLocation}/../../static/images/` }),
   })
 
   const files = await fileStore.getKeys('', {})
