@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.78
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.77...v0.0.78)
+
+### 🩹 Fixes
+
+- Updated tailwindcss dependency version for consistency ([29be733](https://github.com/maxlkatze/katzen-core/commit/29be733))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.77
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.76...v0.0.77)
