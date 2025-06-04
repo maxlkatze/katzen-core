@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v0.0.77
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.76...v0.0.77)
+
+### 🩹 Fixes
+
+- Removed experimental warning for db0 ([bc4defb](https://github.com/maxlkatze/katzen-core/commit/bc4defb))
+
+### 💅 Refactors
+
+- Cleaned up unnecessary whitespace in content API file ([09aa7f4](https://github.com/maxlkatze/katzen-core/commit/09aa7f4))
+
+### ✅ Tests
+
+- Debugging image location on vercel ([3fb8bcc](https://github.com/maxlkatze/katzen-core/commit/3fb8bcc))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.76
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.75...v0.0.76)
