@@ -213,7 +213,10 @@ export default defineNuxtModule<ModuleOptions>({
     )
 
     // build hook to get the /public/images directory and write the array to a json
-    _nuxt.hook('build:before', async () => {
+    _nuxt.hook('nitro:build:before', async () => {
+      if (_nuxt.options.dev) {
+        return
+      }
       const fileStore = createStorage({
         driver: fsDriver({ base: `${_nuxt.options.runtimeConfig.projectLocation}/public/` }),
       })
@@ -226,10 +229,11 @@ export default defineNuxtModule<ModuleOptions>({
       const imageList = {
         images: filteredImages,
       }
-      const path = resolver.resolve(`${_nuxt.options.runtimeConfig.projectLocation}/server/images.json`)
-      console.log('Writing images.json to', path, imageList)
-      const fs = await import('node:fs/promises')
-      await fs.writeFile(path, JSON.stringify(imageList, null, 2), 'utf-8')
+      fileStore.setItem('cms:images.json', imageList).then(() => {
+        katzeLog('Images.json written successfully')
+      }).catch((err) => {
+        katzeError('Failed to write images.json: ' + err)
+      })
     })
   },
 })

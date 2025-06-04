@@ -36,6 +36,22 @@ const fetchImages = async () => {
       throw new Error('Authentication required')
     }
 
+    try {
+      const jsonResponse = await $fetch('/cms/images.json', {
+        method: 'GET',
+      }) as {
+        images?: string[]
+      } | null
+
+      if (jsonResponse) {
+        images.value = jsonResponse.images || []
+      }
+      return
+    }
+    catch (e) {
+      console.error('Error fetching images.json:', e)
+    }
+
     const response = await $fetch('/cms/api/content', {
       method: 'POST',
       body: {
