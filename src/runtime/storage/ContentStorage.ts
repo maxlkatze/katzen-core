@@ -192,7 +192,7 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
           type DatabaseClient = {
             [method: string]: () => Promise<void> | void
           }
-          const client = (await (connector as Connector).getInstance()) as DatabaseClient
+          const client = (connector) as DatabaseClient
           const possibleCloseMethods = ['close', 'end', 'quit']
           for (const method of possibleCloseMethods) {
             if (typeof client[method] === 'function') {
