@@ -183,6 +183,22 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
         console.error('\x1B[41m\x1B[30m !Katze \x1B[0m Error closing Redis connection:', err)
       }
     }
+
+    if (runtimeConfig.storage.type === 'db0') {
+      try {
+        console.log(storage)
+        console.log(driver)
+        console.log('\x1B[42m\x1B[30m Katze \x1B[0m Closing DB0 connection')
+        const db = driver.database
+        if (db && typeof db.close === 'function') {
+          await db.close()
+          console.log('\x1B[42m\x1B[30m Katze \x1B[0m DB0 connection closed successfully')
+        }
+      }
+      catch (err) {
+        console.error('\x1B[41m\x1B[30m !Katze \x1B[0m Error closing DB0 connection:', err)
+      }
+    }
   }
 
   return storage
