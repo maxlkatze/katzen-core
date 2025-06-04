@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.83
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.82...v0.0.83)
+
+### 💅 Refactors
+
+- Simplified image storage paths for improved clarity ([8ec29f1](https://github.com/maxlkatze/katzen-core/commit/8ec29f1))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.82
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.81...v0.0.82)
