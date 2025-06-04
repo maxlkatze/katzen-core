@@ -1,6 +1,21 @@
 # Changelog
 
 
+## v0.0.86
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.85...v0.0.86)
+
+### 🚀 Enhancements
+
+- Enhanced image handling and updated nightly script for better build management ([0faf511](https://github.com/maxlkatze/katzen-core/commit/0faf511))
+- Improved versioning and refined image handling path for enhanced build processes ([9b21ec3](https://github.com/maxlkatze/katzen-core/commit/9b21ec3))
+- Enhanced image fetching and improved build hook for JSON generation ([d844cdf](https://github.com/maxlkatze/katzen-core/commit/d844cdf))
+- Improved image handling and refined build processes for enhanced performance ([d7479e3](https://github.com/maxlkatze/katzen-core/commit/d7479e3))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.86-20250604-140619-d844cdf
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.85...v0.0.86-20250604-140619-d844cdf)
