@@ -42,7 +42,7 @@
     "@tiptap/starter-kit": "^2.11.5",
     "@tiptap/vue-3": "^2.11.5",
     "jose": "^6.0.10",
-    "@nuxtjs/tailwindcss": "^6.13.2",
+    "@nuxtjs/tailwindcss": "6.13.2",
     "unstorage": "^1.15.0"
   },
   "devDependencies": {
