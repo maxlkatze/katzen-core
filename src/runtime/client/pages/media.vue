@@ -281,10 +281,18 @@ const getFileDate = () => {
           class="aspect-square relative overflow-hidden bg-gray-100 flex items-center justify-center"
           @click="openPreview(image)"
         >
+          <!-- lazy images for better ram & performance -->
           <img
             :src="image"
             :alt="getFileName(image)"
             class="object-cover w-full h-full cursor-pointer"
+            style="content-visibility: auto;"
+            loading="lazy"
+            fetchpriority="low"
+            width="300"
+            height="300"
+            @error="(e) => console.error('Image load error:', e, image)"
+            @click.stop="openPreview(image)"
           >
 
           <!-- Hover Overlay -->
