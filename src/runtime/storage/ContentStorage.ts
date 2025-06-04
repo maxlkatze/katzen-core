@@ -185,22 +185,25 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
     }
 
     if (runtimeConfig.storage.type === 'db0') {
-      interface Db0Driver extends Driver {
-        getInstance?: () => Database
-      }
-      const database = (driver as Db0Driver).getInstance?.()
+      const database = driver.getInstance?.() as Database
       if (database) {
         const connector = await database.getInstance()
         if (connector) {
-          const client = connector as { close?: () => Promise<void> | void }
-          if (client.close && typeof client.close === 'function') {
-            try {
-              console.log('\x1B[42m\x1B[30m Katze \x1B[0m Closing DB0 connection')
-              await client.close()
-              console.log('\x1B[42m\x1B[30m Katze \x1B[0m DB0 connection closed successfully')
-            }
-            catch (err) {
-              console.error('\x1B[41m\x1B[30m !Katze \x1B[0m Error closing DB0 connection:', err)
+          type DatabaseClient = {
+            [method: string]: () => Promise<void> | void
+          }
+          const client = (await (connector as Connector).getInstance()) as DatabaseClient
+          const possibleCloseMethods = ['close', 'end', 'quit']
+          for (const method of possibleCloseMethods) {
+            if (typeof client[method] === 'function') {
+              try {
+                await client[method]()
+                console.log(`\x1B[42m\x1B[30m Katze \x1B[0m DB0 connection closed successfully using ${method}`)
+                break
+              }
+              catch (err) {
+                console.error(`\x1B[41m\x1B[30m !Katze \x1B[0m Error closing DB0 connection with ${method}:`, err)
+              }
             }
           }
         }
