@@ -119,12 +119,6 @@ async function handleImageList() {
     driver: fsDriver({ base: `${runtimeConfig.projectLocation}/images/` }),
   })
 
-  const fileStore = createStorage({
-    driver: fsDriver({ base: `./../` }),
-  })
-
-  const files = await fileStore.getKeys('', {})
-
   const imageKeys = await localStorage.getKeys('', {})
   const imageKeys2 = await imageStorage.getKeys('', {})
   const mergedKeys = [...imageKeys, ...imageKeys2]
@@ -137,7 +131,6 @@ async function handleImageList() {
     body: {
       message: 'Images fetched',
       images: filteredImages,
-      files,
     },
   }
 }

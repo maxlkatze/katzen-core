@@ -13,6 +13,8 @@ import {
 import { defu } from 'defu'
 import { join } from 'pathe'
 import type { ModuleOptions as TailwindModuleOptions } from '@nuxtjs/tailwindcss'
+import { createStorage } from 'unstorage'
+import fsDriver from 'unstorage/drivers/fs'
 import type { ModuleOptions, StorageDefinition } from './runtime/types/ModuleTypes'
 import { useContentStorage } from './runtime/storage/ContentStorage'
 
@@ -209,6 +211,26 @@ export default defineNuxtModule<ModuleOptions>({
         handler: resolver.resolve('runtime/server/api/lifecycle'),
       },
     )
+
+    // build hook to get the /public/images directory and write the array to a json
+    _nuxt.hook('build:before', async () => {
+      const fileStore = createStorage({
+        driver: fsDriver({ base: `${_nuxt.options.runtimeConfig.projectLocation}/public/` }),
+      })
+      const files = await fileStore.getKeys('', {})
+      const extensions = ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp']
+      const filteredImages = files
+        .filter(key => extensions.some(ext => key.toLowerCase().endsWith(ext)))
+        .map(key => `/${key.replace(/:/g, '/')}`)
+
+      const imageList = {
+        images: filteredImages,
+      }
+      const path = resolver.resolve('server/images.json')
+      console.log('Writing images.json to', path, imageList)
+      const fs = await import('node:fs/promises')
+      await fs.writeFile(path, JSON.stringify(imageList, null, 2), 'utf-8')
+    })
   },
 })
 
