@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v0.0.87
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.86...v0.0.87)
+
+### 🚀 Enhancements
+
+- Added Storage Disposal at Closing for External Database Connections. ([d011264](https://github.com/maxlkatze/katzen-core/commit/d011264))
+
+### 🏡 Chore
+
+- **release:** V0.0.86 ([7012ab5](https://github.com/maxlkatze/katzen-core/commit/7012ab5))
+
+### ✅ Tests
+
+- Add DB0 connection closing logic in ContentStorage (master) ([60e3d12](https://github.com/maxlkatze/katzen-core/commit/60e3d12))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.87-20250604-223453-60e3d12
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.86...v0.0.87-20250604-223453-60e3d12)
