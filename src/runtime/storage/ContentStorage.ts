@@ -30,6 +30,10 @@ type DatabaseOptions = {
   options: Record<string, unknown>
 }
 
+type GlobalThisType = typeof globalThis & {
+  __unstorage_db0_experimental_warning__: boolean
+}
+
 export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<StorageManagementDriver> => {
   const runtimeConfig = _runtimeConfig as ExtendedRuntimeConfig
   let module: unknown
@@ -121,6 +125,8 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
       database: createDatabase(connector),
       table: 'katze_content',
     }
+    const kExperimentalWarning = '__unstorage_db0_experimental_warning__';
+    (globalThis as GlobalThisType)[kExperimentalWarning] = true
   }
 
   let driver: Driver
