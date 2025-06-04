@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.0.87-20250604-223453-60e3d12
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.86...v0.0.87-20250604-223453-60e3d12)
+
+### 🏡 Chore
+
+- **release:** V0.0.86 ([7012ab5](https://github.com/maxlkatze/katzen-core/commit/7012ab5))
+
+### ✅ Tests
+
+- Add DB0 connection closing logic in ContentStorage (master) ([60e3d12](https://github.com/maxlkatze/katzen-core/commit/60e3d12))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.86
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.85...v0.0.86)
