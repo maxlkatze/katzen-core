@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.79
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.78...v0.0.79)
+
+### 🩹 Fixes
+
+- Updated @nuxt/kit dependency version for improved stability ([ef928c6](https://github.com/maxlkatze/katzen-core/commit/ef928c6))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.78
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.77...v0.0.78)
