@@ -226,7 +226,7 @@ export default defineNuxtModule<ModuleOptions>({
       const imageList = {
         images: filteredImages,
       }
-      const path = resolver.resolve('server/images.json')
+      const path = resolver.resolve(`${_nuxt.options.runtimeConfig.projectLocation}/server/images.json`)
       console.log('Writing images.json to', path, imageList)
       const fs = await import('node:fs/promises')
       await fs.writeFile(path, JSON.stringify(imageList, null, 2), 'utf-8')

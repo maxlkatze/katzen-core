@@ -1,6 +1,6 @@
 {
   "name": "@maxlkatze/cms",
-  "version": "0.0.85",
+  "version": "0.0.86-20250604-134920-0faf511",
   "description": "A git based Nuxt Module CMS - zero effort, zero cost",
   "repository": {
     "type": "git",
@@ -25,7 +25,7 @@
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-    "release": "npm run lint && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "release": "npm run lint && npm run prepack && changelogen --release && npm publish --tag latest && git push --follow-tags",
     "nightly": "npm run lint && npm run prepack && changelogen --canary && npm publish --tag nightly && git push --follow-tags",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

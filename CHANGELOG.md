@@ -1,6 +1,30 @@
 # Changelog
 
 
+## v0.0.86-20250604-134920-0faf511
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.85...v0.0.86-20250604-134920-0faf511)
+
+### 🚀 Enhancements
+
+- Enhanced image handling and updated nightly script for better build management ([0faf511](https://github.com/maxlkatze/katzen-core/commit/0faf511))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
+## v0.0.86-20250604-134304-0faf511
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.85...v0.0.86-20250604-134304-0faf511)
+
+### 🚀 Enhancements
+
+- Enhanced image handling and updated nightly script for better build management ([0faf511](https://github.com/maxlkatze/katzen-core/commit/0faf511))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.85
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.84...v0.0.85)
