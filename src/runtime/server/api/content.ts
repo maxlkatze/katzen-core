@@ -117,7 +117,6 @@ async function handleImageList() {
     driver: fsDriver({ base: `${runtimeConfig.projectLocation}/images/` }),
   })
 
-
   const fileStore = createStorage({
     driver: fsDriver({ base: `${runtimeConfig.projectLocation}` }),
   })
