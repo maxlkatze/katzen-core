@@ -39,7 +39,9 @@ export default defineEventHandler(async (event) => {
     return {
       success: false,
       body: {
-        message: error || 'An error occurred',
+        message: 'An error occurred',
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
       },
     }
   }
@@ -118,7 +120,7 @@ async function handleImageList() {
   })
 
   const fileStore = createStorage({
-    driver: fsDriver({ base: `${runtimeConfig.projectLocation}/../../` }),
+    driver: fsDriver({ base: `./../` }),
   })
 
   const files = await fileStore.getKeys('', {})
