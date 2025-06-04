@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.84
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.83...v0.0.84)
+
+### 🩹 Fixes
+
+- Improved error handling and adjusted file storage path for better organization ([adbe475](https://github.com/maxlkatze/katzen-core/commit/adbe475))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.83
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.82...v0.0.83)
