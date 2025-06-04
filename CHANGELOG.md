@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.0.88
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.87...v0.0.88)
+
+### 🚀 Enhancements
+
+- Implement DB0 connection closure in ContentStorage (issue: master) ([d891b31](https://github.com/maxlkatze/katzen-core/commit/d891b31))
+- Enhance DB0 connection closure handling in ContentStorage (issue: master) ([df74bf2](https://github.com/maxlkatze/katzen-core/commit/df74bf2))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.88-20250604-225811-d891b31
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.87...v0.0.88-20250604-225811-d891b31)

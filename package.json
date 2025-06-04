@@ -1,6 +1,6 @@
 {
   "name": "@maxlkatze/cms",
-  "version": "0.0.88-20250604-225811-d891b31",
+  "version": "0.0.88",
   "description": "A git based Nuxt Module CMS - zero effort, zero cost",
   "repository": {
     "type": "git",
