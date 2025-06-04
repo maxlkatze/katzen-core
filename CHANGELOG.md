@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.89
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.88...v0.0.89)
+
+### 🩹 Fixes
+
+- Correct type assertion for DatabaseClient in ContentStorage (issue: master) ([ce2d723](https://github.com/maxlkatze/katzen-core/commit/ce2d723))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.88
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.87...v0.0.88)
