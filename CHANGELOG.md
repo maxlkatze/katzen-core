@@ -1,6 +1,31 @@
 # Changelog
 
 
+## v0.0.90
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.89...v0.0.90)
+
+### 🚀 Enhancements
+
+- Expanded support for custom components and added functionality for handling default attributes in schemas ([d9e3df2](https://github.com/maxlkatze/katzen-core/commit/d9e3df2))
+- Enhanced content management with storage registration and retrieval functionalities ([69b0b45](https://github.com/maxlkatze/katzen-core/commit/69b0b45))
+- Improved feature presentation with custom component support and enhanced array management ([129e5cc](https://github.com/maxlkatze/katzen-core/commit/129e5cc))
+- Enhanced editor flexibility by adding custom component support and a dynamic component selection method ([6374f5a](https://github.com/maxlkatze/katzen-core/commit/6374f5a))
+- Expanded content type definitions to include custom component support and flexible schema management ([7a0db7f](https://github.com/maxlkatze/katzen-core/commit/7a0db7f))
+- Enhanced content type detection to support custom components and fallback mechanisms ([11b6554](https://github.com/maxlkatze/katzen-core/commit/11b6554))
+
+### 💅 Refactors
+
+- Improved type safety for custom components by replacing 'any' with 'unknown' across various schemas and components. Enhanced default value handling in editor and composables to ensure consistent data structures. ([59e0c58](https://github.com/maxlkatze/katzen-core/commit/59e0c58))
+
+### 🏡 Chore
+
+- **release:** V0.0.89 ([34690ab](https://github.com/maxlkatze/katzen-core/commit/34690ab))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.89
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.88...v0.0.89)
