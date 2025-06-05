@@ -1,6 +1,6 @@
 import { createStorage, type Storage, type Driver } from 'unstorage'
 import type { RuntimeConfig } from 'nuxt/schema'
-import type { Connector } from 'db0'
+import type { Connector, Database } from 'db0'
 import { createDatabase } from 'db0'
 import type { ExtendedRuntimeConfig } from '../types/ModuleTypes'
 
@@ -183,6 +183,34 @@ export const useContentStorage = async (_runtimeConfig: RuntimeConfig): Promise<
         console.error('\x1B[41m\x1B[30m !Katze \x1B[0m Error closing Redis connection:', err)
       }
     }
+
+    if (runtimeConfig.storage.type === 'db0') {
+      const database = driver.getInstance?.() as Database
+      if (database) {
+        const connector = await database.getInstance()
+        if (connector) {
+          type DatabaseClient = {
+            [method: string]: () => Promise<void> | void
+          }
+          const client = (connector) as DatabaseClient
+          const possibleCloseMethods = ['close', 'end', 'quit']
+          for (const method of possibleCloseMethods) {
+            if (typeof client[method] === 'function') {
+              try {
+                await client[method]()
+                console.log(`\x1B[42m\x1B[30m Katze \x1B[0m DB0 connection closed successfully using ${method}`)
+                break
+              }
+              catch (err) {
+                console.error(`\x1B[41m\x1B[30m !Katze \x1B[0m Error closing DB0 connection with ${method}:`, err)
+              }
+            }
+          }
+        }
+      }
+    }
+
+    await storage.dispose()
   }
 
   return storage

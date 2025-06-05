@@ -1,6 +1,79 @@
 # Changelog
 
 
+## v0.0.89
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.88...v0.0.89)
+
+### 🩹 Fixes
+
+- Correct type assertion for DatabaseClient in ContentStorage (issue: master) ([ce2d723](https://github.com/maxlkatze/katzen-core/commit/ce2d723))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
+## v0.0.88
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.87...v0.0.88)
+
+### 🚀 Enhancements
+
+- Implement DB0 connection closure in ContentStorage (issue: master) ([d891b31](https://github.com/maxlkatze/katzen-core/commit/d891b31))
+- Enhance DB0 connection closure handling in ContentStorage (issue: master) ([df74bf2](https://github.com/maxlkatze/katzen-core/commit/df74bf2))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
+## v0.0.88-20250604-225811-d891b31
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.87...v0.0.88-20250604-225811-d891b31)
+
+### 🚀 Enhancements
+
+- Implement DB0 connection closure in ContentStorage (issue: master) ([d891b31](https://github.com/maxlkatze/katzen-core/commit/d891b31))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
+## v0.0.87
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.86...v0.0.87)
+
+### 🚀 Enhancements
+
+- Added Storage Disposal at Closing for External Database Connections. ([d011264](https://github.com/maxlkatze/katzen-core/commit/d011264))
+
+### 🏡 Chore
+
+- **release:** V0.0.86 ([7012ab5](https://github.com/maxlkatze/katzen-core/commit/7012ab5))
+
+### ✅ Tests
+
+- Add DB0 connection closing logic in ContentStorage (master) ([60e3d12](https://github.com/maxlkatze/katzen-core/commit/60e3d12))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
+## v0.0.87-20250604-223453-60e3d12
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.86...v0.0.87-20250604-223453-60e3d12)
+
+### 🏡 Chore
+
+- **release:** V0.0.86 ([7012ab5](https://github.com/maxlkatze/katzen-core/commit/7012ab5))
+
+### ✅ Tests
+
+- Add DB0 connection closing logic in ContentStorage (master) ([60e3d12](https://github.com/maxlkatze/katzen-core/commit/60e3d12))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.86
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.85...v0.0.86)

@@ -72,7 +72,6 @@ export default defineNuxtModule<ModuleOptions>({
         try {
           katzeLog('Closing storage connection')
           await contentStorage.close()
-          katzeLog('Storage connection closed')
         }
         catch (err) {
           katzeError('Failed to close storage connection: ' + err)
