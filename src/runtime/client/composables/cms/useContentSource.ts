@@ -1,9 +1,10 @@
 import { type Ref, ref } from 'vue'
-import type { ContentValue } from '../../../types/ContentTypes'
+import type { ContentValue, StoredContent } from '../../../types/ContentTypes'
 import { useEditContentStorage } from './useEditContentStorage'
 import { toRef, useRuntimeConfig } from '#imports'
 
 const isCMSUser = ref(false)
+const storedContentRegistry = ref<Map<string, StoredContent>>(new Map())
 
 export const useContentSource = () => {
   // COMPONENTS AND COMPOSABLES READ FROM THIS STATE,
@@ -37,9 +38,19 @@ export const useContentSource = () => {
     return content[key]
   }
 
+  const registerStoredContent = (key: string, storedContent: StoredContent) => {
+    storedContentRegistry.value.set(key, storedContent)
+  }
+
+  const getStoredContentByKey = (key: string): StoredContent | undefined => {
+    return storedContentRegistry.value.get(key)
+  }
+
   return {
     enableCMSMode,
     getContentByKey,
+    registerStoredContent,
+    getStoredContentByKey,
     isCMSUser,
     editContentStorage,
     content,
