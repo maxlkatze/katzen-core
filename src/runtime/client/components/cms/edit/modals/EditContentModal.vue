@@ -4,6 +4,7 @@ import type { ContentType, ContentValue } from '../../../../../types/ContentType
 import TextEditor from './TextEditor.vue'
 import RichTextEditor from './RichTextEditor.vue'
 import ImageEditor from './ImageEditor.vue'
+import CustomComponentEditor from './CustomComponentEditor.vue'
 
 const props = defineProps<{
   show: boolean
@@ -65,6 +66,23 @@ const handleSave = (value: ContentValue) => {
   emit('save', props.contentKey, value)
   emit('close')
 }
+
+// Get the appropriate editor component based on content type
+const getEditorComponent = () => {
+  console.log(props.contentType)
+  switch (props.contentType) {
+    case 'text':
+      return TextEditor
+    case 'richText':
+      return RichTextEditor
+    case 'image':
+      return ImageEditor
+    case 'customComponent':
+      return CustomComponentEditor
+    default:
+      return TextEditor
+  }
+}
 </script>
 
 <template>
@@ -110,8 +128,9 @@ const handleSave = (value: ContentValue) => {
         <!-- Content -->
         <div class="flex-1 overflow-auto p-4">
           <component
-            :is="contentType === 'text' ? TextEditor : contentType === 'richText' ? RichTextEditor : ImageEditor"
+            :is="getEditorComponent()"
             :value="contentValueRef"
+            :content-key="contentKey"
             @save="handleSave"
           />
         </div>
