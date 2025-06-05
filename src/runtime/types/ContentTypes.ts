@@ -14,7 +14,7 @@ export type ContentImage = {
 export type CustomComponentAttribute = {
   type: 'string' | 'number' | 'boolean' | 'object' | 'richtext' | 'image' | 'array'
   arrayItemType?: 'string' | 'number' | 'boolean' | 'object' | 'richtext' | 'image' // For array types
-  default: any
+  default: unknown
 }
 
 export type CustomComponentSchema = {
@@ -22,12 +22,12 @@ export type CustomComponentSchema = {
 }
 
 // For arrays, we store the content as plain array of objects
-export type CustomComponentArrayValue = Record<string, any>[]
+export type CustomComponentArrayValue = Record<string, unknown>[]
 
 export type CustomComponentDefinition = {
   key: string
   schema: CustomComponentSchema
-  default?: Record<string, any> | Record<string, any>[] // Single object or array of objects
+  default?: Record<string, unknown> | Record<string, unknown>[] // Single object or array of objects
   isArray?: boolean // Whether this custom component should be an array of items
 }
 
@@ -45,4 +45,4 @@ export type StoredContent = {
   content: ContentValue | Ref<ContentValue>
 }
 
-export type ContentValue = string | ContentImage | Record<string, any> | CustomComponentArrayValue
+export type ContentValue = string | ContentImage | Record<string, unknown> | CustomComponentArrayValue

@@ -358,11 +358,16 @@ const heroTitle = useKatzeText({
                   title: 'Simple Integration',
                   description: 'Add content management to your site with just a few lines of code. No complex setup required.',
                 }"
-                class="space-y-4">
+                class="space-y-4"
+              >
                 <template #default="{ attributes: { title, description } }">
                   <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ title }}</h3>
-                    <p class="mt-2 text-gray-600">{{ description }}</p>
+                    <h3 class="text-lg font-semibold text-gray-900">
+                      {{ title }}
+                    </h3>
+                    <p class="mt-2 text-gray-600">
+                      {{ description }}
+                    </p>
                   </div>
                 </template>
               </KatzeCustomComponent>

@@ -9,13 +9,15 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'save', value: Record<string, any> | CustomComponentArrayValue): void
+  (e: 'save', value: Record<string, unknown> | CustomComponentArrayValue): void
 }>()
 
 // Form data for editing attributes
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const formData = ref<Record<string, any>>({})
 const schema = ref<Record<string, CustomComponentAttribute>>({})
 const isArray = ref(false)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const arrayItems = ref<Record<string, any>[]>([])
 
 // We need to get the schema from the stored content options
@@ -40,7 +42,7 @@ onMounted(() => {
     }
     else {
       // Handle single custom component as plain object
-      const plainObject = props.value as Record<string, any>
+      const plainObject = props.value as Record<string, unknown>
       formData.value = { ...plainObject }
     }
   }
@@ -58,7 +60,7 @@ const handleSave = () => {
 }
 
 const addArrayItem = () => {
-  const newItem: Record<string, any> = {}
+  const newItem: Record<string, unknown> = {}
   for (const [key, attribute] of Object.entries(schema.value)) {
     if (attribute.type === 'array') {
       newItem[key] = attribute.default || []
@@ -83,7 +85,7 @@ const removeArrayItem = (index: number) => {
 const addArrayAttributeItem = (itemIndex: number, attributeKey: string) => {
   const attribute = schema.value[attributeKey]
   if (attribute.type === 'array') {
-    let targetData: Record<string, any>
+    let targetData: Record<string, unknown>
 
     if (itemIndex === -1) {
       // Single component mode
@@ -100,7 +102,7 @@ const addArrayAttributeItem = (itemIndex: number, attributeKey: string) => {
       targetData = arrayItems.value[itemIndex]
     }
 
-    let defaultValue: any = ''
+    let defaultValue: unknown = ''
     if (attribute.arrayItemType === 'number') {
       defaultValue = 0
     }
@@ -114,30 +116,18 @@ const addArrayAttributeItem = (itemIndex: number, attributeKey: string) => {
       defaultValue = {}
     }
 
-    targetData[attributeKey].push(defaultValue)
+    (targetData[attributeKey] as unknown[]).push(defaultValue)
   }
 }
 
 const removeArrayAttributeItem = (itemIndex: number, attributeKey: string, arrayIndex: number) => {
   if (itemIndex === -1) {
     // Single component mode
-    formData.value[attributeKey].splice(arrayIndex, 1)
+    (formData.value[attributeKey] as unknown[]).splice(arrayIndex, 1)
   }
   else {
     // Array component mode
-    arrayItems.value[itemIndex][attributeKey].splice(arrayIndex, 1)
-  }
-}
-
-// Helper function to get the input type for HTML form elements
-const getInputType = (attributeType: string): string => {
-  switch (attributeType) {
-    case 'number':
-      return 'number'
-    case 'boolean':
-      return 'checkbox'
-    default:
-      return 'text'
+    (arrayItems.value[itemIndex][attributeKey] as unknown[]).splice(arrayIndex, 1)
   }
 }
 </script>

@@ -1,25 +1,25 @@
 <script setup lang="ts">
 import { watch, isRef, computed } from 'vue'
-import { useKatzeCustomComponent } from '#imports'
 import type { CustomComponentSchema, CustomComponentArrayValue } from '../../../types/ContentTypes'
+import { useKatzeCustomComponent } from '#imports'
 
 const props = defineProps<{
   id: string
   schema: CustomComponentSchema
-  defaultAttributes?: Record<string, any>
+  defaultAttributes?: Record<string, unknown>
   isArray?: boolean
 }>()
 
-const slots = defineSlots<{
-  default(props: { attributes: Record<string, any> }): any
-  array(props: { items: Array<{ attributes: Record<string, any> }> }): any
+defineSlots<{
+  default(props: { attributes: Record<string, unknown> }): unknown
+  array(props: { items: Array<{ attributes: Record<string, unknown> }> }): unknown
 }>()
 
 const content = useKatzeCustomComponent({
   key: props.id,
   schema: props.schema,
   default: props.defaultAttributes,
-  isArray: props.isArray
+  isArray: props.isArray,
 })
 
 // Computed property to get attributes from content
@@ -30,17 +30,20 @@ const attributes = computed(() => {
       // For arrays, return first item or empty object
       const arrayValue = value as CustomComponentArrayValue
       return arrayValue.length > 0 ? arrayValue[0] : {}
-    } else {
-      // For single components, return plain object directly
-      return (value as Record<string, any>) || {}
     }
-  } else {
+    else {
+      // For single components, return plain object directly
+      return (value as Record<string, unknown>) || {}
+    }
+  }
+  else {
     if (Array.isArray(content)) {
       const arrayValue = content as CustomComponentArrayValue
       return arrayValue.length > 0 ? arrayValue[0] : {}
-    } else {
+    }
+    else {
       // For single components, return plain object directly
-      return (content as Record<string, any>) || {}
+      return (content as Record<string, unknown>) || {}
     }
   }
 })
@@ -53,7 +56,8 @@ const arrayItems = computed(() => {
       const arrayValue = value as CustomComponentArrayValue
       return arrayValue.map(item => ({ attributes: item }))
     }
-  } else {
+  }
+  else {
     if (Array.isArray(content)) {
       const arrayValue = content as CustomComponentArrayValue
       return arrayValue.map(item => ({ attributes: item }))
