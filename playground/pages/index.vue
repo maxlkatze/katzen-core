@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // In-script components using the composable approach
+
 const heroTitle = useKatzeText({
   key: 'hero_title',
   default: 'The future of content editing is here',
@@ -9,25 +10,6 @@ const heroSubtitle = useKatzeText({
   key: 'hero_subtitle',
   default: 'Simple. Fast. Flexible.',
 })
-
-// Sample data for features section
-const features = [
-  {
-    title: 'Simple Integration',
-    description: 'Add content management to your site with just a few lines of code. No complex setup required.',
-    icon: 'puzzle-piece',
-  },
-  {
-    title: 'Real-time Editing',
-    description: 'Edit your content directly on your site and see changes instantly. No more switching between tools.',
-    icon: 'zap',
-  },
-  {
-    title: 'Developer Friendly',
-    description: 'Built with developers in mind. Works with your existing tech stack and workflow.',
-    icon: 'code',
-  },
-]
 </script>
 
 <template>
@@ -148,12 +130,30 @@ const features = [
         </div>
 
         <div class="mt-10">
-          <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
-            <div
-              v-for="(feature, index) in features"
-              :key="index"
-              class="pt-6"
-            >
+          <KatzeCustomComponent
+            id="custom_features"
+            is-array
+            :schema="{
+              title: { type: 'string', default: 'Feature Title' },
+              description: { type: 'string', default: 'Feature description' },
+            }"
+            :default-attributes="[
+              {
+                title: 'Simple Integration',
+                description: 'Add content management to your site with just a few lines of code. No complex setup required.',
+              },
+              {
+                title: 'Visual Editing',
+                description: 'Edit your content directly on your website. See changes instantly without switching between tabs.',
+              },
+              {
+                title: 'Developer Friendly',
+                description: 'Built with modern web technologies. TypeScript support, Vue 3, and Nuxt 3 compatibility.',
+              },
+            ]"
+            class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            <template #default="{ attributes: { title, description } }">
               <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
                 <div class="-mt-6">
                   <div>
@@ -175,22 +175,16 @@ const features = [
                       </svg>
                     </span>
                   </div>
-                  <KatzeText
-                    :id="`feature_title_${index}`"
-                    :default-content="feature.title"
-                    element="h3"
-                    class="mt-8 text-lg font-medium text-gray-900 tracking-tight"
-                  />
-                  <KatzeText
-                    :id="`feature_desc_${index}`"
-                    element="p"
-                    class="mt-5 text-base text-gray-500"
-                    :default-content="feature.description"
-                  />
+                  <p class="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                    {{ title }}
+                  </p>
+                  <p class="mt-5 text-base text-gray-500">
+                    {{ description }}
+                  </p>
                 </div>
               </div>
-            </div>
-          </div>
+            </template>
+          </KatzeCustomComponent>
         </div>
       </div>
     </div>
@@ -337,6 +331,64 @@ const heroTitle = useKatzeText({
 
 &lt;template&gt;
   &lt;p&gt;Current value: {{ '\{\{ heroTitle \}\}' }}&lt;/p&gt;
+&lt;/template&gt;</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              CustomComponent with Array Support
+            </h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+              Manage objects/arrays of complex components with rich attributes including images, rich text, and nested arrays.
+            </p>
+          </div>
+          <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
+            <div class="bg-gray-50 p-4 rounded-md">
+              <KatzeCustomComponent
+                id="features"
+                is-array
+                :schema="{
+                  title: { type: 'string', default: 'Feature Title' },
+                  description: { type: 'string', default: 'Feature description' },
+                }"
+                :default-attributes="{
+                  title: 'Simple Integration',
+                  description: 'Add content management to your site with just a few lines of code. No complex setup required.',
+                }"
+                class="space-y-4">
+                <template #default="{ attributes: { title, description } }">
+                  <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-lg font-semibold text-gray-900">{{ title }}</h3>
+                    <p class="mt-2 text-gray-600">{{ description }}</p>
+                  </div>
+                </template>
+              </KatzeCustomComponent>
+            </div>
+            <div class="mt-4 bg-gray-100 p-4 rounded-md overflow-x-auto">
+              <pre class="text-sm text-gray-800">
+&lt;script setup&gt;
+const features = useKatzeCustomComponent({
+  key: 'features',
+  isArray: true,
+  schema: {
+    title: { type: 'string', default: 'Feature Title' },
+    description: { type: 'string', default: 'Feature description' },
+  },
+  default: {
+    title: 'Simple Integration',
+    description: 'Add content management...',
+  }
+})
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div v-for="feature in features" :key="feature.id"&gt;
+    &lt;h3&gt;{{ '\{\{ feature.title \}\}' }}&lt;/h3&gt;
+    &lt;p&gt;{{ '\{\{ feature.description \}\}' }}&lt;/p&gt;
+  &lt;/div&gt;
 &lt;/template&gt;</pre>
             </div>
           </div>
