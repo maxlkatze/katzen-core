@@ -110,6 +110,8 @@ const openEditModal = (key: string, value: ContentValue, event: Event) => {
   // Determine content type
   let contentType: ContentType = ContentType.Text
 
+  console.log(value)
+
   if (typeof value === 'object' && value !== null && 'src' in value && 'alt' in value) {
     contentType = ContentType.Image
   }
@@ -120,6 +122,25 @@ const openEditModal = (key: string, value: ContentValue, event: Event) => {
     || value.includes('<div') // Contains div tag
   )) {
     contentType = ContentType.RichText
+  }
+  else if (typeof value === 'object' && value !== null) {
+    // Check if this is a custom component by looking at the stored content
+    const storedContent = contentSource.getStoredContentByKey(key)
+    if (storedContent?.type === ContentType.CustomComponent) {
+      contentType = ContentType.CustomComponent
+    }
+    // Fallback: detect custom components by checking if it's an array of objects
+    // or a plain object that doesn't look like an image
+    else if (Array.isArray(value)) {
+      // If it's an array of objects, likely a custom component array
+      if (value.length > 0 && typeof value[0] === 'object' && value[0] !== null) {
+        contentType = ContentType.CustomComponent
+      }
+    }
+    else if (!('src' in value && 'alt' in value)) {
+      // If it's a plain object but not an image, likely a custom component
+      contentType = ContentType.CustomComponent
+    }
   }
 
   selectedContentKey.value = key
