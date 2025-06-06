@@ -10,7 +10,7 @@ import { useKatzeCustomComponent } from '#imports'
 const props = defineProps<{
   id: string
   schema: CustomComponentSchema
-  defaultAttributes?: Record<string, unknown>
+  defaultAttributes?: Record<string, unknown> | Array<Record<string, unknown>>
   isArray?: boolean
 }>()
 
