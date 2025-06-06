@@ -99,17 +99,12 @@ if (isRef(content)) {
       :items="arrayItems"
     >
       <!-- Default array rendering if no array slot provided -->
-      <div
+      <slot
         v-for="(item, index) in arrayItems"
-        :key="index"
-        class="mb-4"
-      >
-        <slot
-          :attributes="item"
-          :index="index"
-          :length="arrayItems.length"
-        />
-      </div>
+        :attributes="item"
+        :index="index"
+        :length="arrayItems.length"
+      />
     </slot>
   </div>
 </template>
