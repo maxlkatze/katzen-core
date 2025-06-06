@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.94
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.93...v0.0.94)
+
+### 🚀 Enhancements
+
+- Enhanced component structure and introduced custom components with TypeScript support ([71d971e](https://github.com/maxlkatze/katzen-core/commit/71d971e))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.93
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.92...v0.0.93)
