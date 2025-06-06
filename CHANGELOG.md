@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.0.92
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.91...v0.0.92)
+
+### 🚀 Enhancements
+
+- Improved flexibility by allowing defaultAttributes to accept both object and array types ([ac55d93](https://github.com/maxlkatze/katzen-core/commit/ac55d93))
+- Enhanced type safety by refining defaultAttributes and array props to use CustomComponentContentType ([9a19b5f](https://github.com/maxlkatze/katzen-core/commit/9a19b5f))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.91
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.90...v0.0.91)
