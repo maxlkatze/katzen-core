@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.93
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.92...v0.0.93)
+
+### 🚀 Enhancements
+
+- Improved user interaction with scroll handling and overlay functionality in PageView component ([dff69e8](https://github.com/maxlkatze/katzen-core/commit/dff69e8))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.92
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.91...v0.0.92)
