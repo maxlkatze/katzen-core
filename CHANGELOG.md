@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.0.91
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.90...v0.0.91)
+
+### 🚀 Enhancements
+
+- Enhanced type safety by introducing CustomComponentContentType for better attribute flexibility and improved component handling ([f6bfa8a](https://github.com/maxlkatze/katzen-core/commit/f6bfa8a))
+
+### 💅 Refactors
+
+- Improved type safety by changing storedContentRegistry to use unknown type for better flexibility ([619a0c7](https://github.com/maxlkatze/katzen-core/commit/619a0c7))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.90
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.89...v0.0.90)
