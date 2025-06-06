@@ -17,6 +17,8 @@ export type CustomComponentAttribute = {
   default: unknown
 }
 
+export type CustomComponentContentType = string | number | boolean | Record<string, unknown> | ContentImage
+
 export type CustomComponentSchema = {
   [key: string]: CustomComponentAttribute
 }

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { watch, isRef, computed } from 'vue'
-import type { CustomComponentSchema, CustomComponentArrayValue } from '../../../types/ContentTypes'
+import type {
+  CustomComponentSchema,
+  CustomComponentArrayValue,
+  CustomComponentContentType,
+} from '../../../types/ContentTypes'
 import { useKatzeCustomComponent } from '#imports'
 
 const props = defineProps<{
@@ -11,7 +15,7 @@ const props = defineProps<{
 }>()
 
 defineSlots<{
-  default(props: { attributes: Record<string, unknown> }): unknown
+  default(props: { attributes: Record<string, CustomComponentContentType>, index?: number, length?: number }): unknown
   array(props: { items: Array<{ attributes: Record<string, unknown> }> }): unknown
 }>()
 
@@ -28,22 +32,22 @@ const attributes = computed(() => {
     const value = content.value
     if (Array.isArray(value)) {
       // For arrays, return first item or empty object
-      const arrayValue = value as CustomComponentArrayValue
+      const arrayValue = value as CustomComponentArrayValue as Array<Record<string, CustomComponentContentType>>
       return arrayValue.length > 0 ? arrayValue[0] : {}
     }
     else {
       // For single components, return plain object directly
-      return (value as Record<string, unknown>) || {}
+      return (value as Record<string, CustomComponentContentType>) || {}
     }
   }
   else {
     if (Array.isArray(content)) {
-      const arrayValue = content as CustomComponentArrayValue
+      const arrayValue = content as CustomComponentArrayValue as Array<Record<string, CustomComponentContentType>>
       return arrayValue.length > 0 ? arrayValue[0] : {}
     }
     else {
       // For single components, return plain object directly
-      return (content as Record<string, unknown>) || {}
+      return (content as Record<string, CustomComponentContentType>) || {}
     }
   }
 })
@@ -53,13 +57,13 @@ const arrayItems = computed(() => {
   if (isRef(content)) {
     const value = content.value
     if (Array.isArray(value)) {
-      const arrayValue = value as CustomComponentArrayValue
+      const arrayValue = value as CustomComponentArrayValue as Array<Record<string, CustomComponentContentType>>
       return arrayValue.map(item => ({ attributes: item }))
     }
   }
   else {
     if (Array.isArray(content)) {
-      const arrayValue = content as CustomComponentArrayValue
+      const arrayValue = content as CustomComponentArrayValue as Array<Record<string, CustomComponentContentType>>
       return arrayValue.map(item => ({ attributes: item }))
     }
   }
@@ -95,7 +99,11 @@ if (isRef(content)) {
         :key="index"
         class="mb-4"
       >
-        <slot :attributes="item.attributes" />
+        <slot
+          :attributes="item.attributes"
+          :index="index"
+          :length="arrayItems.length"
+        />
       </div>
     </slot>
   </div>
