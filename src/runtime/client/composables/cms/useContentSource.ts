@@ -4,7 +4,7 @@ import { useEditContentStorage } from './useEditContentStorage'
 import { toRef, useRuntimeConfig } from '#imports'
 
 const isCMSUser = ref(false)
-const storedContentRegistry = ref<Map<string, StoredContent>>(new Map())
+const storedContentRegistry = ref<Map<string, unknown>>(new Map())
 
 export const useContentSource = () => {
   // COMPONENTS AND COMPOSABLES READ FROM THIS STATE,
@@ -39,11 +39,11 @@ export const useContentSource = () => {
   }
 
   const registerStoredContent = (key: string, storedContent: StoredContent) => {
-    storedContentRegistry.value.set(key, storedContent)
+    storedContentRegistry.value.set(key, storedContent as unknown)
   }
 
   const getStoredContentByKey = (key: string): StoredContent | undefined => {
-    return storedContentRegistry.value.get(key)
+    return storedContentRegistry.value.get(key) as StoredContent | undefined
   }
 
   return {
