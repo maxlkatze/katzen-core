@@ -10,13 +10,13 @@ import { useKatzeCustomComponent } from '#imports'
 const props = defineProps<{
   id: string
   schema: CustomComponentSchema
-  defaultAttributes?: Record<string, unknown> | Array<Record<string, unknown>>
+  defaultAttributes?: Record<string, CustomComponentContentType> | Array<Record<string, CustomComponentContentType>>
   isArray?: boolean
 }>()
 
 defineSlots<{
   default(props: { attributes: Record<string, CustomComponentContentType>, index?: number, length?: number }): unknown
-  array(props: { items: Array<{ attributes: Record<string, unknown> }> }): unknown
+  array(props: { items: Array<Record<string, CustomComponentContentType>> }): unknown
 }>()
 
 const content = useKatzeCustomComponent({
@@ -57,17 +57,22 @@ const arrayItems = computed(() => {
   if (isRef(content)) {
     const value = content.value
     if (Array.isArray(value)) {
-      const arrayValue = value as CustomComponentArrayValue as Array<Record<string, CustomComponentContentType>>
-      return arrayValue.map(item => ({ attributes: item }))
+      return value as Array<Record<string, CustomComponentContentType>>
+    }
+    else {
+      // If not an array, return empty array
+      return []
     }
   }
   else {
     if (Array.isArray(content)) {
-      const arrayValue = content as CustomComponentArrayValue as Array<Record<string, CustomComponentContentType>>
-      return arrayValue.map(item => ({ attributes: item }))
+      return content as Array<Record<string, CustomComponentContentType>>
+    }
+    else {
+      // If not an array, return empty array
+      return []
     }
   }
-  return []
 })
 
 // Watch for content changes and update the DOM element if needed
@@ -100,7 +105,7 @@ if (isRef(content)) {
         class="mb-4"
       >
         <slot
-          :attributes="item.attributes"
+          :attributes="item"
           :index="index"
           :length="arrayItems.length"
         />
