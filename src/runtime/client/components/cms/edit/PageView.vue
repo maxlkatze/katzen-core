@@ -13,6 +13,7 @@ const emit = defineEmits(['hoverElement', 'selectKey'])
 
 // ELEMENTS
 const routeWrapper = ref<HTMLElement | null>(null)
+const elementOverlay = ref<HTMLElement | null>(null)
 
 // HOOKS
 onMounted(
@@ -31,7 +32,6 @@ onMounted(
                 return
               }
               element.addEventListener('mouseover', () => {
-                console.log('hover')
                 emit('hoverElement', element)
                 currentHoveredElement.value = element
               })
@@ -71,6 +71,13 @@ onMounted(
     })
   },
 )
+
+watch(elementOverlay, (overlay) => {
+  if (overlay) {
+    overlay.removeEventListener('wheel', scrollTranslator)
+    overlay.addEventListener('wheel', scrollTranslator, { passive: false })
+  }
+})
 
 // the overlay should overlay a box with a editing "pen" icon on the top right corner of the element
 // the overlay should have a blue background with 10% opacity, and red border 2px width and dotted
@@ -117,6 +124,23 @@ const handleOverlayMouseLeave = (event: MouseEvent) => {
     currentHoveredElement.value = undefined
   }
 }
+
+const scrollTranslator = (event: WheelEvent) => {
+  if (!scrollContainer.value) return
+
+  // Prevent default scrolling behavior
+  event.preventDefault()
+
+  // Calculate the scroll amount based on the wheel delta
+  const scrollAmount = event.deltaY || event.detail
+
+  // Scroll the container like a human smooth without canceling previous scrolls
+  scrollContainer.value.scrollBy({
+    top: scrollAmount,
+    left: 0,
+    behavior: 'smooth',
+  })
+}
 </script>
 
 <template>
@@ -140,10 +164,12 @@ const handleOverlayMouseLeave = (event: MouseEvent) => {
         <div class="fixed inset-0 pointer-events-none touch-none z-[1000] overflow-hidden">
           <div
             v-if="currentHoveredElement"
+            ref="elementOverlay"
             class="absolute element-overlay-container"
             :style="{ top: elementPosition.y + 'px', left: elementPosition.x + 'px', width: elementPosition.width + 'px', height: elementPosition.height + 'px' }"
             @mouseleave="handleOverlayMouseLeave"
             @click="() => emit('selectKey', currentHoveredElement?.getAttribute('kat-e'))"
+            @scroll="scrollTranslator"
           >
             <div class="absolute inset-0 bg-blue-500/10 border-6 border-indigo-500 border-dashed box-border rounded transition-all duration-200 group">
               <!-- Edit icon in top right corner -->
