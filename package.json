@@ -74,5 +74,8 @@
     "git-based",
     "filesystem"
   ],
-  "author": "maxlkatze"
+  "author": "maxlkatze",
+  "stackblitz": {
+    "startCommand": "npm run dev:prepare && npm run dev"
+  }
 }
