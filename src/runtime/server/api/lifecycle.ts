@@ -8,10 +8,11 @@ export default defineEventHandler(async () => {
   const runtimeConfig = useRuntimeConfig()
   const storage = useContentStorage(runtimeConfig)
 
-  // Check if CRON job is enabled
-  if (runtimeConfig.cronJob) {
+  if (storage) {
     // Keep storage alive
     (await storage).getItem(runtimeConfig.storageKey)
+    // write a temp item to storage to keep it alive
+    await (await storage).setItem('keep-alive', Date.now().toString())
     return {
       success: true,
       body: {
@@ -20,11 +21,10 @@ export default defineEventHandler(async () => {
     }
   }
   else {
-    // If not, return a message indicating that the CRON job is disabled
     return {
       success: false,
       body: {
-        message: 'CRON job is disabled',
+        message: 'Storage connection failed',
       },
     }
   }
