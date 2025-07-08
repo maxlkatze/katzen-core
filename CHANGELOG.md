@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.0.95
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.94...v0.0.95)
+
+### 🚀 Enhancements
+
+- Added StackBlitz configuration for streamlined development setup ([903b469](https://github.com/maxlkatze/katzen-core/commit/903b469))
+- Enhanced storage handling for improved lifecycle management ([68fc0d8](https://github.com/maxlkatze/katzen-core/commit/68fc0d8))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.94
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.93...v0.0.94)
