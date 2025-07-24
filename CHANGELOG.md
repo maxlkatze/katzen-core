@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.96
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.95...v0.0.96)
+
+### 🚀 Enhancements
+
+- Improved SEO and responsiveness with dynamic head management in CMS layout ([38fba04](https://github.com/maxlkatze/katzen-core/commit/38fba04))
+
+### ❤️ Contributors
+
+- Maxlkatze <max@cubedpixels.net>
+
 ## v0.0.95
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.94...v0.0.95)
