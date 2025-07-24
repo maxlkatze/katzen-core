@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useHead } from '#imports'
 
 // Get current route for reactive navigation
 const route = useRoute()
@@ -93,6 +94,14 @@ const handleLogout = async () => {
     isLoggingOut.value = false
   }
 }
+
+useHead({
+  title: 'CMS Katze - Content Management System',
+  meta: [
+    { name: 'robots', content: 'noindex, nofollow' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+  ],
+})
 </script>
 
 <template>
