@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v0.0.97
+
+[compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.95...v0.0.97)
+
+### 🚀 Enhancements
+
+- Improved SEO and responsiveness with dynamic head management in CMS layout ([38fba04](https://github.com/maxlkatze/katzen-core/commit/38fba04))
+- Disable TLS certificate validation for local development ([aa4424a](https://github.com/maxlkatze/katzen-core/commit/aa4424a))
+
+### 🏡 Chore
+
+- **release:** V0.0.95 ([7551222](https://github.com/maxlkatze/katzen-core/commit/7551222))
+- **release:** V0.0.96 ([d8e1afb](https://github.com/maxlkatze/katzen-core/commit/d8e1afb))
+
+### ❤️ Contributors
+
+- Maxlkatze <git@cubedpixels.net>
+
 ## v0.0.96
 
 [compare changes](https://github.com/maxlkatze/katzen-core/compare/v0.0.95...v0.0.96)
