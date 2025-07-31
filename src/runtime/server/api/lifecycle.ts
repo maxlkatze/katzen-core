@@ -1,6 +1,8 @@
 import { useContentStorage } from '../../storage/ContentStorage'
 import { defineEventHandler, useRuntimeConfig } from '#imports'
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+
 /**
  * Keep storage alive using a CRON job
  */

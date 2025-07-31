@@ -7,6 +7,8 @@ import { useAuthentication } from '../../client/composables/cms/useAuthenticatio
 import { useContentStorage } from '../../storage/ContentStorage'
 import { defineEventHandler, readBody, useRuntimeConfig, createError } from '#imports'
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+
 /**
  * Content API handler
  * Handles various content-related actions: get, save, imageList, deploy

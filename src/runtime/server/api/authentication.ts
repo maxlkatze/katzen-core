@@ -2,6 +2,8 @@ import { useAuthentication } from '../../client/composables/cms/useAuthenticatio
 import type { CmsUser } from '../../types/ModuleTypes'
 import { defineEventHandler, readBody, useRuntimeConfig, createError } from '#imports'
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+
 /**
  * Authentication API endpoint
  * Handles login/authentication and token generation using jose
