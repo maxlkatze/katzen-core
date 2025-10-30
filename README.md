@@ -1,4 +1,4 @@
-# Katze CMS - A Nuxt Module Headless CMS
+# Katze CMS - A Nuxt Module CMS
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
