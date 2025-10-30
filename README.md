@@ -11,7 +11,7 @@
 - [🏀 Online playground](https://stackblitz.com/github/maxlkatze/katzen-core?file=playground%2Fapp.vue)
 
 ## Description
-Katze is a Nuxt module that provides a headless CMS for your Nuxt app.
+Katze is a Nuxt module that provides a modular CMS for your Nuxt app.
 Edit content directly in your Nuxt App, store your content in an [Unstorage](https://unstorage.unjs.io/) supported storage
 and deploy your content to the Edge or host it on your server.
 
